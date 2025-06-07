@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HfgVF6Dh9ZQ=",
+  "dgSpecHash": "rCzzHnC27Og=",
   "success": true,
-  "projectFilePath": "D:\\Project\\SchoolApp\\SchoolApp.csproj",
+  "projectFilePath": "D:\\App\\SchoolApp\\SchoolApp\\SchoolApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\games\\.nuget\\packages\\controlzex\\4.3.0\\controlzex.4.3.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\mahapps.metro\\2.0.0\\mahapps.metro.2.0.0.nupkg.sha512",
