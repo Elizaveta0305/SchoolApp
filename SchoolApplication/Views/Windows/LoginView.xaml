@@ -38,7 +38,8 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
 
-                <Image Margin="0 60 0 5" 
+                <Image Margin="0 60 0 5"
+                       RenderOptions.BitmapScalingMode="HighQuality"
                        Source="/Images/Logo.png"
                        Height="100"/>
                 <TextBlock Margin="0 25 0 5"

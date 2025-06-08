@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using SchoolApplication.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +20,7 @@ namespace SchoolApplication
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new SchoolApplication.ViewModels.NavigationVm();
         }
     }
 }

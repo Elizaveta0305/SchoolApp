@@ -1,5 +1,9 @@
 ﻿
 FD:\App\SchoolApp\SchoolApplication\App.xaml;;
 FD:\App\SchoolApp\SchoolApplication\MainWindow.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Utilities\DataTemplate.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Grade.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Home.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Lessons.xaml;;
 FD:\App\SchoolApp\SchoolApplication\Views\Windows\LoginView.xaml;;
 

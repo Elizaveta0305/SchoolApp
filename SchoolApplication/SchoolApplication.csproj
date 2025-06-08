@@ -14,15 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\UserControls\" />
     <Folder Include="Views\Pages\" />
+    <Folder Include="Views\UserControls\TeacherUC\" />
+    <Folder Include="Views\UserControls\AdminUC\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.2.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
   </ItemGroup>
 
   <ItemGroup>

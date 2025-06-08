@@ -1,12 +1,106 @@
 ﻿<Window x:Class="SchoolApplication.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SchoolApplication"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:Menu="clr-namespace:SchoolApplication.Utilities"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Основная" Height="800" Width="1440"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        Foreground="{StaticResource MaterialDesignBody}"
+        >
+
+    <Window.DataContext>
+        <vm:NavigationVm/>
+    </Window.DataContext>
+
+
     <Grid>
+
+        <Grid Cursor="" Grid.ColumnSpan="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            
+
+            <ContentControl Grid.Column="2"
+        Content="{Binding CurrentView}"/>
+
+            <Grid HorizontalAlignment="Left"
+                Width="250">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="220*"/>
+                </Grid.RowDefinitions>
+                <Border Background="#272B2F"
+                        CornerRadius="20,0,0,20" Grid.RowSpan="2"/>
+                <StackPanel Height="600"
+                            Width="250"  Grid.Row="1">
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding HomeCommand}"
+                              IsChecked="True">
+                        <Grid>
+                            <WrapPanel HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Home" 
+                                                         Foreground="White"
+                                                         VerticalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24"/>
+                                <TextBlock Text="Главная" 
+                                           Margin="10 0 0 0" 
+                                           Foreground="White"
+                                           FontSize="18"/>
+                            </WrapPanel>
+                        </Grid>
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding LessonsCommand}">
+
+                        <Grid>
+                            <WrapPanel>
+                                <materialDesign:PackIcon Kind="School" 
+                                                         Foreground="White"
+                                                         VerticalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24"/>
+                                <TextBlock Text="Занятия"
+                                           Foreground="White"
+                                           Margin="10 0 0 0"
+                                           FontSize="18"/>
+                            </WrapPanel>
+                        </Grid>
+                    </Menu:Btn>
+
+                    <Menu:Btn Style="{StaticResource BtnStyle}"
+                              Command="{Binding GradeCommand}">
+                        <Grid>
+                            <WrapPanel>
+                                <materialDesign:PackIcon Kind="BookEducation"
+                                                         Foreground="White"
+                                                         VerticalAlignment="Center"
+                                                         Height="24"
+                                                         Width="24"/>
+                                <TextBlock Text="Оценки"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                            </WrapPanel>
+                        </Grid>
+                    </Menu:Btn>
+                </StackPanel>
+            </Grid>
+
+
+        </Grid>
 
     </Grid>
 </Window>

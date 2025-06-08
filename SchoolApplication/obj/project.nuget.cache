@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KW/jTT0vXyk=",
+  "dgSpecHash": "5XBxtNjDQvc=",
   "success": true,
   "projectFilePath": "D:\\App\\SchoolApp\\SchoolApplication\\SchoolApplication.csproj",
   "expectedPackageFiles": [
@@ -21,7 +21,9 @@
     "C:\\Users\\games\\.nuget\\packages\\microsoft.extensions.options\\9.0.5\\microsoft.extensions.options.9.0.5.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.5\\microsoft.extensions.primitives.9.0.5.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
-    "C:\\Users\\games\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
+    "C:\\Users\\games\\.nuget\\packages\\refractored.mvvmhelpers\\1.6.2\\refractored.mvvmhelpers.1.6.2.nupkg.sha512",
+    "C:\\Users\\games\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
+    "C:\\Users\\games\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

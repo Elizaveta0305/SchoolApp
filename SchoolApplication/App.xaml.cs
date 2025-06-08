@@ -13,8 +13,8 @@ namespace SchoolApplication
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var loginWindow = new Views.Windows.LoginView();
-            loginWindow.Show();
+            var MainWindow = new MainWindow();
+            MainWindow.Show();
         }
     }
 

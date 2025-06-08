@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
+                    xmlns:view="clr-namespace:SchoolApplication.Views.UserControls.StudentUC">
+
+    <DataTemplate DataType="{x:Type vm:HomeVm}">
+        <view:Home/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:GradeVm}">
+        <view:Grade/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:LessonsVm}">
+        <view:Lessons/>
+    </DataTemplate>
+                    
+</ResourceDictionary>
