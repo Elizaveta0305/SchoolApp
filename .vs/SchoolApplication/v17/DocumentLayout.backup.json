@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\subject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\subject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\studygroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\studygroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\academicexperience.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\academicexperience.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,27 +46,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml",
-              "RelativeToolTip": "MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-08T09:40:07.068Z",
+              "DocumentIndex": 1,
+              "Title": "Subject.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\Subject.cs",
+              "RelativeDocumentMoniker": "Models\\Subject.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\Subject.cs",
+              "RelativeToolTip": "Models\\Subject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T09:46:18.009Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml.cs",
-              "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "StudyGroup.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\StudyGroup.cs",
+              "RelativeDocumentMoniker": "Models\\StudyGroup.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\StudyGroup.cs",
+              "RelativeToolTip": "Models\\StudyGroup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-08T09:40:06.455Z",
+              "WhenOpened": "2025-06-08T09:45:56.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Role.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "Models\\Role.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\Role.cs",
+              "RelativeToolTip": "Models\\Role.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T09:45:17.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AcademicExperience.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\AcademicExperience.cs",
+              "RelativeDocumentMoniker": "Models\\AcademicExperience.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\AcademicExperience.cs",
+              "RelativeToolTip": "Models\\AcademicExperience.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T09:44:54.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Group.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\Group.cs",
+              "RelativeDocumentMoniker": "Models\\Group.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\Group.cs",
+              "RelativeToolTip": "Models\\Group.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T09:44:29.689Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T09:43:37.125Z",
               "EditorCaption": ""
             }
           ]
