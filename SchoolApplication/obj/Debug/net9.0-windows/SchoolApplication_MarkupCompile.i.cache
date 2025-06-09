@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\App\SchoolApp\SchoolApplication\App.xaml
-8554171085
-1-289317983
-23-366668936
-2171734141595
-MainWindow.xaml;Styles\Button.xaml;Styles\Page.xaml;Utilities\DataTemplate.xaml;Views\UserControls\StudentUC\Grade.xaml;Views\UserControls\StudentUC\Home.xaml;Views\UserControls\StudentUC\Lessons.xaml;Views\Windows\LoginView.xaml;
+13447294684
+2-340080039
+28-1840509306
+2191824997133
+MainWindow.xaml;Styles\Button.xaml;Styles\Page.xaml;Utilities\DataTemplate.xaml;Views\UserControls\StudentUC\Chart.xaml;Views\UserControls\StudentUC\Grade.xaml;Views\UserControls\StudentUC\Home.xaml;Views\UserControls\StudentUC\Lessons.xaml;Views\UserControls\StudentUC\NavBarView.xaml;Views\Windows\AdminView.xaml;Views\Windows\LoginView.xaml;Views\Windows\StudentView.xaml;Views\Windows\TeacherView.xaml;
 
-True
+False
 

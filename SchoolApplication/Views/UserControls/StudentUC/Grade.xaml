@@ -13,11 +13,22 @@
         <vm:GradeVm/>
     </UserControl.DataContext>
     <Grid>
-        <materialDesign:Card UniformCornerRadius="20">
+        <materialDesign:Card Margin="20" 
+                             Background="LightGray"
+                             UniformCornerRadius="15">
             <TextBlock Text="Оценки и успеваемость"
-               FontWeight="Bold"
-               Margin="20 40"
-               FontSize="40"/>
+                       FontWeight="Bold"
+                       Margin="20 40"
+                       FontSize="40"/>
         </materialDesign:Card>
+
+        <Grid>
+            <ListBox d:ItemsSource="{d:SampleData ItemCount=5}"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     TextBlock.FontSize="18"
+                     />
+            
+        </Grid>
     </Grid>
 </UserControl>

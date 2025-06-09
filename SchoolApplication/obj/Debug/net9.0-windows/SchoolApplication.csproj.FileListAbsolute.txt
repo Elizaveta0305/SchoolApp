@@ -53,3 +53,16 @@ D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\refint\SchoolApplica
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\SchoolApplication.pdb
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\SchoolApplication.genruntimeconfig.cache
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\ref\SchoolApplication.dll
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\NavBarView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\Windows\AdminView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\Windows\StudentView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\Windows\TeacherView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\NavBarView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\Windows\AdminView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\Windows\StudentView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\Windows\TeacherView.baml
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Images\HomeSt.png
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\LiveCharts.dll
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\LiveCharts.Wpf.dll
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\Chart.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\Chart.baml

@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using SchoolApplication.Views.Windows;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -13,8 +14,8 @@ namespace SchoolApplication
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var MainWindow = new MainWindow();
-            MainWindow.Show();
+            var stnd = new StudentView();
+            stnd.Show();
         }
     }
 

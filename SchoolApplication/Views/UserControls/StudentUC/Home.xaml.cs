@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveCharts;
 
 namespace SchoolApplication.Views.UserControls.StudentUC
 {
@@ -23,6 +24,16 @@ namespace SchoolApplication.Views.UserControls.StudentUC
         public Home()
         {
             InitializeComponent();
+        }
+
+        private void StackPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

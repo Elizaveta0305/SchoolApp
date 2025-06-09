@@ -5,5 +5,9 @@ FD:\App\SchoolApp\SchoolApplication\Utilities\DataTemplate.xaml;;
 FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Grade.xaml;;
 FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Home.xaml;;
 FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Lessons.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\NavBarView.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\Windows\AdminView.xaml;;
 FD:\App\SchoolApp\SchoolApplication\Views\Windows\LoginView.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\Windows\StudentView.xaml;;
+FD:\App\SchoolApp\SchoolApplication\Views\Windows\TeacherView.xaml;;
 
