@@ -17,6 +17,21 @@
     <Compile Update="Views\UserControls\StudentUC\NavBarView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\UserControls\TeacherUC\DiaryTeacherView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UserControls\TeacherUC\HomeTeacherView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UserControls\TeacherUC\LessonTeacherView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UserControls\TeacherUC\LiveChartTeacherUsers.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UserControls\TeacherUC\NavBarTeacherView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Windows\AdminView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

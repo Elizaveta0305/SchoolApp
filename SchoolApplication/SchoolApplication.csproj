@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Pages\" />
-    <Folder Include="Views\UserControls\TeacherUC\" />
     <Folder Include="Views\UserControls\AdminUC\" />
   </ItemGroup>
 

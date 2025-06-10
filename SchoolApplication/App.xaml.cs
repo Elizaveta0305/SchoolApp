@@ -1,6 +1,7 @@
 ﻿using SchoolApplication.Views.Windows;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Windows;
 
 namespace SchoolApplication
@@ -14,8 +15,8 @@ namespace SchoolApplication
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var stnd = new StudentView();
-            stnd.Show();
+            var tchr = new TeacherView();
+            tchr.Show();
         }
     }
 

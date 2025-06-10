@@ -8,7 +8,7 @@
          xmlns:views="clr-namespace:SchoolApplication.Views.UserControls.StudentUC"
          xmlns:Menu="clr-namespace:SchoolApplication.Utilities"
          mc:Ignorable="d"
-         Title="Основная"
+         Title="App"
          AllowsTransparency="True"
          Height="800" 
          Width="1440"
@@ -19,8 +19,6 @@
     <Window.DataContext>
         <vm:NavigationVm/>
     </Window.DataContext>
-
-
 
     <materialDesign:Card UniformCornerRadius="20" Margin="20">
         <Grid>

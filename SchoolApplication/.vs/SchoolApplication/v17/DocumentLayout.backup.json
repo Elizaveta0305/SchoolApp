@@ -1,0 +1,106 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\windows\\teacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\windows\\teacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\hometeacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\teacheruc\\hometeacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\studentuc\\chart.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\studentuc\\chart.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\lessonteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\teacheruc\\lessonteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\diaryteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\teacheruc\\diaryteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Chart.xaml",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\StudentUC\\Chart.xaml",
+              "RelativeDocumentMoniker": "Views\\UserControls\\StudentUC\\Chart.xaml",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\StudentUC\\Chart.xaml",
+              "RelativeToolTip": "Views\\UserControls\\StudentUC\\Chart.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-10T20:24:34.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TeacherView.xaml",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\Windows\\TeacherView.xaml",
+              "RelativeDocumentMoniker": "Views\\Windows\\TeacherView.xaml",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\Windows\\TeacherView.xaml",
+              "RelativeToolTip": "Views\\Windows\\TeacherView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-10T18:39:41.139Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HomeTeacherView.xaml",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\HomeTeacherView.xaml",
+              "RelativeDocumentMoniker": "Views\\UserControls\\TeacherUC\\HomeTeacherView.xaml",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\HomeTeacherView.xaml",
+              "RelativeToolTip": "Views\\UserControls\\TeacherUC\\HomeTeacherView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-10T19:53:44.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LessonTeacherView.xaml",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\LessonTeacherView.xaml",
+              "RelativeDocumentMoniker": "Views\\UserControls\\TeacherUC\\LessonTeacherView.xaml",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\LessonTeacherView.xaml",
+              "RelativeToolTip": "Views\\UserControls\\TeacherUC\\LessonTeacherView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-10T19:53:39.434Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DiaryTeacherView.xaml",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\DiaryTeacherView.xaml",
+              "RelativeDocumentMoniker": "Views\\UserControls\\TeacherUC\\DiaryTeacherView.xaml",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\DiaryTeacherView.xaml",
+              "RelativeToolTip": "Views\\UserControls\\TeacherUC\\DiaryTeacherView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-06-10T19:53:47.523Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

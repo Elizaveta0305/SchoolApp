@@ -68,3 +68,13 @@ D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\S
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\Chart.baml
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Images\LessonImg.png
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Images\StudentGradeImg.png
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\DiaryTeacherView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\HomeTeacherView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\LessonTeacherView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\NavBarTeacherView.g.cs
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\DiaryTeacherView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\HomeTeacherView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\LessonTeacherView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\NavBarTeacherView.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\LiveChartTeacherUsers.baml
+D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\LiveChartTeacherUsers.g.cs
