@@ -66,3 +66,5 @@ D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\LiveCharts.dll
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\LiveCharts.Wpf.dll
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\Chart.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\StudentUC\Chart.baml
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Images\LessonImg.png
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Images\StudentGradeImg.png

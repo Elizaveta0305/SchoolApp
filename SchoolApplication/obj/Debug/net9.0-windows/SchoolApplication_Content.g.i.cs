@@ -9,6 +9,8 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/homest.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/lessonimg.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/logo.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/studentgradeimg.png")]
 
 

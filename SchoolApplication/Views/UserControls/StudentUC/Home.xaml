@@ -106,19 +106,18 @@
                             <TextBlock Foreground="Gray"
                                    FontSize="12"
                                    FontWeight="SemiBold">
-                            <Bold Foreground="Black">Unit 5</Bold>
-                                - Technology
+                            <Bold Foreground="Black">Занятие 1</Bold>
+                                - 3d дизайн
                             </TextBlock>
-                            
-                            <ProgressBar Value="25" 
-                                     Width="60" 
-                                     Height="4" 
-                                     BorderThickness="0" 
-                                     Foreground="LightCoral" 
-                                     Background="Gainsboro" 
-                                     Margin="65 0 0 0"/>
-                            
-                            <TextBlock Text="25%"
+
+                            <TextBlock Text="Соловьев А.Ю."
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Margin="70 0 0 0"
+                                       HorizontalAlignment="Center"
+                                       />
+
+                            <TextBlock Text="305"
                                    FontSize="12"
                                    FontWeight="SemiBold"
                                    Margin="10 0 0 0"
@@ -134,19 +133,19 @@
                             <TextBlock Foreground="Gray"
                                        FontSize="12"
                                        FontWeight="SemiBold">
-                                   <Bold Foreground="Black">Unit 6</Bold>
-                                    - Something
+                                   <Bold Foreground="Black">Занятие 2</Bold>
+                                    - Веб дизайн
                             </TextBlock>
                             
-                            <ProgressBar Value="30" 
-                                         Width="60" 
-                                         Height="4" 
-                                         BorderThickness="0" 
-                                         Foreground="LightCoral" 
-                                         Background="Gainsboro" 
-                                         Margin="70 0 0 0"/>
                             
-                            <TextBlock Text="30%"
+                            <TextBlock Text="Соловьев А.Ю."
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Margin="70 0 0 0"
+                                       HorizontalAlignment="Center"
+                                       />
+                            
+                            <TextBlock Text="303"
                                        FontSize="12"
                                        FontWeight="SemiBold"
                                        Margin="10 0 0 0"
@@ -162,40 +161,44 @@
                             <TextBlock Foreground="Gray"
                                        FontSize="12"
                                        FontWeight="SemiBold">
-                                   <Bold Foreground="Black">Unit 7</Bold>
-                                        - Academic
+                                   <Bold Foreground="Black">Занятие 3</Bold>
+                                        - Основы IT
                             </TextBlock>
-                            <ProgressBar Value="60" 
-                                         Width="60" 
-                                         Height="4" 
-                                         BorderThickness="0" 
-                                         Foreground="LightCoral" 
-                                         Background="Gainsboro" 
-                                         Margin="70 0 0 0"/>
-                            <TextBlock Text="60%"
+                            
+                            <TextBlock Text="Соловьев А.Ю."
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Margin="70 0 0 0"
+                                       HorizontalAlignment="Center"
+                                       />
+                            
+                            <TextBlock Text="308"
                                        FontSize="12"
                                        FontWeight="SemiBold"
                                        Margin="10 0 0 0"
                                        HorizontalAlignment="Right"/>
                         </DockPanel>
+                        
                         <Separator Background="WhiteSmoke"
                                    Margin="0 15 0 0"/>
 
                         <DockPanel Margin="0 30 0 0">
+                            
                             <TextBlock Foreground="Gray"
                                        FontSize="12"
-                                       FontWeight="SemiBold">   
-                           <Bold Foreground="Black">Unit 8</Bold>
-                                - Design
+                                       FontWeight="SemiBold"> 
+                                
+                           <Bold Foreground="Black">Занятие 4</Bold>
+                                - Робототехника
                             </TextBlock>
-                            <ProgressBar Value="100" 
-                                         Width="60" 
-                                         Height="4" 
-                                         BorderThickness="0" 
-                                         Foreground="LightCoral" 
-                                         Background="Gainsboro" 
-                                         Margin="70 0 0 0"/>
-                            <TextBlock Text="100%"
+
+                            <TextBlock Text="Соловьев А.Ю."
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Margin="70 0 0 0"
+                                       HorizontalAlignment="Center"
+                                       />
+                            <TextBlock Text="304"
                                        FontSize="12"
                                        FontWeight="SemiBold"
                                        Margin="10 0 0 0"
@@ -215,7 +218,7 @@
                                           Padding="20"
                                           Height="300">
                     <StackPanel>
-                        <TextBlock Text="Средняя пропусков"
+                        <TextBlock Text="Среднее количество пропусков"
                                    FontSize="15"
                                    FontWeight="Bold"/>
                         <studentUC:Chart Height="240"/>
@@ -232,7 +235,7 @@
                           Grid.ColumnSpan="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="460"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 

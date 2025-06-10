@@ -11,7 +11,9 @@
   <ItemGroup>
     <None Remove="Images\Group 495.png" />
     <None Remove="Images\HomeSt.png" />
+    <None Remove="Images\LessonImg.png" />
     <None Remove="Images\Logo.png" />
+    <None Remove="Images\StudentGradeImg.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +34,13 @@
     <Content Include="Images\HomeSt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\LessonImg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\Logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\StudentGradeImg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

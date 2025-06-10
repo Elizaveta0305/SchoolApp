@@ -7,20 +7,80 @@
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1090"
-             Background="Transparent"
-
-             >
+             Background="Transparent">
     <UserControl.DataContext>
         <vm:LessonsVm/>
     </UserControl.DataContext>
     <Grid>
+        
         <materialDesign:Card Margin="20" 
-                             Background="LightGray"
+                             Background="White"
                              UniformCornerRadius="15">
-            <TextBlock Text="Занятия"
-                       FontWeight="Bold"
-                       Margin="20 40"
-                       FontSize="40"/>  
+
+            <Grid>
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock Text="Занятия"
+               FontWeight="Bold"
+               Margin="20 40"
+               FontSize="40"/>
+                    </DockPanel>
+                    <materialDesign:ColorZone Mode="Custom"
+                                              Background="MistyRose"
+                                              Foreground="LightSalmon"
+                                              CornerRadius="15"
+                                              Padding="40 15"
+                                              Width="998"
+                                              HorizontalAlignment="Center">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Учение - труд!"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Margin="0 15 0 0"/>
+                                <TextBlock Text="Быстрых результатов не бывает!"
+                                           FontSize="15"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Left"
+                                           Foreground="SlateGray"
+                                           VerticalAlignment="Center"
+                                           Margin="0 5 0 0"/>
+                                <TextBlock Text="У тебя все получится!"
+                                           FontSize="15"
+                                           FontWeight="SemiBold"
+                                           Foreground="SlateGray"
+                                           HorizontalAlignment="Left"
+                                           VerticalAlignment="Center"
+                                           Margin="0 5 0 0"/>
+                            </StackPanel>
+                            <Image Source="/Images/LessonImg.png"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   Height="200"
+                                   Width="290"
+                                   Margin="0 -85 0 -1"
+                                   />
+                        </Grid>
+
+                    </materialDesign:ColorZone>
+                    
+                <DataGrid d:ItemsSource="{d:SampleData ItemCount=10}" 
+                          Height="400"
+                          Width="998"
+                          BorderThickness="2"
+                          VerticalAlignment="Center"
+                          Margin="0 20 0 0"
+                          />
+                </StackPanel>
+            </Grid>
         </materialDesign:Card>
     </Grid>
 </UserControl>
