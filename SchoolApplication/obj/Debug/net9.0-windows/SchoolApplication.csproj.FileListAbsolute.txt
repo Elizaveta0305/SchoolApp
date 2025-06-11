@@ -78,3 +78,5 @@ D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\T
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\NavBarTeacherView.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\LiveChartTeacherUsers.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\Views\UserControls\TeacherUC\LiveChartTeacherUsers.g.cs
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Wpf.Ui.dll
+D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Wpf.Ui.Abstractions.dll

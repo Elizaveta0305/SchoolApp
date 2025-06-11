@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
              xmlns:views="clr-namespace:SchoolApplication.Views.UserControls.StudentUC"
              xmlns:local="clr-namespace:SchoolApplication"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              Startup="OnStartup">
     <Application.Resources>
         <ResourceDictionary>
@@ -16,11 +17,11 @@
                 <ResourceDictionary Source="/Styles/Page.xaml"/>
                 <ResourceDictionary Source="/Styles/Button.xaml"/>
                 <ResourceDictionary Source="/Utilities/DataTemplate.xaml"/>
-
-
-
-
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
+                
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

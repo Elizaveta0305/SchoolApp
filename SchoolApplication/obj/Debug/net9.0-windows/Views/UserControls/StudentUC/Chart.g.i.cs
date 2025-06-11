@@ -53,7 +53,7 @@ namespace SchoolApplication.Views.UserControls.StudentUC {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SchoolApplication;V1.0.0.0;component/views/usercontrols/studentuc/chart.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SchoolApplication;component/views/usercontrols/studentuc/chart.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\UserControls\StudentUC\Chart.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

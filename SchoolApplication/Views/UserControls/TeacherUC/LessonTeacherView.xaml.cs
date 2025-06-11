@@ -24,5 +24,10 @@ namespace SchoolApplication.Views.UserControls.TeacherUC
         {
             InitializeComponent();
         }
+
+        private void CalendarDatePicker_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

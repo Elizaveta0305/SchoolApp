@@ -70,6 +70,10 @@
             "Refractored.MvvmHelpers": {
               "target": "Package",
               "version": "[1.6.2, )"
+            },
+            "WPF-UI": {
+              "target": "Package",
+              "version": "[4.0.3, )"
             }
           },
           "imports": [

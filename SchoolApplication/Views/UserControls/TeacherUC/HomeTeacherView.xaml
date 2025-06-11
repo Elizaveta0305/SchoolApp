@@ -79,7 +79,7 @@
                 </Grid.ColumnDefinitions>
 
 
-                <materialDesign:ColorZone Grid.Column="0"
+                <materialDesign:ColorZone Grid.Column="1"
                                       Mode="Custom"
                                       Background="White"
                                       Foreground="Black"
@@ -209,7 +209,7 @@
                     </StackPanel>
                 </materialDesign:ColorZone>
 
-                <materialDesign:ColorZone Grid.Column="1"
+                <materialDesign:ColorZone Grid.Column="0"
                                       Mode="Custom"
                                       Background="White"
                                       Foreground="Black"
