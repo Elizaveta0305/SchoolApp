@@ -65,11 +65,7 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.5, )"
-            },
-            "Refractored.MvvmHelpers": {
-              "target": "Package",
-              "version": "[1.6.2, )"
+              "version": "[9.0.6, )"
             },
             "WPF-UI": {
               "target": "Package",

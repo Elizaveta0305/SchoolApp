@@ -1,17 +1,4 @@
-﻿D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.i.cs
-FD:\App\SchoolApp\SchoolApplication\App.xaml;;
-FD:\App\SchoolApp\SchoolApplication\MainWindow.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Utilities\DataTemplate.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Grade.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Home.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\Lessons.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\StudentUC\NavBarView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\TeacherUC\DiaryTeacherView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\TeacherUC\HomeTeacherView.xaml;;
+﻿
+
 FD:\App\SchoolApp\SchoolApplication\Views\UserControls\TeacherUC\LessonTeacherView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\UserControls\TeacherUC\NavBarTeacherView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\Windows\AdminView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\Windows\LoginView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\Windows\StudentView.xaml;;
-FD:\App\SchoolApp\SchoolApplication\Views\Windows\TeacherView.xaml;;
 

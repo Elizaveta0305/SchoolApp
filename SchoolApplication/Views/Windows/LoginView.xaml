@@ -54,6 +54,7 @@
                            />
                 <TextBox Margin="0 50 0 0"
                          x:Name="txtUsername"
+                         Height="50"
                          Width="300"
                          FontSize="18"
                          materialDesign:HintAssist.Hint="Введите логин"

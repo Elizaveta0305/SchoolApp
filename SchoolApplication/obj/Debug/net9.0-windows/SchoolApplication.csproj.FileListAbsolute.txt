@@ -32,7 +32,6 @@ D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Microsoft.Extensions
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Microsoft.Extensions.Options.dll
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Microsoft.Extensions.Primitives.dll
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\Microsoft.Xaml.Behaviors.dll
-D:\App\SchoolApp\SchoolApplication\bin\Debug\net9.0-windows\MvvmHelpers.dll
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\MainWindow.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\App.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net9.0-windows\MainWindow.baml

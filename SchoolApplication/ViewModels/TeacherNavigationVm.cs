@@ -22,7 +22,7 @@ namespace SchoolApplication.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         public ICommand HomeTeacherCommand { get; }
         public ICommand LessonsTeacherCommand { get; }
         public ICommand DiaryTeacherCommand { get; }

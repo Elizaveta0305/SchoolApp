@@ -30,9 +30,11 @@
                                    Margin="20 30"
                                    FontSize="40"/>
                     </DockPanel>
-                    <ui:DataGrid ItemsSource="{Binding LessonTeacherVm.ProductsCollection, Mode=TwoWay}"
+                    <ui:DataGrid ItemsSource="{Binding LessonsCollection, Mode=TwoWay }"
                                  Height="370"
                                  Width="998"
+                                 GridLinesVisibility="All" 
+                                 BorderBrush="LightGray" 
                                  BorderThickness="1"/>
                         <TextBlock Text="Создать занятие"
                                    FontSize="22"
@@ -44,42 +46,90 @@
                         
                         <StackPanel>
                             
-                            <TextBlock Text="ID"
+                            <TextBlock Text="Группа"
                                        FontSize="18"/>
+                            
                             <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
                                       Height="36"/>
                             
                         </StackPanel>
                         
                         <StackPanel Margin="10 0 0 0">
-                            <TextBlock Text="Название"
+                            
+                            <TextBlock Text="Кабинет"
                                        FontSize="18"/>
 
-                            <ui:TextBox PlaceholderText="Type something..." BorderThickness="1" Width="180"/>
+                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
+                                                                           Height="36"/>
+                            
                         </StackPanel>
+                       
                         <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Группа"
-                                       FontSize="18"/>
-                            <ui:TextBox PlaceholderText="Type something..." BorderThickness="1" Width="180"/>
-                        </StackPanel>
-                        <StackPanel Margin="10 0 0 0">
+                            
                             <TextBlock Text="Дата"
                                        FontSize="18"/>
-                            <ui:CalendarDatePicker Date="{x:Static sys:DateTime.Today}" IsTodayHighlighted="True" 
-                                                   Height="35.64"
-                                                   Content="Выберите дату"
-                                                   Width="180"/>
+
+                            <DatePicker Width="180"
+                                        Height="36"
+                                        />
                         </StackPanel>
+                        
                         <StackPanel Margin="10 0 0 0">
+
                             <TextBlock Text="Время"
+                                       FontSize="18"/>
+                            <ui:TextBox PlaceholderText="Введите время"
+                                        Width="180"
+                                        Height="36"/>
+
+
+                        </StackPanel>
+                        
+                        <StackPanel Margin="10 0 0 0">
+
+                            <TextBlock Text="Предмет"
                FontSize="18"/>
-                            <ui:TimePicker ClockIdentifier="Clock24Hour" Width="180"/>
+
+                            <ComboBox Width="180"
+                                      Height="36">
+                                <ComboBoxItem>Веб дизайн</ComboBoxItem>
+                                <ComboBoxItem>Алгоритмика</ComboBoxItem>
+                                <ComboBoxItem>ЕГЭ</ComboBoxItem>
+                            </ComboBox>
+
+                        </StackPanel>
+                        
+                        <StackPanel Margin="0 20 0 0">
+
+                            <TextBlock Text="Действие"
+                                       FontSize="18"/>
+
+                            <ComboBox Width="180"
+                                      Height="36">
+                                <ComboBoxItem>Добавить</ComboBoxItem>
+                                <ComboBoxItem>Обновить</ComboBoxItem>
+                                <ComboBoxItem>Удалить</ComboBoxItem>
+                            </ComboBox>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10 0 0 0"
+                                    VerticalAlignment="Bottom">
+
+                            <Button Width="180"
+                                    Height="36"
+                                    Content="Выполнить"
+                                    />
+
                         </StackPanel>
                     </WrapPanel>
+                    
                 </StackPanel>
+                
             </Grid>
+            
         </materialDesign:Card>
+        
     </Grid>
 
 </UserControl>

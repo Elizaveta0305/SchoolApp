@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolApplication.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace SchoolApplication.Views.UserControls.TeacherUC
         public LessonTeacherView()
         {
             InitializeComponent();
+            var vm = new LessonTeacherVm();
+            this.DataContext = vm;
         }
 
         private void CalendarDatePicker_Click(object sender, RoutedEventArgs e)
