@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace SchoolApplication.Views.Windows
 {
@@ -35,6 +37,7 @@ namespace SchoolApplication.Views.Windows
             {
                 IsDarkTheme = false;
                 theme.SetBaseTheme(BaseTheme.Light);
+
             }
             else
             {
@@ -42,6 +45,7 @@ namespace SchoolApplication.Views.Windows
                 theme.SetBaseTheme(BaseTheme.Dark);
             }
             paletteHelper.SetTheme(theme);
+            
         }
 
         private void exitApp(object sender, RoutedEventArgs e)

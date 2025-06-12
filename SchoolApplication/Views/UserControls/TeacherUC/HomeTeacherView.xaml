@@ -109,7 +109,7 @@
                             - 3d дизайн
                             </TextBlock>
 
-                            <TextBlock Text="Соловьев А.Ю."
+                            <TextBlock Text="Группа 1-М"
                                    FontSize="12"
                                    FontWeight="SemiBold"
                                    Margin="70 0 0 0"
@@ -137,7 +137,7 @@
                             </TextBlock>
 
 
-                            <TextBlock Text="Соловьев А.Ю."
+                            <TextBlock Text="Группа 3-В"
                                    FontSize="12"
                                    FontWeight="SemiBold"
                                    Margin="70 0 0 0"
@@ -164,7 +164,7 @@
                                     - Основы IT
                             </TextBlock>
 
-                            <TextBlock Text="Соловьев А.Ю."
+                            <TextBlock Text="Группа 2-А"
                                    FontSize="12"
                                    FontWeight="SemiBold"
                                    Margin="70 0 0 0"

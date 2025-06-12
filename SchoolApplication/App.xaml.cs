@@ -3,6 +3,8 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Windows;
+using Wpf.Ui;
+using Wpf.Ui.Appearance;
 
 namespace SchoolApplication
 {
@@ -15,8 +17,10 @@ namespace SchoolApplication
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var tchr = new TeacherView();
-            tchr.Show();
+            var login = new LoginView();
+            login.Show();
+
+            
         }
     }
 
