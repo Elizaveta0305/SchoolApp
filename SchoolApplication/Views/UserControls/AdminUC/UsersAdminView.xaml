@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="SchoolApplication.Views.UserControls.AdminUC.UsersAdminView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SchoolApplication.Views.UserControls.AdminUC"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" 
+             d:DesignWidth="1090"
+             Background="Transparent">
+
+    <UserControl.DataContext>
+        <vm:UsersAdminVm/>
+    </UserControl.DataContext>
+    
+    <Grid>
+
+        <materialDesign:Card Margin="20" 
+          Background="White"
+          UniformCornerRadius="15">
+
+            <Grid>
+
+                <StackPanel>
+
+                    <DockPanel>
+
+                        <TextBlock Text="Пользователи"
+                    FontWeight="Bold"
+                    Margin="20 30"
+                    FontSize="40"/>
+
+                    </DockPanel>
+
+                    <ui:DataGrid ItemsSource="{Binding DiaryTeacherVm.DiaryCollection, Mode=TwoWay}"
+                  Height="370"
+                  Width="998"
+                  BorderThickness="1"/>
+
+                    <TextBlock Text="Выставить оценки"
+                    FontSize="22"
+                    FontWeight="Bold"
+                    Margin="26 20 26 0"/>
+
+                    <WrapPanel Width="998"
+                Margin="20"
+                HorizontalAlignment="Center">
+
+                        <StackPanel>
+
+                            <TextBlock Text="Группа"
+                        FontSize="18"/>
+
+                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
+                       Height="36"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10 0 0 0">
+
+                            <TextBlock Text="ФИО"
+                        FontSize="18"/>
+
+                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
+                                                            Height="36"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10 0 0 0">
+
+                            <TextBlock Text="Занятие"
+                        FontSize="18"/>
+
+                            <ComboBox Width="180"
+                           Height="36">
+                            </ComboBox>
+
+                        </StackPanel>
+
+
+
+                        <StackPanel Margin="10 0 0 0">
+
+                            <TextBlock Text="Предмет"
+FontSize="18"/>
+
+                            <ComboBox Width="180"
+                       Height="36">
+                                <ComboBoxItem>Веб дизайн</ComboBoxItem>
+                                <ComboBoxItem>Алгоритмика</ComboBoxItem>
+                                <ComboBoxItem>ЕГЭ</ComboBoxItem>
+                            </ComboBox>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10 0 0 0">
+
+                            <TextBlock Text="Оценка"
+                            FontSize="18"/>
+
+                            <ComboBox Width="180"
+                           Height="36">
+                                <ComboBoxItem>5</ComboBoxItem>
+                                <ComboBoxItem>4</ComboBoxItem>
+                                <ComboBoxItem>3</ComboBoxItem>
+                                <ComboBoxItem>2</ComboBoxItem>
+                                <ComboBoxItem>Null</ComboBoxItem>
+
+                            </ComboBox>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="0 20 0 0">
+
+                            <TextBlock Text="Действие"
+                        FontSize="18"/>
+
+                            <ComboBox Width="180"
+                       Height="36">
+                                <ComboBoxItem>Добавить</ComboBoxItem>
+                                <ComboBoxItem>Обновить</ComboBoxItem>
+                            </ComboBox>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="10 0 0 0"
+                     VerticalAlignment="Bottom">
+
+                            <Button Width="180"
+                     Height="36"
+                     Content="Выполнить"
+                     />
+
+                        </StackPanel>
+                    </WrapPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+        </materialDesign:Card>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,197 @@
+﻿<UserControl x:Class="SchoolApplication.Views.UserControls.AdminUC.NavBarAdminView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:SchoolApplication.Views.UserControls.AdminUC"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
+             xmlns:Menu="clr-namespace:SchoolApplication.Utilities"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" 
+             d:DesignWidth="300"
+             Width="350">
+
+    
+    <Grid>
+        <Grid HorizontalAlignment="Left"
+          Width="300">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="220*"/>
+            </Grid.RowDefinitions>
+            <Border Background="#272B2F" 
+                    CornerRadius="20,0,0,20"
+                    Grid.Row="1"/>
+
+            <Border Background="#272B2F"
+                    CornerRadius="20,0,0,20" 
+                    Grid.RowSpan="2">
+
+                <StackPanel HorizontalAlignment="Center"
+                            Margin="0 20 0 0">
+                    <WrapPanel>
+                        <Image Source="/Images/Logo.png"
+                               Height="50"
+                               Width="50"
+                               RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <TextBlock Text="ШПЭ"
+                                   Foreground="White"
+                                   FontSize="22"
+                                   VerticalAlignment="Center"
+                                   Margin="15 0 0 0"/>
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+            <StackPanel Height="600"
+                        Width="300"  
+                        Grid.Row="1">
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding HomeAdminCommand}"
+                          IsChecked="True">
+                    <Grid>
+                        <WrapPanel HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Home" 
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+
+                            <TextBlock Text="Главная" 
+                                       Margin="10 0 0 0" 
+                                       Foreground="White"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding UsersAdminCommand}"
+                          HorizontalAlignment="Center">
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="User"
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Пользователи"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding LessonsAdminCommand}">
+
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="School" 
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Занятия"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding DiaryTeacherCommand}">
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="BookEducation"
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Журнал"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding SubjectAdminCommand}">
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="Book"
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Предметы"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding ClassroomsAdminCommand}">
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="Room"
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Кабинеты"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                          Command="{Binding GroupsAdminCommand}">
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="People"
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Группы"
+                                       Foreground="White"
+                                       Margin="10 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+
+                
+                <Menu:Btn Style="{StaticResource BtnStyle}"
+                      Click="ExitApp">
+                    <Grid>
+                        <WrapPanel>
+                            <materialDesign:PackIcon Kind="ExitToApp"
+                                                     Foreground="White"
+                                                     VerticalAlignment="Center"
+                                                     Height="24"
+                                                     Width="24"/>
+                            <TextBlock Text="Выход"
+                                       Foreground="White"
+                                       Margin="20 0 0 0"
+                                       FontSize="18"/>
+                        </WrapPanel>
+                    </Grid>
+                </Menu:Btn>
+                
+            </StackPanel>
+            
+        </Grid>
+        
+    </Grid>
+</UserControl>

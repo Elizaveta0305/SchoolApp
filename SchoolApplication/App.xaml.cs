@@ -17,8 +17,8 @@ namespace SchoolApplication
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            var login = new LoginView();
-            login.Show();
+            var adm = new AdminView();
+            adm.Show();
 
             
         }
