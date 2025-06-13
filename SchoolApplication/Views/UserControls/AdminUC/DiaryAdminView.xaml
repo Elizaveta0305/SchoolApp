@@ -36,7 +36,7 @@
                     </DockPanel>
 
                     <ui:DataGrid ItemsSource="{Binding DiaryTeacherVm.DiaryCollection, Mode=TwoWay}"
-                  Height="370"
+                  Height="324"
                   Width="998"
                   BorderThickness="1"/>
 
@@ -45,11 +45,12 @@
                     FontWeight="Bold"
                     Margin="26 20 26 0"/>
 
-                    <WrapPanel Width="998"
-                Margin="20"
-                HorizontalAlignment="Center">
+                    <UniformGrid Width="998"
+                                 Margin="0 50 0 0"
+                                 Columns="4"
+                                 HorizontalAlignment="Center">
 
-                        <StackPanel>
+                        <StackPanel Width="180">
 
                             <TextBlock Text="Группа"
                         FontSize="18"/>
@@ -59,7 +60,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180">
 
                             <TextBlock Text="ФИО"
                         FontSize="18"/>
@@ -69,7 +70,7 @@
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180">
 
                             <TextBlock Text="Занятие"
                         FontSize="18"/>
@@ -82,13 +83,14 @@
 
 
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180"
+                                    >
 
                             <TextBlock Text="Предмет"
-FontSize="18"/>
+                                       FontSize="18"/>
 
                             <ComboBox Width="180"
-                       Height="36">
+                                      Height="36">
                                 <ComboBoxItem>Веб дизайн</ComboBoxItem>
                                 <ComboBoxItem>Алгоритмика</ComboBoxItem>
                                 <ComboBoxItem>ЕГЭ</ComboBoxItem>
@@ -96,7 +98,8 @@ FontSize="18"/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180"
+                                    Margin="0 5 0 0">
 
                             <TextBlock Text="Оценка"
                             FontSize="18"/>
@@ -113,7 +116,8 @@ FontSize="18"/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="0 20 0 0">
+                        <StackPanel Width="180"
+                                    Margin="0 5 0 0">
 
                             <TextBlock Text="Действие"
                         FontSize="18"/>
@@ -126,16 +130,17 @@ FontSize="18"/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0"
-                     VerticalAlignment="Bottom">
+                        <StackPanel Width="180"
+                                    Margin="0 20 0 0"
+                                    VerticalAlignment="Center">
 
                             <Button Width="180"
-                     Height="36"
-                     Content="Выполнить"
-                     />
+                                    Height="36"
+                                    Content="Выполнить"
+                                    />
 
                         </StackPanel>
-                    </WrapPanel>
+                    </UniformGrid>
 
                 </StackPanel>
 

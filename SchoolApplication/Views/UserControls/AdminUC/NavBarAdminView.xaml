@@ -104,7 +104,7 @@
                 </Menu:Btn>
 
                 <Menu:Btn Style="{StaticResource BtnStyle}"
-                          Command="{Binding DiaryTeacherCommand}">
+                          Command="{Binding DiaryAdminCommand}">
                     <Grid>
                         <WrapPanel>
                             <materialDesign:PackIcon Kind="BookEducation"

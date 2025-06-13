@@ -3,34 +3,6 @@
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\diaryadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\diaryadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\homeadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\homeadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\groupsadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\groupsadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\navbaradminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\navbaradminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\classroomsadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\classroomsadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\lessonsadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\lessonsadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\usersadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\usersadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\subjectadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\subjectadminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -46,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,103 +30,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LessonsAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\LessonsAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\LessonsAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\LessonsAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\LessonsAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:14:21.824Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GroupsAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\GroupsAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\GroupsAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\GroupsAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\GroupsAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:14:19.838Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HomeAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\HomeAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\HomeAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\HomeAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\HomeAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:14:20.834Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DiaryAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\DiaryAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\DiaryAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\DiaryAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\DiaryAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:14:18.678Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ClassroomsAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\ClassroomsAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\ClassroomsAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\ClassroomsAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\ClassroomsAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:14:17.536Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NavBarAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:16:37.043Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UsersAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\UsersAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\UsersAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\UsersAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\UsersAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:16:35.076Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "SubjectAdminView.xaml",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\SubjectAdminView.xaml",
               "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\SubjectAdminView.xaml",
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\SubjectAdminView.xaml",
               "RelativeToolTip": "Views\\UserControls\\AdminUC\\SubjectAdminView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-12T18:16:33.528Z",
+              "WhenOpened": "2025-06-13T13:02:28.852Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "AdminView.xaml",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\Windows\\AdminView.xaml",
               "RelativeDocumentMoniker": "Views\\Windows\\AdminView.xaml",

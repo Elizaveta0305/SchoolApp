@@ -40,16 +40,17 @@
                   Width="998"
                   BorderThickness="1"/>
 
-                    <TextBlock Text="Выставить оценки"
+                    <TextBlock Text="Редактирование занятий"
                     FontSize="22"
                     FontWeight="Bold"
                     Margin="26 20 26 0"/>
 
-                    <WrapPanel Width="998"
-                Margin="20"
+                    <UniformGrid Width="998"
+                                 Columns="4"
+                Margin="0 20 0 0"
                 HorizontalAlignment="Center">
 
-                        <StackPanel>
+                        <StackPanel Width="180">
 
                             <TextBlock Text="Группа"
                         FontSize="18"/>
@@ -59,33 +60,33 @@
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180">
 
-                            <TextBlock Text="ФИО"
+                            <TextBlock Text="Дата"
                         FontSize="18"/>
 
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
-                                                            Height="36"/>
+                            <DatePicker Width="180"
+                                        Height="36"/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180">
 
-                            <TextBlock Text="Занятие"
+                            <TextBlock Text="Время"
                         FontSize="18"/>
 
-                            <ComboBox Width="180"
+                            <ui:TextBox Width="180"
                            Height="36">
-                            </ComboBox>
+                            </ui:TextBox>
 
                         </StackPanel>
 
 
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180">
 
-                            <TextBlock Text="Предмет"
-FontSize="18"/>
+                            <TextBlock Text="Кабинет"
+                                       FontSize="18"/>
 
                             <ComboBox Width="180"
                        Height="36">
@@ -96,24 +97,19 @@ FontSize="18"/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Width="180"
+                                    Margin="0 5 0 0">
 
-                            <TextBlock Text="Оценка"
+                            <TextBlock Text="Заголовок"
                             FontSize="18"/>
 
-                            <ComboBox Width="180"
-                           Height="36">
-                                <ComboBoxItem>5</ComboBoxItem>
-                                <ComboBoxItem>4</ComboBoxItem>
-                                <ComboBoxItem>3</ComboBoxItem>
-                                <ComboBoxItem>2</ComboBoxItem>
-                                <ComboBoxItem>Null</ComboBoxItem>
-
-                            </ComboBox>
-
+                            <ui:TextBox Width="180"
+                           Height="36"/>
+                            
                         </StackPanel>
 
-                        <StackPanel Margin="0 20 0 0">
+                        <StackPanel Width="180"
+                                    Margin="0 5 0 0">
 
                             <TextBlock Text="Действие"
                         FontSize="18"/>
@@ -122,11 +118,12 @@ FontSize="18"/>
                        Height="36">
                                 <ComboBoxItem>Добавить</ComboBoxItem>
                                 <ComboBoxItem>Обновить</ComboBoxItem>
+                                <ComboBoxItem>Удалить</ComboBoxItem>
                             </ComboBox>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0"
+                        <StackPanel Width="180"
                      VerticalAlignment="Bottom">
 
                             <Button Width="180"
@@ -135,7 +132,7 @@ FontSize="18"/>
                      />
 
                         </StackPanel>
-                    </WrapPanel>
+                    </UniformGrid>
 
                 </StackPanel>
 

@@ -35,99 +35,143 @@
 
                     </DockPanel>
 
-                    <ui:DataGrid ItemsSource="{Binding DiaryTeacherVm.DiaryCollection, Mode=TwoWay}"
-                  Height="370"
+                    <ui:DataGrid ItemsSource="{Binding DiaryAdminVm.DiaryCollection, Mode=TwoWay}"
+                  Height="318"
                   Width="998"
                   BorderThickness="1"/>
 
-                    <TextBlock Text="Выставить оценки"
+                    <TextBlock Text="Создать пользователя"
                     FontSize="22"
                     FontWeight="Bold"
-                    Margin="26 20 26 0"/>
+                    Margin="60.75 20 26 10"/>
 
-                    <WrapPanel Width="998"
-                Margin="20"
-                HorizontalAlignment="Center">
+                    <UniformGrid Width="998"
+                               Margin="20 0 20 0">
 
                         <StackPanel>
 
-                            <TextBlock Text="Группа"
-                        FontSize="18"/>
+                            <TextBlock Text="Имя"
+                                       Width="180"
+                                       FontSize="18"/>
 
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
+                            <ui:TextBox Width="180"
                        Height="36"/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel>
 
-                            <TextBlock Text="ФИО"
-                        FontSize="18"/>
+                            <TextBlock Text="Фамилия"
+                                       Width="180"
+                                       FontSize="18"/>
 
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
-                                                            Height="36"/>
-
-                        </StackPanel>
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Занятие"
-                        FontSize="18"/>
-
-                            <ComboBox Width="180"
-                           Height="36">
-                            </ComboBox>
+                            <ui:TextBox Width="180"
+                                        Height="36"/>
 
                         </StackPanel>
 
+                        <StackPanel>
+
+                            <TextBlock Text="Отчетсво"
+                                       Width="180"
+                        FontSize="18"/>
+
+                            <ui:TextBox Width="180"
+                                        Height="36"/>
+
+                        </StackPanel>
 
 
-                        <StackPanel Margin="10 0 0 0">
 
-                            <TextBlock Text="Предмет"
-FontSize="18"/>
+                        <StackPanel>
+
+                            <TextBlock Text="Дата рождения"
+                                       Width="180"
+                                       FontSize="18"/>
+
+                            <DatePicker Width="180"
+                                        Height="36"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="0 5 0 0">
+
+                            <TextBlock Text="Телефон"
+                                       Width="180"
+                                       FontSize="18"/>
+
+                            <ui:TextBox Width="180"
+                                        Height="36"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="0 5 0 0">
+
+                            <TextBlock Text="Роль"
+                                       Width="180"
+                                       FontSize="18"/>
 
                             <ComboBox Width="180"
                        Height="36">
-                                <ComboBoxItem>Веб дизайн</ComboBoxItem>
-                                <ComboBoxItem>Алгоритмика</ComboBoxItem>
-                                <ComboBoxItem>ЕГЭ</ComboBoxItem>
+                                <ComboBoxItem>Ученик</ComboBoxItem>
+                                <ComboBoxItem>Преподаватель</ComboBoxItem>
                             </ComboBox>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
+                        <StackPanel Margin="0 5 0 0">
 
-                            <TextBlock Text="Оценка"
-                            FontSize="18"/>
+                            <TextBlock Text="Группа"
+                                       Width="180"
+                                       FontSize="18"/>
 
                             <ComboBox Width="180"
-                           Height="36">
-                                <ComboBoxItem>5</ComboBoxItem>
-                                <ComboBoxItem>4</ComboBoxItem>
-                                <ComboBoxItem>3</ComboBoxItem>
+                                      Height="36">
+                                <ComboBoxItem>1</ComboBoxItem>
                                 <ComboBoxItem>2</ComboBoxItem>
-                                <ComboBoxItem>Null</ComboBoxItem>
-
                             </ComboBox>
 
                         </StackPanel>
 
-                        <StackPanel Margin="0 20 0 0">
+                        <StackPanel Margin="0 5 0 0">
+
+                            <TextBlock Text="Логин"
+                                       Width="180"
+                                       FontSize="18"/>
+
+                            <ui:TextBox Width="180"
+                                        Height="36"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="0 6 0 0">
+
+                            <TextBlock Text="Пароль"
+                                       Width="180"
+                                       FontSize="18"/>
+
+                            <ui:PasswordBox Width="180"
+                                        Height="36"/>
+
+                        </StackPanel>
+
+                        <StackPanel Margin="0 6 0 0">
 
                             <TextBlock Text="Действие"
-                        FontSize="18"/>
+                                       Width="180"
+                                       FontSize="18"/>
 
                             <ComboBox Width="180"
-                       Height="36">
+                                      Height="36">
                                 <ComboBoxItem>Добавить</ComboBoxItem>
                                 <ComboBoxItem>Обновить</ComboBoxItem>
+                                <ComboBoxItem>Удалить</ComboBoxItem>
                             </ComboBox>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0"
-                     VerticalAlignment="Bottom">
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom">
 
                             <Button Width="180"
                      Height="36"
@@ -135,7 +179,7 @@ FontSize="18"/>
                      />
 
                         </StackPanel>
-                    </WrapPanel>
+                    </UniformGrid>
 
                 </StackPanel>
 

@@ -38,102 +38,50 @@
                          Width="998"
                          BorderThickness="1"/>
 
-                    <TextBlock Text="Выставить оценки"
+                    <TextBlock Text="Редактирование кабинетов"
                            FontSize="22"
                            FontWeight="Bold"
                            Margin="26 20 26 0"/>
 
-                    <WrapPanel Width="998"
-                       Margin="20"
-                       HorizontalAlignment="Center">
+                    <UniformGrid Width="998"
+                                 Margin="20 45 20 0"
+                                 Columns="3" 
+                                 Rows="1"
+                                 >
 
-                        <StackPanel>
+                        <StackPanel Width="180">
 
-                            <TextBlock Text="Группа"
-                               FontSize="18"/>
-
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
-                              Height="36"/>
-
-                        </StackPanel>
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="ФИО"
-                               FontSize="18"/>
-
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
-                                                                   Height="36"/>
-
-                        </StackPanel>
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Занятие"
-                               FontSize="18"/>
-
-                            <ComboBox Width="180"
-                                  Height="36">
-                            </ComboBox>
-
-                        </StackPanel>
-
-
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Предмет"
-       FontSize="18"/>
-
-                            <ComboBox Width="180"
-                              Height="36">
-                                <ComboBoxItem>Веб дизайн</ComboBoxItem>
-                                <ComboBoxItem>Алгоритмика</ComboBoxItem>
-                                <ComboBoxItem>ЕГЭ</ComboBoxItem>
-                            </ComboBox>
-
-                        </StackPanel>
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Оценка"
+                            <TextBlock Text="Кабинет"
+                                       Margin="0 00 0 10"
                                    FontSize="18"/>
 
-                            <ComboBox Width="180"
-                                  Height="36">
-                                <ComboBoxItem>5</ComboBoxItem>
-                                <ComboBoxItem>4</ComboBoxItem>
-                                <ComboBoxItem>3</ComboBoxItem>
-                                <ComboBoxItem>2</ComboBoxItem>
-                                <ComboBoxItem>Null</ComboBoxItem>
-
-                            </ComboBox>
+                            <ui:TextBox/>
 
                         </StackPanel>
 
-                        <StackPanel Margin="0 20 0 0">
+                        <StackPanel Width="180">
 
                             <TextBlock Text="Действие"
-                               FontSize="18"/>
-
+                                       Margin="0 00 0 10"
+                                       FontSize="18"/>
                             <ComboBox Width="180"
                               Height="36">
-                                <ComboBoxItem>Добавить</ComboBoxItem>
-                                <ComboBoxItem>Обновить</ComboBoxItem>
+                                <ComboBoxItem Content="Добавить"/>
+                                <ComboBoxItem Content="Обновить"/>
+                                <ComboBoxItem Content="Удалить"/>
                             </ComboBox>
 
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0"
-                            VerticalAlignment="Bottom">
-
+                        <StackPanel Width="180"
+                                    VerticalAlignment="Bottom">
                             <Button Width="180"
                             Height="36"
                             Content="Выполнить"
                             />
 
                         </StackPanel>
-                    </WrapPanel>
+                    </UniformGrid>
 
                 </StackPanel>
 

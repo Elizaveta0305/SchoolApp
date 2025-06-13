@@ -16,5 +16,5 @@ D:\App\SchoolApp\SchoolApplication\App.xaml
 220-931499134
 MainWindow.xaml;Styles\Button.xaml;Styles\Page.xaml;Utilities\DataTemplate.xaml;Views\UserControls\AdminUC\ClassroomsAdminView.xaml;Views\UserControls\AdminUC\DiaryAdminView.xaml;Views\UserControls\AdminUC\GroupsAdminView.xaml;Views\UserControls\AdminUC\HomeAdminView.xaml;Views\UserControls\AdminUC\LessonsAdminView.xaml;Views\UserControls\AdminUC\NavBarAdminView.xaml;Views\UserControls\AdminUC\SubjectAdminView.xaml;Views\UserControls\AdminUC\UsersAdminView.xaml;Views\UserControls\StudentUC\Chart.xaml;Views\UserControls\StudentUC\Grade.xaml;Views\UserControls\StudentUC\Home.xaml;Views\UserControls\StudentUC\Lessons.xaml;Views\UserControls\StudentUC\NavBarView.xaml;Views\UserControls\TeacherUC\DiaryTeacherView.xaml;Views\UserControls\TeacherUC\HomeTeacherView.xaml;Views\UserControls\TeacherUC\LessonTeacherView.xaml;Views\UserControls\TeacherUC\LiveChartTeacherUsers.xaml;Views\UserControls\TeacherUC\NavBarTeacherView.xaml;Views\Windows\AdminView.xaml;Views\Windows\LoginView.xaml;Views\Windows\StudentView.xaml;Views\Windows\TeacherView.xaml;
 
-False
+True
 
