@@ -1,29 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SchoolApplication.Utilities;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using SchoolApplication.Messages;
 using SchoolApplication.ViewModels;
-using SchoolApplication.Views.UserControls.AdminUC;
-using SchoolApplication.Views.UserControls.TeacherUC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace SchoolApplication.ViewModels
 {
-    public class NavigationAdminVm : ObservableObject
+    public partial class NavigationAdminVm : ObservableObject
     {
-        private object _currentView;
-        public object CurrentView
-        {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged();
-            }
-        }
+
+        private readonly HomeAdminVm _homeAdminVm;
+        private readonly LessonAdminVm _lessonsAdminVm;
+        private readonly DiaryAdminVm _diaryAdminVm;
+        private readonly ClassroomsAdminVm _classroomsAdminVm;
+        private readonly SubjectAdminVm _subjectAdminVm;
+        private readonly UsersAdminVm _usersAdminVm;
+        private readonly GroupsAdminVm _groupsAdminVm;
 
         public ICommand HomeAdminCommand { get; }
         public ICommand LessonsAdminCommand { get; }
@@ -33,26 +27,73 @@ namespace SchoolApplication.ViewModels
         public ICommand UsersAdminCommand { get; }
         public ICommand GroupsAdminCommand { get; }
 
-        public NavigationAdminVm()
+        public NavigationAdminVm(
+            HomeAdminVm homeAdminVm,
+            LessonAdminVm lessonsAdminVm,
+            DiaryAdminVm diaryAdminVm,
+            ClassroomsAdminVm classroomsAdminVm,
+            SubjectAdminVm subjectAdminVm,
+            UsersAdminVm usersAdminVm,
+            GroupsAdminVm groupsAdminVm)
         {
-            HomeAdminCommand = new RelayCommand(_ => ShowHome());
-            LessonsAdminCommand = new RelayCommand(_ => ShowLessons());
-            DiaryAdminCommand = new RelayCommand(_ => ShowDiary());
-            ClassroomsAdminCommand = new RelayCommand(_ => ShowClassroom());
-            SubjectAdminCommand = new RelayCommand(_ => ShowSubject());
-            UsersAdminCommand = new RelayCommand(_ => ShowUser());
-            GroupsAdminCommand = new RelayCommand(_ => ShowGroups());
+            _homeAdminVm = homeAdminVm;
+            _lessonsAdminVm = lessonsAdminVm;
+            _diaryAdminVm = diaryAdminVm;
+            _classroomsAdminVm = classroomsAdminVm;
+            _subjectAdminVm = subjectAdminVm;
+            _usersAdminVm = usersAdminVm;
+            _groupsAdminVm = groupsAdminVm;
 
-            ShowHome();
+            HomeAdminCommand = new RelayCommand(ExecuteHomeAdminCommand);
+            LessonsAdminCommand = new RelayCommand(ExecuteLessonsAdminCommand);
+            DiaryAdminCommand = new RelayCommand(ExecuteDiaryAdminCommand);
+            ClassroomsAdminCommand = new RelayCommand(ExecuteClassroomsAdminCommand);
+            SubjectAdminCommand = new RelayCommand(ExecuteSubjectAdminCommand);
+            UsersAdminCommand = new RelayCommand(ExecuteUsersAdminCommand);
+            GroupsAdminCommand = new RelayCommand(ExecuteGroupsAdminCommand);
+
         }
 
-        private void ShowHome() => CurrentView = new HomeAdminView();
-        private void ShowLessons() => CurrentView = new LessonsAdminView();
-        private void ShowDiary() => CurrentView = new DiaryAdminView();
-        private void ShowClassroom() => CurrentView = new ClassroomsAdminView();
-        private void ShowSubject() => CurrentView = new SubjectAdminView();
-        private void ShowUser() => CurrentView = new UsersAdminView();
-        private void ShowGroups() => CurrentView = new GroupsAdminView();
+        private void ExecuteHomeAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: HomeAdminCommand executed. Sending NavigateMessage for HomeAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_homeAdminVm));
+        }
+
+        private void ExecuteLessonsAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: LessonsAdminCommand executed. Sending NavigateMessage for LessonsAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_lessonsAdminVm));
+        }
+
+        private void ExecuteDiaryAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: DiaryAdminCommand executed. Sending NavigateMessage for DiaryAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_diaryAdminVm));
+        }
+
+        private void ExecuteClassroomsAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: ClassroomsAdminCommand executed. Sending NavigateMessage for ClassroomsAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_classroomsAdminVm));
+        }
+
+        private void ExecuteSubjectAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: SubjectAdminCommand executed. Sending NavigateMessage for SubjectAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_subjectAdminVm));
+        }
+
+        private void ExecuteUsersAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: UsersAdminCommand executed. Sending NavigateMessage for UsersAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_usersAdminVm));
+        }
+
+        private void ExecuteGroupsAdminCommand()
+        {
+            Debug.WriteLine("NavigationAdminVm: GroupsAdminCommand executed. Sending NavigateMessage for GroupsAdminVm.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_groupsAdminVm));
+        }
     }
 }
-

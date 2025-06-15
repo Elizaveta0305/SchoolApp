@@ -12,7 +12,14 @@
         xmlns:teacherUC="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
 
         mc:Ignorable="d"
-        Title="SchoolApplication" Height="800" Width="1090">
+        Title="App" 
+        Height="800" 
+        Width="1440"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        >
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:LoginViewModel}">
@@ -41,7 +48,7 @@
             <adminUC:UsersAdminView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:NavigationAdminVm}">
-            <adminUC:NavBarAdminView/>
+            <adminUC:NavBarAdminView />
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:HomeVm}">
@@ -60,7 +67,7 @@
             <teacherUC:HomeTeacherView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:DiaryTeacherVm}">
-            <teacherUC:DiaryTeacherView/>
+            <teacherUC:DiaryTeacherView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:LessonTeacherVm}">
             <teacherUC:LessonTeacherView/>
@@ -72,12 +79,36 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl Grid.Column="0" Content="{Binding CurrentNavigationViewModel}" />
 
-        <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}" />
+        <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter Content="{TemplateBinding Content}">
+                            <ContentPresenter.RenderTransform>
+                                <TranslateTransform X="0" Y="0"/>
+                            </ContentPresenter.RenderTransform>
+                            <ContentPresenter.Triggers>
+                                <EventTrigger RoutedEvent="ContentPresenter.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                               From="0" To="1" Duration="0:0:0.8"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Y"
+                               From="20" To="0" Duration="0:0:0.7"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ContentPresenter.Triggers>
+                        </ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
     </Grid>
 </Window>

@@ -8,10 +8,13 @@ using CommunityToolkit.Mvvm.Input;
 using SchoolApplication.Models;
 using CommunityToolkit.Mvvm.Messaging;
 using SchoolApplication.Messages;
+using System.Diagnostics;
 
 namespace SchoolApplication.ViewModels
 {
-    public partial class MainViewModel : ObservableObject
+    public partial class MainViewModel : ObservableObject,
+        IRecipient<UserAuthenticatedMessage>,
+        IRecipient<NavigateMessage>      
     {
         [ObservableProperty]
         private ObservableObject _currentMainContentViewModel;
@@ -22,26 +25,25 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private User? _currentUser;
 
-        // Объявление readonly полей для всех ViewModel, которые MainViewModel будет переключать
         private readonly LoginViewModel _loginViewModel;
         private readonly HomeAdminVm _homeAdminVm;
         private readonly HomeTeacherVm _homeTeacherVm;
         private readonly HomeVm _homeStudentVm;
 
-        // ViewModel'ы для админской части (примеры)
+        // ViewModel'ы для админской части
         private readonly ClassroomsAdminVm _classroomsAdminVm;
         private readonly DiaryAdminVm _diaryAdminVm;
         private readonly GroupsAdminVm _groupsAdminVm;
         private readonly SubjectAdminVm _subjectsAdminVm;
         private readonly UsersAdminVm _usersAdminVm;
 
-        // ViewModel'ы для студенческой части (примеры)
-        private readonly GradeVm _gradeVm; // Добавьте, если используете Grade.xaml
-        private readonly LessonsVm _lessonsVm; // Добавьте, если используете Lessons.xaml
+        // ViewModel'ы для студенческой части
+        private readonly GradeVm _gradeVm;
+        private readonly LessonsVm _lessonsVm;
 
-        // ViewModel'ы для учительской части (примеры)
-        private readonly DiaryTeacherVm _diaryTeacherVm; // Добавьте, если используете DiaryTeacherView.xaml
-        private readonly LessonTeacherVm _lessonTeacherVm; // Добавьте, если используете LessonTeacherView.xaml
+        // ViewModel'ы для учительской части
+        private readonly DiaryTeacherVm _diaryTeacherVm;
+        private readonly LessonTeacherVm _lessonTeacherVm;
 
         // ViewModel'ы для навигационных панелей
         private readonly NavigationAdminVm _navigationAdminVm;
@@ -55,22 +57,18 @@ namespace SchoolApplication.ViewModels
             HomeAdminVm homeAdminVm,
             HomeTeacherVm homeTeacherVm,
 
-            // Админские ViewModel
             ClassroomsAdminVm classroomsAdminVm,
             DiaryAdminVm diaryAdminVm,
             GroupsAdminVm groupsAdminVm,
             SubjectAdminVm subjectsAdminVm,
             UsersAdminVm usersAdminVm,
 
-            // Студенческие ViewModel
             GradeVm gradeVm,
             LessonsVm lessonsVm,
 
-            // Учительские ViewModel
             DiaryTeacherVm diaryTeacherVm,
             LessonTeacherVm lessonTeacherVm,
 
-            // Навигационные ViewModel
             NavigationAdminVm navigationAdminVm,
             NavigationVm navigationVm,
             TeacherNavigationVm teacherNavigationVm)
@@ -100,47 +98,66 @@ namespace SchoolApplication.ViewModels
             CurrentNavigationViewModel = null;
             CurrentUser = null;
 
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this, (object recipient, UserAuthenticatedMessage message) =>
-            {
-                MainViewModel r = (MainViewModel)recipient;
-                r.CurrentUser = message.Value;
-                r.NavigateBasedOnRole(message.Value.Role?.RoleName);
-            });
+            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            WeakReferenceMessenger.Default.Register<NavigateMessage>(this);
         }
 
-        public void NavigateBasedOnRole(string? roleName)
+        public void Receive(UserAuthenticatedMessage message)
         {
-            switch (roleName)
+            if (message?.Value != null)
             {
-                case "Администратор":
-                    Console.WriteLine("Навигация: Администратор.");
-                    CurrentMainContentViewModel = _homeAdminVm; //
-                    CurrentNavigationViewModel = _navigationAdminVm; //
-                    break;
-                case "Преподаватель":
-                    Console.WriteLine("Навигация: Учитель.");
-                    CurrentMainContentViewModel = _homeTeacherVm; //
-                    CurrentNavigationViewModel = _teacherNavigationVm; //
-                    break;
-                case "Ученик":
-                    Console.WriteLine("Навигация: Студент.");
-                    CurrentMainContentViewModel = _homeStudentVm; //
-                    CurrentNavigationViewModel = _navigationVm; //
-                    break;
-                default:
-                    Console.WriteLine("Навигация: Неизвестная роль или выход. Возврат к логину.");
-                    CurrentMainContentViewModel = _loginViewModel;
-                    CurrentNavigationViewModel = null;
-                    CurrentUser = null;
-                    break;
+                CurrentUser = message.Value;
+
+                Debug.WriteLine($"User authenticated: {CurrentUser.Username}, Role: {CurrentUser.Role?.RoleName}");
+
+                switch (CurrentUser.Role?.RoleName)
+                {
+                    case "Администратор":
+                        Debug.WriteLine("Навигация: Администратор.");
+                        CurrentMainContentViewModel = _homeAdminVm;
+                        CurrentNavigationViewModel = _navigationAdminVm;
+                        break;
+                    case "Преподаватель":
+                        Debug.WriteLine("Навигация: Учитель.");
+                        CurrentMainContentViewModel = _homeTeacherVm;
+                        CurrentNavigationViewModel = _teacherNavigationVm;
+                        break;
+                    case "Ученик":
+                        Debug.WriteLine("Навигация: Студент.");
+                        CurrentMainContentViewModel = _homeStudentVm;
+                        CurrentNavigationViewModel = _navigationVm;
+                        break;
+                    default:
+                        Debug.WriteLine("Навигация: Неизвестная роль или выход. Возврат к логину.");
+                        CurrentMainContentViewModel = _loginViewModel;
+                        CurrentNavigationViewModel = null;
+                        CurrentUser = null;
+                        break;
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Сообщение об аутентификации пользователя было пустым или null. Возврат к логину.");
+                CurrentMainContentViewModel = _loginViewModel;
+                CurrentNavigationViewModel = null;
+                CurrentUser = null;
+            }
+        }
+
+        public void Receive(NavigateMessage message)
+        {
+            if (message?.Value != null)
+            {
+                CurrentMainContentViewModel = message.Value;
+                Debug.WriteLine($"MainViewModel received NavigateMessage. Navigating to: {message.Value.GetType().Name}");
             }
         }
 
         [RelayCommand]
         private void Logout()
         {
-            NavigateBasedOnRole(null);
-            Console.WriteLine("Пользователь вышел из системы.");
+            WeakReferenceMessenger.Default.Send(new UserAuthenticatedMessage(null));
+            Debug.WriteLine("Пользователь вышел из системы.");
         }
     }
 }

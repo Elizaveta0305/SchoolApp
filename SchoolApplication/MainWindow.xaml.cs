@@ -20,7 +20,6 @@ namespace SchoolApplication
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new SchoolApplication.ViewModels.NavigationVm();
         }
     }
 }

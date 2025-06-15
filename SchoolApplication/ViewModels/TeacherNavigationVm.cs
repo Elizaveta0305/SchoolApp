@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SchoolApplication.Utilities;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using SchoolApplication.Messages;
 using SchoolApplication.ViewModels;
-using SchoolApplication.Views.UserControls.TeacherUC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,35 +12,46 @@ using System.Windows.Input;
 
 namespace SchoolApplication.ViewModels
 {
-    public class TeacherNavigationVm : ObservableObject
+    public partial class TeacherNavigationVm : ObservableObject
     {
-        private object _currentView;
-        public object CurrentView
+        private readonly HomeTeacherVm _homeTeacherVm;
+        private readonly LessonTeacherVm _lessonsTeacherViewModel;
+        private readonly DiaryTeacherVm _diaryTeacherViewModel;
+
+        public TeacherNavigationVm(
+            HomeTeacherVm homeTeacherVm,
+            LessonTeacherVm lessonsTeacherViewModel,
+            DiaryTeacherVm diaryTeacherViewModel)
         {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged();
-            }
+            _homeTeacherVm = homeTeacherVm;
+            _lessonsTeacherViewModel = lessonsTeacherViewModel;
+            _diaryTeacherViewModel = diaryTeacherViewModel;
+
+            HomeTeacherCommand = new RelayCommand(ExecuteHomeTeacherCommand);
+            LessonsTeacherCommand = new RelayCommand(ExecuteLessonsTeacherCommand);
+            DiaryTeacherCommand = new RelayCommand(ExecuteDiaryTeacherCommand);
         }
-        
+
+        private void ExecuteHomeTeacherCommand()
+        {
+            System.Diagnostics.Debug.WriteLine("NavBarTeacherViewModel: HomeTeacherCommand executed. Setting MainViewModel.CurrentMainContentViewModel to DashboardViewModel.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_homeTeacherVm));
+        }
+
+        private void ExecuteLessonsTeacherCommand()
+        {
+            System.Diagnostics.Debug.WriteLine("NavBarTeacherViewModel: LessonsTeacherCommand executed. Setting MainViewModel.CurrentMainContentViewModel to LessonsTeacherViewModel.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_lessonsTeacherViewModel));
+        }
+
+        private void ExecuteDiaryTeacherCommand()
+        {
+            System.Diagnostics.Debug.WriteLine("NavBarTeacherViewModel: DiaryTeacherCommand executed. Setting MainViewModel.CurrentMainContentViewModel to DiaryTeacherViewModel.");
+            WeakReferenceMessenger.Default.Send(new NavigateMessage(_diaryTeacherViewModel));
+        }
+
         public ICommand HomeTeacherCommand { get; }
         public ICommand LessonsTeacherCommand { get; }
         public ICommand DiaryTeacherCommand { get; }
-
-        public TeacherNavigationVm()
-        {
-            HomeTeacherCommand = new RelayCommand(_ => ShowHome());
-            LessonsTeacherCommand = new RelayCommand(_ => ShowLessons());
-            DiaryTeacherCommand = new RelayCommand(_ => ShowDiary());
-
-            ShowHome();
-        }
-
-        private void ShowHome() => CurrentView = new HomeTeacherView();
-        private void ShowLessons() => CurrentView = new LessonTeacherView();
-        private void ShowDiary() => CurrentView = new DiaryTeacherView();
     }
-
 }
