@@ -85,7 +85,7 @@
 
         <ContentControl Grid.Column="0" Content="{Binding CurrentNavigationViewModel}" />
 
-        <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}">
+        <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}" Background="White">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
                     <Border Background="{TemplateBinding Background}">

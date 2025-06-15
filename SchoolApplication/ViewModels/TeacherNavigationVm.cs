@@ -34,19 +34,16 @@ namespace SchoolApplication.ViewModels
 
         private void ExecuteHomeTeacherCommand()
         {
-            System.Diagnostics.Debug.WriteLine("NavBarTeacherViewModel: HomeTeacherCommand executed. Setting MainViewModel.CurrentMainContentViewModel to DashboardViewModel.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_homeTeacherVm));
         }
 
         private void ExecuteLessonsTeacherCommand()
         {
-            System.Diagnostics.Debug.WriteLine("NavBarTeacherViewModel: LessonsTeacherCommand executed. Setting MainViewModel.CurrentMainContentViewModel to LessonsTeacherViewModel.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_lessonsTeacherViewModel));
         }
 
         private void ExecuteDiaryTeacherCommand()
         {
-            System.Diagnostics.Debug.WriteLine("NavBarTeacherViewModel: DiaryTeacherCommand executed. Setting MainViewModel.CurrentMainContentViewModel to DiaryTeacherViewModel.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_diaryTeacherViewModel));
         }
 

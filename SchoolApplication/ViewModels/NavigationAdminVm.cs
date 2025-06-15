@@ -56,43 +56,36 @@ namespace SchoolApplication.ViewModels
 
         private void ExecuteHomeAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: HomeAdminCommand executed. Sending NavigateMessage for HomeAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_homeAdminVm));
         }
 
         private void ExecuteLessonsAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: LessonsAdminCommand executed. Sending NavigateMessage for LessonsAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_lessonsAdminVm));
         }
 
         private void ExecuteDiaryAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: DiaryAdminCommand executed. Sending NavigateMessage for DiaryAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_diaryAdminVm));
         }
 
         private void ExecuteClassroomsAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: ClassroomsAdminCommand executed. Sending NavigateMessage for ClassroomsAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_classroomsAdminVm));
         }
 
         private void ExecuteSubjectAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: SubjectAdminCommand executed. Sending NavigateMessage for SubjectAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_subjectAdminVm));
         }
 
         private void ExecuteUsersAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: UsersAdminCommand executed. Sending NavigateMessage for UsersAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_usersAdminVm));
         }
 
         private void ExecuteGroupsAdminCommand()
         {
-            Debug.WriteLine("NavigationAdminVm: GroupsAdminCommand executed. Sending NavigateMessage for GroupsAdminVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_groupsAdminVm));
         }
     }

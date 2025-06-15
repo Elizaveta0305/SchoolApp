@@ -3,44 +3,16 @@
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\adminuc\\navbaradminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\adminuc\\navbaradminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\navigationadminvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\navigationadminvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\messages\\mapsmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:messages\\mapsmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\teachernavigationvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\teachernavigationvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\navbarteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\teacheruc\\navbarteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\navbarteacherview.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\teacheruc\\navbarteacherview.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\windows\\adminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\windows\\adminview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -63,94 +35,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NavBarAdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\AdminUC\\NavBarAdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-15T17:13:41.8Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "NavigationAdminVm.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\NavigationAdminVm.cs",
               "RelativeDocumentMoniker": "ViewModels\\NavigationAdminVm.cs",
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\NavigationAdminVm.cs",
               "RelativeToolTip": "ViewModels\\NavigationAdminVm.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAADwvwIAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T17:10:55.966Z",
+              "WhenOpened": "2025-06-15T19:11:25.325Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MapsMessage.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Messages\\MapsMessage.cs",
-              "RelativeDocumentMoniker": "Messages\\MapsMessage.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Messages\\MapsMessage.cs",
-              "RelativeToolTip": "Messages\\MapsMessage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T16:52:49.78Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TeacherNavigationVm.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\TeacherNavigationVm.cs",
-              "RelativeDocumentMoniker": "ViewModels\\TeacherNavigationVm.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\TeacherNavigationVm.cs",
-              "RelativeToolTip": "ViewModels\\TeacherNavigationVm.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAQwDMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T16:38:08.185Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "NavBarTeacherView.xaml.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml.cs",
-              "RelativeToolTip": "Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T16:36:50.881Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "NavBarTeacherView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml",
-              "RelativeToolTip": "Views\\UserControls\\TeacherUC\\NavBarTeacherView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-15T16:36:43.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AdminView.xaml",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\Windows\\AdminView.xaml",
-              "RelativeDocumentMoniker": "Views\\Windows\\AdminView.xaml",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\Windows\\AdminView.xaml",
-              "RelativeToolTip": "Views\\Windows\\AdminView.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-15T16:01:28.708Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
@@ -162,26 +59,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "App.xaml.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\App.xaml.cs",
-              "RelativeDocumentMoniker": "App.xaml.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\App.xaml.cs",
-              "RelativeToolTip": "App.xaml.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAUwIAAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T09:48:24.822Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\MainViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\MainViewModel.cs",
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\MainViewModel.cs",
               "RelativeToolTip": "ViewModels\\MainViewModel.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAQwJ0AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJ0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-14T10:48:14.98Z",
               "EditorCaption": ""
