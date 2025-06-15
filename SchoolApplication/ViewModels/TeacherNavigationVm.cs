@@ -1,16 +1,17 @@
-﻿using SchoolApplication.Utilities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SchoolApplication.Utilities;
+using SchoolApplication.ViewModels;
+using SchoolApplication.Views.UserControls.TeacherUC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SchoolApplication.ViewModels;
 using System.Windows.Input;
-using SchoolApplication.Views.UserControls.TeacherUC;
 
 namespace SchoolApplication.ViewModels
 {
-    public class TeacherNavigationVm : ViewModelBase
+    public class TeacherNavigationVm : ObservableObject
     {
         private object _currentView;
         public object CurrentView

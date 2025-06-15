@@ -1,17 +1,83 @@
 ﻿<Window x:Class="SchoolApplication.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:Menu="clr-namespace:SchoolApplication.Utilities"
-        mc:Ignorable="d"
-        Title="Основная" Height="800" Width="1440"
-        WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
-        Background="Transparent"
-        Foreground="{StaticResource MaterialDesignBody}"
-        >
+        xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
 
+        xmlns:views="clr-namespace:SchoolApplication.Views.Windows"
+
+        xmlns:adminUC="clr-namespace:SchoolApplication.Views.UserControls.AdminUC"
+        xmlns:studentUC="clr-namespace:SchoolApplication.Views.UserControls.StudentUC"
+        xmlns:teacherUC="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
+
+        mc:Ignorable="d"
+        Title="SchoolApplication" Height="800" Width="1090">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:HomeAdminVm}">
+            <adminUC:HomeAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ClassroomsAdminVm}">
+            <adminUC:ClassroomsAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DiaryAdminVm}">
+            <adminUC:DiaryAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GroupsAdminVm}">
+            <adminUC:GroupsAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LessonAdminVm}">
+            <adminUC:LessonsAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SubjectAdminVm}">
+            <adminUC:SubjectAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UsersAdminVm}">
+            <adminUC:UsersAdminView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:NavigationAdminVm}">
+            <adminUC:NavBarAdminView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:HomeVm}">
+            <studentUC:Home/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GradeVm}">
+            <studentUC:Grade/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LessonsVm}">
+            <studentUC:Lessons/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:NavigationVm}">
+            <studentUC:NavBarView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:HomeTeacherVm}">
+            <teacherUC:HomeTeacherView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DiaryTeacherVm}">
+            <teacherUC:DiaryTeacherView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LessonTeacherVm}">
+            <teacherUC:LessonTeacherView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TeacherNavigationVm}">
+            <teacherUC:NavBarTeacherView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ContentControl Grid.Column="0" Content="{Binding CurrentNavigationViewModel}" />
+
+        <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}" />
+    </Grid>
 </Window>

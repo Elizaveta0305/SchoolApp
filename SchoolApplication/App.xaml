@@ -5,8 +5,7 @@
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
              xmlns:views="clr-namespace:SchoolApplication.Views.UserControls.StudentUC"
              xmlns:local="clr-namespace:SchoolApplication"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             Startup="OnStartup">
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

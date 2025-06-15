@@ -20,7 +20,7 @@ namespace SchoolApplication.Views.Windows
     /// <summary>
     /// Логика взаимодействия для LoginView.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class LoginView : UserControl
     {
         public LoginView()
         {
@@ -55,7 +55,6 @@ namespace SchoolApplication.Views.Windows
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-            DragMove();
         }
     }
 }

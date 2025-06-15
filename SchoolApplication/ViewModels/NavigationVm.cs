@@ -1,10 +1,11 @@
-﻿using SchoolApplication.ViewModels;
-using System.Windows.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SchoolApplication.Utilities;
+using SchoolApplication.ViewModels;
+using System.Windows.Input;
 
 namespace SchoolApplication.ViewModels
 {
-     public class NavigationVm : ViewModelBase
+     public class NavigationVm : ObservableObject
     {
         private object _currentView;
         public object CurrentView

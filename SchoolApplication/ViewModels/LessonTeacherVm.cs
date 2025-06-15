@@ -1,4 +1,5 @@
-﻿using SchoolApplication.Views.UserControls.StudentUC;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SchoolApplication.Views.UserControls.StudentUC;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SchoolApplication.ViewModels
 {
-    public class LessonTeacherVm : INotifyPropertyChanged
+    public class LessonTeacherVm : ObservableObject
     {
 
         private ObservableCollection<Lesson> _lessonsCollection;
