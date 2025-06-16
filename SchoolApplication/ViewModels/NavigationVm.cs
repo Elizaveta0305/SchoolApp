@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using SchoolApplication.Messages;
 using System.Windows.Input;
 using System.Diagnostics;
+using SchoolApplication.Models;
+using System.Windows;
 
 namespace SchoolApplication.ViewModels
 {
@@ -16,6 +18,7 @@ namespace SchoolApplication.ViewModels
         public ICommand HomeCommand { get; }
         public ICommand LessonsCommand { get; }
         public ICommand GradeCommand { get; }
+        public ICommand ExitApplicationCommand { get; }
 
         public NavigationVm(HomeVm homeVm, LessonsVm lessonsVm, GradeVm gradeVm)
         {
@@ -26,6 +29,7 @@ namespace SchoolApplication.ViewModels
             HomeCommand = new RelayCommand(ExecuteHomeCommand);
             LessonsCommand = new RelayCommand(ExecuteLessonsCommand);
             GradeCommand = new RelayCommand(ExecuteGradeCommand);
+            ExitApplicationCommand = new RelayCommand(ExecuteExitApplicationCommand);
 
         }
 
@@ -45,6 +49,13 @@ namespace SchoolApplication.ViewModels
         {
             Debug.WriteLine("NavigationVm: GradeCommand executed. Sending NavigateMessage for GradeVm.");
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_gradeVm));
+        }
+        private void ExecuteExitApplicationCommand()
+        {
+            if (MessageBox.Show("Вы уверены, что хотите выйти?", "Подтверждение выхода", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+             {
+                 Application.Current.Shutdown();
+             }
         }
     }
 }

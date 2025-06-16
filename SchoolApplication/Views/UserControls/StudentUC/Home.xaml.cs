@@ -25,15 +25,5 @@ namespace SchoolApplication.Views.UserControls.StudentUC
         {
             InitializeComponent();
         }
-
-        private void StackPanel_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }

@@ -6330,6 +6330,7 @@
       "MaterialDesignThemes >= 5.2.1",
       "MaterialDesignThemes.MahApps >= 5.2.1",
       "Microsoft.EntityFrameworkCore >= 9.0.6",
+      "Microsoft.EntityFrameworkCore.Abstractions >= 9.0.6",
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.6",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.6",
       "Microsoft.Extensions.DependencyInjection >= 9.0.6",
@@ -6409,6 +6410,10 @@
             "version": "[5.2.1, )"
           },
           "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[9.0.6, )"
+          },
+          "Microsoft.EntityFrameworkCore.Abstractions": {
             "target": "Package",
             "version": "[9.0.6, )"
           },

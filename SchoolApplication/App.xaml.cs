@@ -26,7 +26,7 @@ namespace SchoolApplication
                 {
                     string connectionString = ConfigurationManager.ConnectionStrings["SchoolDbConnection"].ConnectionString;
 
-                    services.AddDbContext<ApplicationDbContext>(options =>
+                    services.AddDbContextFactory<ApplicationDbContext>(options =>
                     {
                         options.UseSqlServer(connectionString);
                     });
@@ -68,7 +68,7 @@ namespace SchoolApplication
                     // MainViewModel регистрируется ПОСЛЕ ВСЕХ своих зависимостей
                     services.AddSingleton<MainViewModel>();
 
-                    services.AddSingleton<LoginView>();
+                    //services.AddSingleton<LoginView>();
                     services.AddSingleton<MainWindow>();
                 })
                 .Build();
@@ -77,63 +77,6 @@ namespace SchoolApplication
         protected override async void OnStartup(StartupEventArgs e)
         {
             await _host.StartAsync();
-
-            using (var scope = _host.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                await dbContext.Database.MigrateAsync();
-
-                if (!await dbContext.Users.AnyAsync())
-                {
-                    var adminRole = await dbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == "Администратор");
-                    if (adminRole == null)
-                    {
-                        adminRole = new Role { RoleName = "Администратор" };
-                        dbContext.Roles.Add(adminRole);
-                    }
-
-                    var teacherRole = await dbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == "Преподаватель");
-                    if (teacherRole == null)
-                    {
-                        teacherRole = new Role { RoleName = "Преподаватель" };
-                        dbContext.Roles.Add(teacherRole);
-                    }
-
-                    var studentRole = await dbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == "Ученик");
-                    if (studentRole == null)
-                    {
-                        studentRole = new Role { RoleName = "Ученик" };
-                        dbContext.Roles.Add(studentRole);
-                    }
-
-                    await dbContext.SaveChangesAsync();
-
-                    dbContext.Users.Add(new User
-                    {
-                        Username = "admin",
-                        PasswordHash = "adminpass",
-                        RoleID = adminRole.RoleID,
-                        Role = adminRole
-                    });
-                    dbContext.Users.Add(new User
-                    {
-                        Username = "teacher",
-                        PasswordHash = "teacherpass",
-                        RoleID = teacherRole.RoleID,
-                        Role = teacherRole
-                    });
-                    dbContext.Users.Add(new User
-                    {
-                        Username = "student",
-                        PasswordHash = "studentpass",
-                        RoleID = studentRole.RoleID,
-                        Role = studentRole
-                    });
-
-                    await dbContext.SaveChangesAsync();
-                    Console.WriteLine("Тестовые пользователи добавлены (пароли не хэшированы).");
-                }
-            }
 
             var mainWindow = _host.Services.GetRequiredService<MainWindow>();
             var mainViewModel = _host.Services.GetRequiredService<MainViewModel>();

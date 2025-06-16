@@ -61,7 +61,7 @@
                 </Menu:Btn>
 
                 <Menu:Btn Style="{StaticResource BtnStyle}"
-                          >
+                          Command="{Binding ExitApplicationCommand}">
                     <Grid>
                         <WrapPanel>
                             <materialDesign:PackIcon Kind="ExitToApp" Foreground="White" VerticalAlignment="Center" Height="24" Width="24"/>
