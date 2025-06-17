@@ -24,7 +24,6 @@ namespace SchoolApplication.Views.UserControls.StudentUC
         public Grade()
         {
             InitializeComponent();
-            DataContext = new GradeVm();
         }
     }
 }

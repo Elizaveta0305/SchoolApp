@@ -80,6 +80,7 @@ namespace SchoolApplication.Models
 
         public string FormattedLessonDate => LessonDate.ToString("dd.MM.yyyy", CultureInfo.CurrentCulture);
         public string FormattedLessonTime => LessonTime.ToString(@"hh\:mm", CultureInfo.CurrentCulture);
+        public DateTime FullLessonDateTime { get; set; }
 
         public int LessonId { get; set; }
 

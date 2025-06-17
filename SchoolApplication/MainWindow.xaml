@@ -63,6 +63,7 @@
         <DataTemplate DataType="{x:Type vm:NavigationVm}">
             <studentUC:NavBarView/>
         </DataTemplate>
+        
         <DataTemplate DataType="{x:Type vm:HomeTeacherVm}">
             <teacherUC:HomeTeacherView/>
         </DataTemplate>

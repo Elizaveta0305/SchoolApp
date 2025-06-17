@@ -14,7 +14,7 @@ namespace SchoolApplication.Data
         public DbSet<StudyGroup> StudyGroups { get; set; } = null!;
         public DbSet<Classroom> Classrooms { get; set; } = null!;
         public DbSet<Lesson> Lessons { get; set; } = null!;
-        public DbSet<AcademicPerformance> AcademicPerformances { get; set; } = null!;
+        public DbSet<AcademicPerformance> AcademicPerformance { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -48,11 +48,10 @@ namespace SchoolApplication.Data
                 .HasForeignKey(ap => ap.StudentID)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Пользователи:
-            //  Пароли здесь хешируется! BCrypt
-            string adminPasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123");    // Пароль для admin123
-            string teacherPasswordHash = BCrypt.Net.BCrypt.HashPassword("teacher123"); // Пароль для teacher123
-            string studentPasswordHash = BCrypt.Net.BCrypt.HashPassword("student123"); // Пароль для student123
+            // Пользователи
+            string adminPasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123");
+            string teacherPasswordHash = BCrypt.Net.BCrypt.HashPassword("teacher123");
+            string studentPasswordHash = BCrypt.Net.BCrypt.HashPassword("student123");
 
             modelBuilder.Entity<User>().HasData(
                 new User { UserID = 4, FirstName = "Admin", LastName = "Admin", MiddleName = "Admin", BirthDate = new DateTime(2000, 1, 1), Email = "admin@school.com", Phone = "89531253412", RoleID = 1, GroupID = null, Username = "admin123", PasswordHash = adminPasswordHash },

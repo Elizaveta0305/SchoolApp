@@ -52,7 +52,7 @@ namespace SchoolApplication.Services
                 return false;
             }
 
-            // string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password); // Закомментируйте эту строку
+            // string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
             var newUser = new User
             {

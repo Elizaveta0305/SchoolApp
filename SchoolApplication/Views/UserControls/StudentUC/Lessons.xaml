@@ -134,7 +134,7 @@
                             <DataGridTextColumn Header="Кабинет" 
                                                 Binding="{Binding RoomNumber}" 
                                                 IsReadOnly="True"
-                                                Width="Auto">
+                                                Width="120">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Margin" Value="5"/>

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:lvc="clr-namespace:LiveCharts;assembly=LiveCharts"
              xmlns:studentUC="clr-namespace:SchoolApplication.Views.UserControls.StudentUC"
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
              mc:Ignorable="d" 
@@ -74,12 +73,13 @@
                 </Grid.ColumnDefinitions>
 
                 <materialDesign:ColorZone Grid.Column="0"
-                                              Mode="Custom"
-                                              Background="White"
-                                              Foreground="Black"
-                                              CornerRadius="15"
-                                              Padding="20"
-                                              Height="369">
+                                          Mode="Custom"
+                                          Background="White"
+                                          Foreground="Black"
+                                          CornerRadius="15"
+                                          Padding="20"
+                                          Width="500"
+                                          Height="369">
                     <StackPanel>
                         <DockPanel VerticalAlignment="Center">
                             <TextBlock Text="Ближайшие занятия"
@@ -93,7 +93,6 @@
                                     <StackPanel>
                                         <DockPanel Margin="0 15 0 0">
                                             <TextBlock Foreground="Gray"
-                                                       Width="Auto"
                                                        FontSize="12"
                                                        FontWeight="SemiBold">
                                                 <Run Text="{Binding FormattedLessonTime,Mode=OneWay}"/> <Bold Foreground="Black"> - <Run Text="{Binding SubjectName}"/></Bold>
@@ -101,14 +100,12 @@
 
                                             <TextBlock Text="{Binding TeacherFullName}"
                                                        FontSize="12"
-                                                       Width="Auto"
                                                        FontWeight="SemiBold"
                                                        HorizontalAlignment="Center"
                                                        Margin="70 0 0 0"/>
 
                                             <TextBlock Text="{Binding RoomNumber}"
                                                        FontSize="12"
-                                                       Width="Auto"
                                                        FontWeight="SemiBold"
                                                        HorizontalAlignment="Right"
                                                        Margin="30 0 0 0"/>
@@ -136,10 +133,10 @@
                                               Height="340"
                                               Margin="20 0 0 0">
                     <StackPanel>
-                        <TextBlock Text="Среднее количество пропусков"
+                        <TextBlock Text="Количество пропусков"
                                        FontSize="15"
                                        FontWeight="Bold"/>
-                        <studentUC:Chart Height="280"/>
+                        <!--<studentUC:Chart Height="280" DataContext="{Binding ChartVm}"/>-->
                     </StackPanel>
                 </materialDesign:ColorZone>
 

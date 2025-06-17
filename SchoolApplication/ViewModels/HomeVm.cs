@@ -15,7 +15,7 @@ namespace SchoolApplication.ViewModels
 {
     public partial class HomeVm : ObservableObject, IRecipient<UserAuthenticatedMessage>
     {
-        private string _welcomeMessage;
+        private string _welcomeMessage = "Добро пожаловать!";
         public string WelcomeMessage
         {
             get => _welcomeMessage;
@@ -28,11 +28,13 @@ namespace SchoolApplication.ViewModels
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
         private User? _currentUser;
 
+        public ChartVm ChartViewModel { get; } = new ChartVm();
+
         public HomeVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
-            WelcomeMessage = "Добро пожаловать!";
+            ChartViewModel.SetGaugeValue(0);
         }
 
         public async void Receive(UserAuthenticatedMessage message)
@@ -40,30 +42,24 @@ namespace SchoolApplication.ViewModels
             if (message?.Value != null)
             {
                 _currentUser = message.Value;
-                WelcomeMessage = $"Рады вас видеть, {_currentUser.FirstName}!";
-                await LoadUpcomingLessons();
+                await LoadAllHomeData();
             }
             else
             {
                 _currentUser = null;
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
+                ChartViewModel.SetGaugeValue(0);
             }
         }
 
-        [RelayCommand]
-        public async Task LoadUpcomingLessons()
+        private async Task LoadAllHomeData()
         {
-
             if (_currentUser == null)
             {
+                WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                return;
-            }
-
-            if (_currentUser.GroupID == null)
-            {
-                UpcomingLessons.Clear();
+                ChartViewModel.SetGaugeValue(0);
                 return;
             }
 
@@ -71,53 +67,108 @@ namespace SchoolApplication.ViewModels
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    var now = DateTime.Now;
+                    var student = await dbContext.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.UserID == _currentUser.UserID);
 
-                    var allGroupLessons = await dbContext.Lessons
-                        .Include(l => l.StudyGroup)
-                            .ThenInclude(sg => sg.Subject)
-                        .Include(l => l.StudyGroup)
-                            .ThenInclude(sg => sg.Teacher)
-                        .Include(l => l.Classroom)
-                        .Where(l => l.StudyGroup != null && l.StudyGroup.GroupID == _currentUser.GroupID)
-                        .ToListAsync();
-
-
-                    var upcoming = allGroupLessons
-                        .Where(l => l.LessonDate.Add(l.LessonTime) > now)
-                        .OrderBy(l => l.LessonDate)
-                        .ThenBy(l => l.LessonTime)
-                        .Take(4)
-                        .ToList();
-
-
-                    UpcomingLessons.Clear();
-                    if (upcoming.Any())
+                    if (student != null)
                     {
-                        foreach (var lesson in upcoming)
+                        WelcomeMessage = $"Рады вас видеть, {student.FirstName}!";
+                        if (_currentUser.GroupID == null && student.GroupID != null)
                         {
-                            UpcomingLessons.Add(new LessonDisplayModel
-                            {
-                                LessonId = lesson.LessonID,
-                                SubjectName = lesson.StudyGroup?.Subject?.SubjectName ?? "Неизвестный предмет",
-                                TeacherFullName = lesson.StudyGroup?.Teacher != null
-                                    ? $"{lesson.StudyGroup.Teacher.LastName} {lesson.StudyGroup.Teacher.FirstName[0]}.{(string.IsNullOrEmpty(lesson.StudyGroup.Teacher.MiddleName) ? "" : lesson.StudyGroup.Teacher.MiddleName[0] + ".")}"
-                                    : "Неизвестный преподаватель",
-                                RoomNumber = lesson.Classroom?.RoomNumber ?? "Н/Д",
-                                LessonDate = DateOnly.FromDateTime(lesson.LessonDate),
-                                LessonTime = lesson.LessonTime
-                            });
+                            _currentUser.GroupID = student.GroupID;
                         }
                     }
                     else
                     {
-                        Debug.WriteLine("Нет предстоящих занятий для отображения.");
+                        WelcomeMessage = "Добро пожаловать!";
+                    }
+
+                    await LoadUpcomingLessonsInternal(dbContext);
+                    await LoadAbsencesData(dbContext);
+                }
+            }
+            catch (Exception)
+            {
+                WelcomeMessage = "Добро пожаловать!";
+                UpcomingLessons.Clear();
+                ChartViewModel.SetGaugeValue(0);
+            }
+        }
+
+        private async Task LoadUpcomingLessonsInternal(ApplicationDbContext dbContext)
+        {
+            UpcomingLessons.Clear();
+
+            if (_currentUser?.GroupID == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var now = DateTime.Now;
+
+                var query = dbContext.Lessons
+                    .Include(l => l.StudyGroup)
+                        .ThenInclude(sg => sg!.Subject)
+                    .Include(l => l.StudyGroup)
+                        .ThenInclude(sg => sg!.Teacher)
+                    .Include(l => l.Classroom)
+                    .Where(l => l.StudyGroup!.GroupID == _currentUser.GroupID);
+
+                var lessonsFromDb = await query.ToListAsync();
+
+                var upcoming = lessonsFromDb
+                    .Select(l => new LessonDisplayModel
+                    {
+                        LessonId = l.LessonID,
+                        SubjectName = l.StudyGroup?.Subject?.SubjectName ?? "Неизвестный предмет",
+                        TeacherFullName = l.StudyGroup?.Teacher != null
+                            ? $"{l.StudyGroup.Teacher.LastName} {l.StudyGroup.Teacher.FirstName[0]}.{(string.IsNullOrEmpty(l.StudyGroup.Teacher.MiddleName) ? "" : l.StudyGroup.Teacher.MiddleName[0] + ".")}"
+                            : "Неизвестный преподаватель",
+                        RoomNumber = l.Classroom?.RoomNumber ?? "Н/Д",
+                        LessonDate = DateOnly.FromDateTime(l.LessonDate),
+                        LessonTime = l.LessonTime,
+                        FullLessonDateTime = l.LessonDate.Add(l.LessonTime)
+                    })
+                    .Where(ldm => ldm.FullLessonDateTime > now)
+                    .OrderBy(ldm => ldm.FullLessonDateTime)
+                    .Take(4)
+                    .ToList();
+
+                if (upcoming.Any())
+                {
+                    foreach (var lesson in upcoming)
+                    {
+                        UpcomingLessons.Add(lesson);
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine($"Ошибка при загрузке ближайших уроков: {ex.Message}");
+                
+            }
+        }
+
+        private async Task LoadAbsencesData(ApplicationDbContext dbContext)
+        {
+            if (_currentUser == null)
+            {
+                ChartViewModel.SetGaugeValue(0);
+                return;
+            }
+
+            try
+            {
+                var absencesCount = await dbContext.AcademicPerformance
+                    .Where(ap => ap.StudentID == _currentUser.UserID && ap.Attendance == false)
+                    .CountAsync();
+                ChartViewModel.SetGaugeValue(absencesCount);
+            }
+            catch (Exception)
+            {
+                ChartViewModel.SetGaugeValue(0);
             }
         }
     }

@@ -5,16 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:lvc="clr-namespace:LiveCharts;assembly=LiveCharts"
+
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
              xmlns:charts="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1090"
              Background="Transparent">
 
-    <UserControl.DataContext>
-        <vm:HomeTeacherVm/>
-    </UserControl.DataContext>
+
 
     <materialDesign:Card Margin="20" 
                          Background="White" 
@@ -220,7 +218,7 @@
                         <TextBlock Text="Количество студентов"
                                FontSize="15"
                                FontWeight="Bold"/>
-                        <charts:LiveChartTeacherUsers Height="240"/>
+                        <!--<charts:LiveChartTeacherUsers Height="240"/>-->
                     </StackPanel>
                 </materialDesign:ColorZone>
 
