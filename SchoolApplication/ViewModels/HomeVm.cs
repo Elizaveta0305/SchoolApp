@@ -34,7 +34,7 @@ namespace SchoolApplication.ViewModels
         {
             _dbContextFactory = dbContextFactory;
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
-            ChartViewModel.SetGaugeValue(0);
+            //ChartViewModel.SetGaugeValue(0);
         }
 
         public async void Receive(UserAuthenticatedMessage message)
@@ -49,7 +49,7 @@ namespace SchoolApplication.ViewModels
                 _currentUser = null;
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                ChartViewModel.SetGaugeValue(0);
+                //ChartViewModel.SetGaugeValue(0);
             }
         }
 
@@ -59,7 +59,7 @@ namespace SchoolApplication.ViewModels
             {
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                ChartViewModel.SetGaugeValue(0);
+                //ChartViewModel.SetGaugeValue(0);
                 return;
             }
 
@@ -92,7 +92,7 @@ namespace SchoolApplication.ViewModels
             {
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                ChartViewModel.SetGaugeValue(0);
+                //ChartViewModel.SetGaugeValue(0);
             }
         }
 
@@ -155,7 +155,7 @@ namespace SchoolApplication.ViewModels
         {
             if (_currentUser == null)
             {
-                ChartViewModel.SetGaugeValue(0);
+                //ChartViewModel.SetGaugeValue(0);
                 return;
             }
 
@@ -164,11 +164,11 @@ namespace SchoolApplication.ViewModels
                 var absencesCount = await dbContext.AcademicPerformance
                     .Where(ap => ap.StudentID == _currentUser.UserID && ap.Attendance == false)
                     .CountAsync();
-                ChartViewModel.SetGaugeValue(absencesCount);
+                //ChartViewModel.SetGaugeValue(absencesCount);
             }
             catch (Exception)
             {
-                ChartViewModel.SetGaugeValue(0);
+                //ChartViewModel.SetGaugeValue(0);
             }
         }
     }

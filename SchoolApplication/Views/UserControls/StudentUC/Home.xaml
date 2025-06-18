@@ -136,7 +136,7 @@
                         <TextBlock Text="Количество пропусков"
                                        FontSize="15"
                                        FontWeight="Bold"/>
-                        <!--<studentUC:Chart Height="280" DataContext="{Binding ChartVm}"/>-->
+                        <studentUC:Chart Height="280"/>
                     </StackPanel>
                 </materialDesign:ColorZone>
 

@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SchoolApplication.ViewModels;
+using ScottPlot;
+using System.ComponentModel;
+using ScottPlot.Palettes;
+using ScottPlot.Colormaps;
+using ScottPlot.Stylers;
+using ScottPlot.Plottables;
 
 namespace SchoolApplication.Views.UserControls.StudentUC
 {
-    /// <summary>
-    /// Логика взаимодействия для Chart.xaml
-    /// </summary>
     public partial class Chart : UserControl
     {
+
         public Chart()
         {
             InitializeComponent();
+
+            double[] values = [10];
+            GaugePlot.Plot.Add.RadialGaugePlot(values);
+
+            GaugePlot.Refresh();
         }
+
     }
 }
