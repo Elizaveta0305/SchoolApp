@@ -73,7 +73,6 @@ namespace SchoolApplication.ViewModels
                 AverageGradeValue = 0.0;
                 AverageGradeDisplayText = "0.00";
                 AcademicYear = "Неизвестно";
-                Debug.WriteLine("Получено пустое сообщение UserAuthenticatedMessage. Пользователь не аутентифицирован.");
             }
         }
 
@@ -106,9 +105,7 @@ namespace SchoolApplication.ViewModels
                         if (_currentUser.GroupID == null && student.GroupID != null)
                         {
                             _currentUser.GroupID = student.GroupID;
-                            Debug.WriteLine($"GroupID пользователя был null, установлен на: {_currentUser.GroupID}");
                         }
-                        Debug.WriteLine($"Пользователь найден: {student.FirstName}, GroupID: {student.GroupID}");
                     }
                     else
                     {

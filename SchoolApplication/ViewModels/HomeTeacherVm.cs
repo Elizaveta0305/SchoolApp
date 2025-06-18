@@ -5,6 +5,9 @@ using SchoolApplication.Data;
 using SchoolApplication.Messages;
 using SchoolApplication.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System;
+using System.Diagnostics;
 
 namespace SchoolApplication.ViewModels
 {
@@ -16,6 +19,22 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private ObservableCollection<LessonDisplayModel> _upcomingLessons = new ObservableCollection<LessonDisplayModel>();
 
+        [ObservableProperty]
+        private int _currentStudentCount;
+
+        [ObservableProperty]
+        private double _averageGradeValue;
+        public string AverageGradeDisplayText => AverageGradeValue.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
+        [ObservableProperty]
+        private int _conductedLessonsCount;
+
+        [ObservableProperty]
+        private int _totalLessonsInAcademicYear;
+
+        public string ConductedLessonsDisplayText => TotalLessonsInAcademicYear > 0 ? $"{ConductedLessonsCount} из {TotalLessonsInAcademicYear} ({((double)ConductedLessonsCount * 100 / TotalLessonsInAcademicYear).ToString("F0")}%)" : "0 занятий";
+
+
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
 
         private User? _currentTeacher;
@@ -25,6 +44,7 @@ namespace SchoolApplication.ViewModels
             _dbContextFactory = dbContextFactory;
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
         }
+
         public async void Receive(UserAuthenticatedMessage message)
         {
             if (message?.Value != null)
@@ -37,8 +57,13 @@ namespace SchoolApplication.ViewModels
                 _currentTeacher = null;
                 CurrentTeacherFullName = "Неизвестный";
                 UpcomingLessons.Clear();
+                CurrentStudentCount = 0;
+                AverageGradeValue = 0;
+                ConductedLessonsCount = 0;
+                TotalLessonsInAcademicYear = 0;
             }
         }
+
         private async Task LoadAllTeacherHomeData()
         {
             if (_currentTeacher == null)
@@ -48,17 +73,14 @@ namespace SchoolApplication.ViewModels
             }
 
             try
-
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
-
                 {
                     var teacher = await dbContext.Users
-                      .AsNoTracking()
-                      .FirstOrDefaultAsync(u => u.UserID == _currentTeacher.UserID);
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.UserID == _currentTeacher.UserID);
 
                     if (teacher != null)
-
                     {
                         CurrentTeacherFullName = $"{teacher.FirstName} {teacher.MiddleName}";
                         var now = DateTime.Now;
@@ -102,20 +124,110 @@ namespace SchoolApplication.ViewModels
                                 FullLessonDateTime = lesson.LessonDate.Add(lesson.LessonTime)
                             });
                         }
+
+                        var teacherGroupIds = await dbContext.StudyGroups
+                            .Where(sg => sg.TeacherID == _currentTeacher.UserID)
+                            .Select(sg => sg.GroupID)
+                            .Distinct()
+                            .ToListAsync();
+
+                        CurrentStudentCount = await dbContext.Users
+                            .Where(u => u.RoleID == 3 && u.GroupID.HasValue && teacherGroupIds.Contains(u.GroupID.Value))
+                            .CountAsync();
+
+                        var stringGrades = await dbContext.AcademicPerformance
+                            .Where(ap => ap.Grade != null && ap.Grade != "")
+                            .Select(ap => ap.Grade)
+                            .ToListAsync();
+
+                        var numericGrades = new List<double>();
+
+                        foreach (var gradeStr in stringGrades)
+                        {
+                            double gradeValue;
+                            bool parsed = false;
+
+                            if (double.TryParse(gradeStr, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out gradeValue))
+                            {
+                                numericGrades.Add(gradeValue);
+                                parsed = true;
+                            }
+                            else
+                            {
+                                if (double.TryParse(gradeStr, System.Globalization.NumberStyles.Any, new System.Globalization.CultureInfo("ru-RU"), out gradeValue))
+                                {
+                                    numericGrades.Add(gradeValue);
+                                    parsed = true;
+                                }
+                            }
+                        }
+
+                        if (numericGrades.Any())
+                        {
+                            AverageGradeValue = numericGrades.Average();
+                            OnPropertyChanged(nameof(AverageGradeDisplayText));
+                        }
+                        else
+                        {
+                            AverageGradeValue = 0;
+                            OnPropertyChanged(nameof(AverageGradeDisplayText));
+                        }
+
+                        DateTime academicYearStart;
+                        DateTime academicYearEnd;
+
+                        if (now.Month >= 9)
+                        {
+                            academicYearStart = new DateTime(now.Year, 9, 1);
+                            academicYearEnd = new DateTime(now.Year + 1, 8, 31).AddDays(1).AddTicks(-1);
+                        }
+                        else
+                        {
+                            academicYearStart = new DateTime(now.Year - 1, 9, 1);
+                            academicYearEnd = new DateTime(now.Year, 8, 31).AddDays(1).AddTicks(-1);
+                        }
+
+                        var allLessonsInYear = await dbContext.Lessons
+                            .Where(l => l.StudyGroup != null && l.StudyGroup.TeacherID == _currentTeacher.UserID)
+                            .Where(l => l.LessonDate >= academicYearStart && l.LessonDate <= academicYearEnd)
+                            .ToListAsync();
+
+                        TotalLessonsInAcademicYear = allLessonsInYear.Count;
+
+                        ConductedLessonsCount = allLessonsInYear
+                            .Where(l => l.LessonDate.Add(l.LessonTime) < now)
+                            .Count();
+
+                        OnPropertyChanged(nameof(ConductedLessonsDisplayText));
+
+                        if (TotalLessonsInAcademicYear == 0)
+                        {
+                            TotalLessonsInAcademicYear = ConductedLessonsCount > 0 ? ConductedLessonsCount : 1;
+                            OnPropertyChanged(nameof(TotalLessonsInAcademicYear));
+                            OnPropertyChanged(nameof(ConductedLessonsDisplayText));
+                        }
+
                     }
                     else
                     {
                         CurrentTeacherFullName = "Неизвестный";
                         UpcomingLessons.Clear();
+                        CurrentStudentCount = 0;
+                        AverageGradeValue = 0;
+                        ConductedLessonsCount = 0;
+                        TotalLessonsInAcademicYear = 0;
                     }
                 }
             }
             catch (Exception ex)
-
             {
-                Console.WriteLine($"Ошибка при загрузке данных: {ex.Message}");
+                Debug.WriteLine($"Ошибка при загрузке данных: {ex.Message}");
                 CurrentTeacherFullName = "Неизвестный";
                 UpcomingLessons.Clear();
+                CurrentStudentCount = 0;
+                AverageGradeValue = 0;
+                ConductedLessonsCount = 0;
+                TotalLessonsInAcademicYear = 0;
             }
         }
     }

@@ -47,18 +47,6 @@ namespace SchoolApplication.Data
                 .WithMany(u => u.AcademicPerformanceAsStudent) 
                 .HasForeignKey(ap => ap.StudentID)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            // Пользователи
-            string adminPasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123");
-            string teacherPasswordHash = BCrypt.Net.BCrypt.HashPassword("teacher123");
-            string studentPasswordHash = BCrypt.Net.BCrypt.HashPassword("student123");
-
-            modelBuilder.Entity<User>().HasData(
-                new User { UserID = 4, FirstName = "Admin", LastName = "Admin", MiddleName = "Admin", BirthDate = new DateTime(2000, 1, 1), Email = "admin@school.com", Phone = "89531253412", RoleID = 1, GroupID = null, Username = "admin123", PasswordHash = adminPasswordHash },
-                new User { UserID = 5, FirstName = "Мария", LastName = "Петрова", MiddleName = "Сергеевна", BirthDate = new DateTime(1990, 5, 10), Email = "teacher@school.com", Phone = "89425674323", RoleID = 2, GroupID = null, Username = "teacher123", PasswordHash = teacherPasswordHash },
-                new User { UserID = 6, FirstName = "Алексей", LastName = "Сидоров", MiddleName = "Павлович", BirthDate = new DateTime(2005, 9, 15), Email = "student1@school.com", Phone = "89357454512", RoleID = 3, GroupID = 1, Username = "student123", PasswordHash = studentPasswordHash },
-                new User { UserID = 7, FirstName = "Елена", LastName = "Кузнецова", MiddleName = "Дмитриевна", BirthDate = new DateTime(2006, 3, 20), Email = "student2@school.com", Phone = "89046492495", RoleID = 3, GroupID = 2, Username = "student234", PasswordHash = studentPasswordHash }
-            );
         }
     }
 }
