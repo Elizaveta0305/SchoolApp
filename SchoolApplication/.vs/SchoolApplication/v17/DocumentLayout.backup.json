@@ -11,12 +11,12 @@
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\homevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\lessondisplaymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\lessondisplaymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\lessondisplaymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\lessondisplaymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\hometeacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -33,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\lessons.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\lessons.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\studygroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\studygroup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -80,14 +76,14 @@
               "RelativeDocumentMoniker": "ViewModels\\HomeVm.cs",
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\HomeVm.cs",
               "RelativeToolTip": "ViewModels\\HomeVm.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAKkAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAOoAAAAAAAAAAAAQwH4AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T17:50:43.763Z",
+              "WhenOpened": "2025-06-18T19:06:19.245Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\App.xaml.cs",
               "RelativeDocumentMoniker": "App.xaml.cs",
@@ -112,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "LessonDisplayModel.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\LessonDisplayModel.cs",
               "RelativeDocumentMoniker": "Models\\LessonDisplayModel.cs",
@@ -120,8 +116,7 @@
               "RelativeToolTip": "Models\\LessonDisplayModel.cs",
               "ViewState": "AgIAAEoAAAAAAAAAAAAYwGsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:59:11.724Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-18T10:59:11.724Z"
             },
             {
               "$type": "Document",
@@ -134,18 +129,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-18T10:58:27.547Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "StudyGroup.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\StudyGroup.cs",
-              "RelativeDocumentMoniker": "Models\\StudyGroup.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\StudyGroup.cs",
-              "RelativeToolTip": "Models\\StudyGroup.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAcwB8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T10:55:20.096Z"
             },
             {
               "$type": "Document",
@@ -168,12 +151,11 @@
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\HomeTeacherView.xaml",
               "RelativeToolTip": "Views\\UserControls\\TeacherUC\\HomeTeacherView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-18T10:41:07.132Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-18T10:41:07.132Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",

@@ -82,7 +82,7 @@
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
                               CanUserReorderColumns="False"
-                              CanUserResizeColumns="True"
+                              CanUserResizeColumns="False"
                               CanUserResizeRows="False"
                               CanUserSortColumns="True">
                         <DataGrid.Columns>

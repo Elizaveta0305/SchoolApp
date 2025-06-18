@@ -8,6 +8,7 @@ using SchoolApplication.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,13 +29,30 @@ namespace SchoolApplication.ViewModels
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
         private User? _currentUser;
 
-        public ChartVm ChartViewModel { get; } = new ChartVm();
+        [ObservableProperty]
+        private int _absencesCount;
+
+        public const double MaxAbsencesValue = 30.0;
+
+        [ObservableProperty]
+        private string _absencesDisplayText = "0 / 30";
+
+        [ObservableProperty]
+        private int _subjectsCount;
+
+        [ObservableProperty]
+        private double _averageGradeValue;
+
+        [ObservableProperty]
+        private string _averageGradeDisplayText = "0.00";
+
+        [ObservableProperty]
+        private string _academicYear = "Неизвестно";
 
         public HomeVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
-            //ChartViewModel.SetGaugeValue(0);
         }
 
         public async void Receive(UserAuthenticatedMessage message)
@@ -49,7 +67,13 @@ namespace SchoolApplication.ViewModels
                 _currentUser = null;
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                //ChartViewModel.SetGaugeValue(0);
+                AbsencesCount = 0;
+                AbsencesDisplayText = "0 / 30";
+                SubjectsCount = 0;
+                AverageGradeValue = 0.0;
+                AverageGradeDisplayText = "0.00";
+                AcademicYear = "Неизвестно";
+                Debug.WriteLine("Получено пустое сообщение UserAuthenticatedMessage. Пользователь не аутентифицирован.");
             }
         }
 
@@ -59,7 +83,12 @@ namespace SchoolApplication.ViewModels
             {
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                //ChartViewModel.SetGaugeValue(0);
+                AbsencesCount = 0;
+                AbsencesDisplayText = "0 / 30";
+                SubjectsCount = 0;
+                AverageGradeValue = 0.0;
+                AverageGradeDisplayText = "0.00";
+                AcademicYear = "Неизвестно";
                 return;
             }
 
@@ -77,7 +106,9 @@ namespace SchoolApplication.ViewModels
                         if (_currentUser.GroupID == null && student.GroupID != null)
                         {
                             _currentUser.GroupID = student.GroupID;
+                            Debug.WriteLine($"GroupID пользователя был null, установлен на: {_currentUser.GroupID}");
                         }
+                        Debug.WriteLine($"Пользователь найден: {student.FirstName}, GroupID: {student.GroupID}");
                     }
                     else
                     {
@@ -85,14 +116,20 @@ namespace SchoolApplication.ViewModels
                     }
 
                     await LoadUpcomingLessonsInternal(dbContext);
-                    await LoadAbsencesData(dbContext);
+                    await LoadAnalyticsData(dbContext);
                 }
             }
             catch (Exception)
             {
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
-                //ChartViewModel.SetGaugeValue(0);
+                AbsencesCount = 0;
+                AbsencesDisplayText = "0 / 30";
+                SubjectsCount = 0;
+                AverageGradeValue = 0.0;
+                AverageGradeDisplayText = "0.00";
+                AcademicYear = "Ошибка загрузки";
+
             }
         }
 
@@ -151,24 +188,73 @@ namespace SchoolApplication.ViewModels
             }
         }
 
-        private async Task LoadAbsencesData(ApplicationDbContext dbContext)
+        private async Task LoadAnalyticsData(ApplicationDbContext dbContext)
         {
-            if (_currentUser == null)
+            if (_currentUser == null || _currentUser.GroupID == null)
             {
-                //ChartViewModel.SetGaugeValue(0);
+                AbsencesCount = 0;
+                AbsencesDisplayText = "0 / 30";
+                SubjectsCount = 0;
+                AverageGradeValue = 0.0;
+                AverageGradeDisplayText = "0.00";
+                AcademicYear = "Неизвестно";
                 return;
             }
 
             try
             {
-                var absencesCount = await dbContext.AcademicPerformance
+                var absences = await dbContext.AcademicPerformance
                     .Where(ap => ap.StudentID == _currentUser.UserID && ap.Attendance == false)
                     .CountAsync();
-                //ChartViewModel.SetGaugeValue(absencesCount);
+                AbsencesCount = (int)Math.Min(absences, MaxAbsencesValue);
+                AbsencesDisplayText = $"{absences} / {MaxAbsencesValue}";
+
+                var subjectsCount = await dbContext.StudyGroups
+                    .Where(sg => sg.GroupID == _currentUser.GroupID)
+                    .Select(sg => sg.SubjectID)
+                    .Distinct()
+                    .CountAsync();
+                SubjectsCount = subjectsCount;
+
+                var studentGradesQuery = dbContext.AcademicPerformance
+                    .Where(ap => ap.StudentID == _currentUser.UserID &&
+                                 !string.IsNullOrEmpty(ap.Grade));
+
+                var gradeStrings = await studentGradesQuery
+                    .Select(ap => ap.Grade)
+                    .ToListAsync();
+
+                var validGrades = new List<double>();
+
+                foreach (var gradeStr in gradeStrings)
+                {
+                    if (double.TryParse(gradeStr, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double gradeValue))
+                    {
+                        validGrades.Add(gradeValue);
+                    }
+                }
+
+                if (validGrades.Any())
+                {
+                    double averageGrade = validGrades.Average();
+                    AverageGradeValue = averageGrade;
+                    AverageGradeDisplayText = averageGrade.ToString("F2");
+                }
+                else
+                {
+                    AverageGradeValue = 0.0;
+                    AverageGradeDisplayText = "Н/Д";
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //ChartViewModel.SetGaugeValue(0);
+                Debug.WriteLine($"Error: {ex.Message}");
+                AbsencesCount = 0;
+                AbsencesDisplayText = "0 / 30";
+                SubjectsCount = 0;
+                AverageGradeValue = 0.0;
+                AverageGradeDisplayText = "0.00";
+                AcademicYear = "Ошибка загрузки";
             }
         }
     }

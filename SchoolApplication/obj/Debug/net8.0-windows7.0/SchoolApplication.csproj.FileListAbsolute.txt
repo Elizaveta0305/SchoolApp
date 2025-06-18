@@ -29,7 +29,6 @@ D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\SchoolApplication
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\GeneratedInternalTypeHelper.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\SchoolApplication_MarkupCompile.cache
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\SchoolApplication_MarkupCompile.lref
-D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\StudentUC\Chart.g.cs
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net8.0-windows7.0\Images\HomeSt.png
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net8.0-windows7.0\Images\LessonImg.png
 D:\App\SchoolApp\SchoolApplication\bin\Debug\net8.0-windows7.0\Images\Logo.png
@@ -246,7 +245,6 @@ D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControl
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\AdminUC\NavBarAdminView.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\AdminUC\SubjectAdminView.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\AdminUC\UsersAdminView.baml
-D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\StudentUC\Chart.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\StudentUC\Grade.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\StudentUC\Home.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\StudentUC\Lessons.baml

@@ -26,9 +26,6 @@
     <Compile Update="Views\UserControls\AdminUC\UsersAdminView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\UserControls\StudentUC\Chart.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\UserControls\StudentUC\Grade.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
