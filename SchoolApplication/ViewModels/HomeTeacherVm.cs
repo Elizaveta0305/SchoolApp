@@ -23,7 +23,6 @@ namespace SchoolApplication.ViewModels
         public HomeTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
-
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
         }
         public async void Receive(UserAuthenticatedMessage message)
@@ -37,6 +36,7 @@ namespace SchoolApplication.ViewModels
             {
                 _currentTeacher = null;
                 CurrentTeacherFullName = "Неизвестный";
+                UpcomingLessons.Clear();
             }
         }
         private async Task LoadAllTeacherHomeData()
@@ -61,17 +61,61 @@ namespace SchoolApplication.ViewModels
 
                     {
                         CurrentTeacherFullName = $"{teacher.FirstName} {teacher.MiddleName}";
+                        var now = DateTime.Now;
+                        var today = DateOnly.FromDateTime(now);
+                        var currentTime = now.TimeOfDay;
+
+                        var lessons = await dbContext.Lessons
+                            .Include(l => l.StudyGroup)
+                                .ThenInclude(sg => sg.Subject)
+                            .Include(l => l.StudyGroup)
+                                .ThenInclude(sg => sg.Group)
+                            .Include(l => l.StudyGroup)
+                                .ThenInclude(sg => sg.Teacher)
+                            .Include(l => l.Classroom)
+                            .AsNoTracking()
+                            .Where(l => l.StudyGroup != null && l.StudyGroup.TeacherID == _currentTeacher.UserID)
+                            .Where(l => DateOnly.FromDateTime(l.LessonDate) >= today)
+                            .OrderBy(l => l.LessonDate)
+                            .ThenBy(l => l.LessonTime)
+                            .Take(5)
+                            .ToListAsync();
+
+                        UpcomingLessons.Clear();
+
+                        foreach (var lesson in lessons)
+                        {
+                            if (DateOnly.FromDateTime(lesson.LessonDate) == today && lesson.LessonTime < currentTime)
+                            {
+                                continue;
+                            }
+
+                            UpcomingLessons.Add(new LessonDisplayModel
+                            {
+                                LessonId = lesson.LessonID,
+                                SubjectName = lesson.StudyGroup?.Subject?.SubjectName ?? "N/A",
+                                TeacherFullName = $"{lesson.StudyGroup?.Teacher?.FirstName} {lesson.StudyGroup?.Teacher?.MiddleName}" ?? "N/A",
+                                RoomNumber = lesson.Classroom?.RoomNumber ?? "N/A",
+                                LessonDate = DateOnly.FromDateTime(lesson.LessonDate),
+                                LessonTime = lesson.LessonTime,
+                                GroupName = lesson.StudyGroup?.Group?.GroupName ?? "N/A",
+                                FullLessonDateTime = lesson.LessonDate.Add(lesson.LessonTime)
+                            });
+                        }
                     }
                     else
                     {
                         CurrentTeacherFullName = "Неизвестный";
+                        UpcomingLessons.Clear();
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
 
             {
+                Console.WriteLine($"Ошибка при загрузке данных: {ex.Message}");
                 CurrentTeacherFullName = "Неизвестный";
+                UpcomingLessons.Clear();
             }
         }
     }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:views="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
+             xmlns:models="clr-namespace:SchoolApplication.Models"
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
              xmlns:charts="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
              mc:Ignorable="d" 
@@ -78,132 +78,57 @@
 
 
                 <materialDesign:ColorZone Grid.Column="1"
-                                      Mode="Custom"
-                                      Background="White"
-                                      Foreground="Black"
-                                      CornerRadius="15"
-                                      Padding="20"
-                                      Height="300">
+                                          Mode="Custom"
+                                          Background="White"
+                                          Foreground="Black"
+                                          CornerRadius="15"
+                                          Padding="20"
+                                          Height="300">
                     <StackPanel>
                         <DockPanel VerticalAlignment="Center">
                             <TextBlock Text="Ближайшие занятия"
-                               FontWeight="Bold"
-                               FontSize="15"/>
-                            <TextBlock Text="Смотреть"
-                               VerticalAlignment="Center"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               Margin="272 0 10 0"/>
-                            <materialDesign:PackIcon Kind="ArrowRight" 
-                                                 DockPanel.Dock="Right" 
-                                                 VerticalAlignment="Center"/>
+                                       FontWeight="Bold"
+                                       FontSize="15"/>
                         </DockPanel>
 
-                        <DockPanel Margin="0 30 0 0">
-                            <TextBlock Foreground="Gray"
-                               FontSize="12"
-                               FontWeight="SemiBold">
-                        <Bold Foreground="Black">Занятие 1</Bold>
-                            - 3d дизайн
-                            </TextBlock>
+                        <ItemsControl ItemsSource="{Binding UpcomingLessons}" Margin="0 15 0 0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:LessonDisplayModel}">
+                                    <StackPanel>
+                                        <DockPanel Margin="0 15 0 0">
+                                            <TextBlock Foreground="Gray"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold">
+                                                <Bold Foreground="Black">
+                                                    <TextBlock Text="{Binding FormattedLessonDate}"/> <TextBlock Text="{Binding FormattedLessonTime}"/>
+                                                </Bold>
+                                                <TextBlock Text="{Binding SubjectName, StringFormat=' - {0}'}"/>
+                                            </TextBlock>
 
-                            <TextBlock Text="Группа 1-М"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="70 0 0 0"
-                                   HorizontalAlignment="Center"
-                                   />
-
-                            <TextBlock Text="305"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               Margin="10 0 0 0"
-                               HorizontalAlignment="Right"/>
-
-                        </DockPanel>
-
-                        <Separator Background="WhiteSmoke"
-                           Margin="0 15 0 0"/>
-
-                        <DockPanel Margin="0 30 0 0">
-
-                            <TextBlock Foreground="Gray"
-                                   FontSize="12"
-                                   FontWeight="SemiBold">
-                               <Bold Foreground="Black">Занятие 2</Bold>
-                                - Веб дизайн
-                            </TextBlock>
-
-
-                            <TextBlock Text="Группа 3-В"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="70 0 0 0"
-                                   HorizontalAlignment="Center"
-                                   />
-
-                            <TextBlock Text="303"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="10 0 0 0"
-                                   HorizontalAlignment="Right"/>
-
-                        </DockPanel>
-
-                        <Separator Background="WhiteSmoke"
-                               Margin="0 15 0 0"/>
-
-                        <DockPanel Margin="0 30 0 0">
-
-                            <TextBlock Foreground="Gray"
-                                   FontSize="12"
-                                   FontWeight="SemiBold">
-                               <Bold Foreground="Black">Занятие 3</Bold>
-                                    - Основы IT
-                            </TextBlock>
-
-                            <TextBlock Text="Группа 2-А"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="70 0 0 0"
-                                   HorizontalAlignment="Center"
-                                   />
-
-                            <TextBlock Text="308"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="10 0 0 0"
-                                   HorizontalAlignment="Right"/>
-                        </DockPanel>
-
-                        <Separator Background="WhiteSmoke"
-                               Margin="0 15 0 0"/>
-
-                        <DockPanel Margin="0 30 0 0">
-
-                            <TextBlock Foreground="Gray"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"> 
-                            
-                       <Bold Foreground="Black">Занятие 4</Bold>
-                            - Робототехника
-                            </TextBlock>
-
-                            <TextBlock Text="Соловьев А.Ю."
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="70 0 0 0"
-                                   HorizontalAlignment="Center"
-                                   />
-                            <TextBlock Text="304"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"
-                                   Margin="10 0 0 0"
-                                   HorizontalAlignment="Right"/>
-                        </DockPanel>
-                        <Separator Background="WhiteSmoke"
-                               Margin="0 15 0 0"/>
-
+                                            <TextBlock Text="{Binding GroupName, StringFormat='Группа {0}', FallbackValue='Группа N/A'}"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold"
+                                                       Margin="70 0 0 0"
+                                                       HorizontalAlignment="Center"
+                                                       DockPanel.Dock="Left"/>
+                                            <TextBlock Text="{Binding RoomNumber, FallbackValue='N/A'}"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold"
+                                                       Margin="10 0 0 0"
+                                                       HorizontalAlignment="Right"
+                                                       DockPanel.Dock="Right"/>
+                                        </DockPanel>
+                                        <Separator Background="WhiteSmoke"
+                                                   Margin="0 15 0 0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.Template>
+                                <ControlTemplate>
+                                    <StackPanel IsItemsHost="True"/>
+                                </ControlTemplate>
+                            </ItemsControl.Template>
+                        </ItemsControl>
                     </StackPanel>
                 </materialDesign:ColorZone>
 

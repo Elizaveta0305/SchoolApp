@@ -84,6 +84,20 @@ namespace SchoolApplication.Models
 
         public int LessonId { get; set; }
 
+        private string _groupName;
+        public string GroupName
+        {
+            get => _groupName;
+            set
+            {
+                if (_groupName != value)
+                {
+                    _groupName = value;
+                    OnPropertyChanged(nameof(GroupName));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
