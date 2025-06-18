@@ -38,12 +38,12 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="Рады вас видеть + Username!"
-                               FontSize="18"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Left"
-                               VerticalAlignment="Center"
-                               Margin="0 15 0 0"/>
+                        <TextBlock Text="{Binding CurrentTeacherFullName, StringFormat='Рады вас видеть, {0}!'}"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Margin="0 15 0 0"/>
                         <TextBlock Text="Настоящие герои не носят плащи, они учат и вдохновляют"
                                FontSize="15"
                                FontWeight="SemiBold"

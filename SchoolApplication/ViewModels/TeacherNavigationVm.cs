@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SchoolApplication.ViewModels
@@ -30,6 +31,7 @@ namespace SchoolApplication.ViewModels
             HomeTeacherCommand = new RelayCommand(ExecuteHomeTeacherCommand);
             LessonsTeacherCommand = new RelayCommand(ExecuteLessonsTeacherCommand);
             DiaryTeacherCommand = new RelayCommand(ExecuteDiaryTeacherCommand);
+            ExitApplicationCommand = new RelayCommand(ExecuteExitApplicationCommand);
         }
 
         private void ExecuteHomeTeacherCommand()
@@ -46,9 +48,17 @@ namespace SchoolApplication.ViewModels
         {
             WeakReferenceMessenger.Default.Send(new NavigateMessage(_diaryTeacherViewModel));
         }
+        private void ExecuteExitApplicationCommand()
+        {
+            if (MessageBox.Show("Вы уверены, что хотите выйти?", "Подтверждение выхода", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+        }
 
         public ICommand HomeTeacherCommand { get; }
         public ICommand LessonsTeacherCommand { get; }
         public ICommand DiaryTeacherCommand { get; }
+        public ICommand ExitApplicationCommand { get; }
     }
 }
