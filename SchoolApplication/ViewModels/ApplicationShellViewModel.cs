@@ -16,7 +16,7 @@ namespace SchoolApplication.ViewModels
 
         private readonly User _authenticatedUser;
 
-        // ViewModel'ы для админской части (инъектируем только те, которые нужны здесь)
+        // ViewModel'ы для админской части
         private readonly HomeAdminVm _homeAdminVm;
         private readonly ClassroomsAdminVm _classroomsAdminVm;
         private readonly DiaryAdminVm _diaryAdminVm;
@@ -101,7 +101,6 @@ namespace SchoolApplication.ViewModels
                     CurrentNavigationViewModel = _navigationVm;
                     break;
                 default:
-                    Debug.WriteLine("ApplicationShellViewModel: Неизвестная роль. Возможно, ошибка.");
                     break;
             }
         }
@@ -129,7 +128,6 @@ namespace SchoolApplication.ViewModels
                     LessonTeacherVm => _lessonTeacherVm,
                     _ => CurrentMainContentViewModel
                 };
-                Debug.WriteLine($"ApplicationShellViewModel received NavigateMessage. Navigating to: {CurrentMainContentViewModel.GetType().Name}");
             }
         }
     }

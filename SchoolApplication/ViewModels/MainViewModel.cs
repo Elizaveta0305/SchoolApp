@@ -40,7 +40,7 @@ namespace SchoolApplication.ViewModels
         private readonly LessonTeacherVm _lessonTeacherVm;
 
         private readonly NavigationAdminVm _navigationAdminVm;
-        private readonly NavigationVm _navigationVm; // Для студента
+        private readonly NavigationVm _navigationVm;
         private readonly TeacherNavigationVm _teacherNavigationVm;
 
 
@@ -96,8 +96,6 @@ namespace SchoolApplication.ViewModels
         {
             if (message?.Value != null)
             {
-                Debug.WriteLine($"MainViewModel: User authenticated: {message.Value.Username}, Role: {message.Value.Role?.RoleName}");
-
                 CurrentApplicationContent = new ApplicationShellViewModel(
                     message.Value,
                     _homeStudentVm, _homeAdminVm, _homeTeacherVm,
@@ -109,7 +107,6 @@ namespace SchoolApplication.ViewModels
             }
             else
             {
-                Debug.WriteLine("MainViewModel: User logged out or authentication message was null. Returning to login.");
                 CurrentApplicationContent = _loginViewModel;
             }
         }
@@ -118,7 +115,6 @@ namespace SchoolApplication.ViewModels
         private void Logout()
         {
             WeakReferenceMessenger.Default.Send(new UserAuthenticatedMessage(null));
-            Debug.WriteLine("MainViewModel: Logout command executed.");
         }
     }
 }

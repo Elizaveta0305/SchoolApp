@@ -68,7 +68,6 @@ namespace SchoolApplication.ViewModels
             if (message?.Value != null)
             {
                 _currentTeacherUser = message.Value;
-                Debug.WriteLine($"[DiaryTeacherVm] Пользователь аутентифицирован: {_currentTeacherUser.Username}");
                 await LoadInitialDataAsync();
             }
             else
@@ -80,7 +79,6 @@ namespace SchoolApplication.ViewModels
                 LessonsForSelectedStudent.Clear();
                 Subjects.Clear();
                 ClearAllInputFields();
-                Debug.WriteLine("[DiaryTeacherVm] Пользователь вышел из системы.");
             }
         }
 

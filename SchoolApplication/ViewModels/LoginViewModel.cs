@@ -77,7 +77,6 @@ namespace SchoolApplication.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = $"Ошибка: {ex.Message}";
-                Console.WriteLine($"Ошибка аутентификации: {ex.Message}");
             }
         }
       }

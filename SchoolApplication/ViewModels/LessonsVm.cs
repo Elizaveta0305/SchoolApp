@@ -72,7 +72,6 @@ namespace SchoolApplication.ViewModels
                             LessonTime = lesson.LessonTime
                         });
                     }
-                    Debug.WriteLine($"Загружено {AllStudentLessons.Count} занятий.");
                 }
             }
             catch (Exception ex)

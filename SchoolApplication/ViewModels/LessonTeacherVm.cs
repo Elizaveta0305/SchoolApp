@@ -69,7 +69,6 @@ namespace SchoolApplication.ViewModels
             if (message?.Value != null)
             {
                 _currentTeacherUser = message.Value;
-                Debug.WriteLine($"[LessonTeacherVm] Пользователь аутентифицирован: {_currentTeacherUser.Username}");
                 await LoadInitialDataAsync();
             }
             else
@@ -80,7 +79,6 @@ namespace SchoolApplication.ViewModels
                 Subjects.Clear();
                 Classrooms.Clear();
                 ClearActionInputFields();
-                Debug.WriteLine("[LessonTeacherVm] Пользователь вышел из системы.");
             }
         }
 
@@ -173,7 +171,6 @@ namespace SchoolApplication.ViewModels
                         ClassroomNumber = lesson.Classroom?.RoomNumber
                     });
                 }
-                Debug.WriteLine($"[LessonTeacherVm] Загружено {LessonsCollection.Count} занятий.");
             }
         }
 
@@ -192,30 +189,25 @@ namespace SchoolApplication.ViewModels
         {
             if (_currentTeacherUser == null)
             {
-                Debug.WriteLine("[LessonTeacherVm] Ошибка: Пользователь не аутентифицирован. Невозможно выполнить действие.");
                 return;
             }
 
             if (SelectedGroup == null || SelectedSubject == null || SelectedClassroom == null || string.IsNullOrWhiteSpace(LessonTopicInput))
             {
-                Debug.WriteLine("[LessonTeacherVm] Ошибка: Выберите все необходимые поля (Группа, Предмет, Тема, Кабинет).");
                 return;
             }
 
             if (SelectedHour < 0 || SelectedHour > 23 || SelectedMinute < 0 || SelectedMinute > 59)
             {
-                Debug.WriteLine("[LessonTeacherVm] Ошибка: Некорректное значение для часов или минут.");
                 return;
             }
 
             if ((SelectedActionType == "Обновить" || SelectedActionType == "Удалить") && SelectedLessonToEdit == null)
             {
-                Debug.WriteLine("[LessonTeacherVm] Ошибка: Для обновления или удаления необходимо выбрать занятие из списка.");
                 return;
             }
             if (SelectedActionType == null)
             {
-                Debug.WriteLine("[LessonTeacherVm] Ошибка: Выберите тип действия (Добавить, Обновить, Удалить).");
                 return;
             }
 
@@ -229,7 +221,6 @@ namespace SchoolApplication.ViewModels
 
                 if (studyGroup == null)
                 {
-                    Debug.WriteLine("[LessonTeacherVm] Ошибка: Не удалось найти связку Группа-Предмет для текущего преподавателя. Убедитесь, что вы ведете этот предмет в этой группе.");
                     return;
                 }
 
@@ -242,7 +233,6 @@ namespace SchoolApplication.ViewModels
                     lessonToModify = await dbContext.Lessons.FindAsync(SelectedLessonToEdit.LessonId);
                     if (lessonToModify == null)
                     {
-                        Debug.WriteLine("[LessonTeacherVm] Ошибка: Занятие для изменения не найдено в базе данных.");
                         return;
                     }
                 }
@@ -259,7 +249,6 @@ namespace SchoolApplication.ViewModels
 
                         if (existingLesson != null)
                         {
-                            Debug.WriteLine("[LessonTeacherVm] Ошибка: Занятие с такими параметрами уже существует. Используйте 'Обновить'.");
                             return;
                         }
 
@@ -272,13 +261,11 @@ namespace SchoolApplication.ViewModels
                             ClassroomID = SelectedClassroom.ClassroomID
                         };
                         dbContext.Lessons.Add(newLesson);
-                        Debug.WriteLine($"[LessonTeacherVm] Добавление занятия: {newLesson.Topic} для группы {SelectedGroup.GroupName} по предмету {SelectedSubject.SubjectName}");
                         break;
 
                     case "Обновить":
                         if (lessonToModify == null)
                         {
-                            Debug.WriteLine("[LessonTeacherVm] Ошибка: Занятие для обновления не выбрано.");
                             return;
                         }
 
@@ -291,7 +278,6 @@ namespace SchoolApplication.ViewModels
                                                       l.ClassroomID == SelectedClassroom.ClassroomID);
                         if (duplicateCheck != null)
                         {
-                            Debug.WriteLine("[LessonTeacherVm] Ошибка: Занятие с такими обновленными параметрами уже существует.");
                             return;
                         }
 
@@ -300,27 +286,22 @@ namespace SchoolApplication.ViewModels
                         lessonToModify.Topic = LessonTopicInput!;
                         lessonToModify.ClassroomID = SelectedClassroom.ClassroomID;
                         dbContext.Lessons.Update(lessonToModify);
-                        Debug.WriteLine($"[LessonTeacherVm] Обновление занятия ID {lessonToModify.LessonID}: Новая тема: {lessonToModify.Topic}");
                         break;
 
                     case "Удалить":
                         if (lessonToModify == null)
                         {
-                            Debug.WriteLine("[LessonTeacherVm] Ошибка: Занятие для удаления не выбрано.");
                             return;
                         }
 
                         var hasPerformances = await dbContext.AcademicPerformance.AnyAsync(ap => ap.LessonID == lessonToModify.LessonID);
                         if (hasPerformances)
                         {
-                            Debug.WriteLine("[LessonTeacherVm] Ошибка: Невозможно удалить занятие, так как с ним связаны оценки. Сначала удалите оценки.");
                             return;
                         }
                         dbContext.Lessons.Remove(lessonToModify);
-                        Debug.WriteLine($"[LessonTeacherVm] Удаление занятия ID {lessonToModify.LessonID}");
                         break;
                     default:
-                        Debug.WriteLine("[LessonTeacherVm] Ошибка: Неизвестный тип действия.");
                         return;
                 }
 
@@ -350,7 +331,6 @@ namespace SchoolApplication.ViewModels
 
                 if (fullLesson == null || fullLesson.StudyGroup == null || fullLesson.StudyGroup.Group == null || fullLesson.StudyGroup.Subject == null)
                 {
-                    Debug.WriteLine("[LessonTeacherVm] Не удалось загрузить полную информацию для редактирования занятия.");
                     return;
                 }
 
@@ -365,8 +345,6 @@ namespace SchoolApplication.ViewModels
                 SelectedMinute = fullLesson.LessonTime.Minutes;
                 LessonTopicInput = fullLesson.Topic;
                 SelectedActionType = "Обновить";
-
-                Debug.WriteLine($"[LessonTeacherVm] Загружено для редактирования: Тема: {lesson.Topic}, Группа: {lesson.GroupName}, Предмет: {lesson.SubjectName}, Кабинет: {lesson.ClassroomNumber}");
             }
         }
 
@@ -383,7 +361,6 @@ namespace SchoolApplication.ViewModels
                     var hasPerformances = await dbContext.AcademicPerformance.AnyAsync(ap => ap.LessonID == lessonToDelete.LessonID);
                     if (hasPerformances)
                     {
-                        Debug.WriteLine("[LessonTeacherVm] Ошибка: Невозможно удалить занятие, так как с ним связаны оценки. Сначала удалите оценки.");
                         return;
                     }
 
@@ -392,12 +369,8 @@ namespace SchoolApplication.ViewModels
                     dbContext.ChangeTracker.Clear();
                     await LoadLessonsDataAsync();
                     WeakReferenceMessenger.Default.Send(new LessonsUpdatedMessage(true));
-                    Debug.WriteLine($"[LessonTeacherVm] Занятие ID {lesson.LessonId} успешно удалено.");
                 }
-                else
-                {
-                    Debug.WriteLine($"[LessonTeacherVm] Занятие с ID {lesson.LessonId} не найдено для удаления.");
-                }
+                
                 ClearActionInputFields();
             }
         }

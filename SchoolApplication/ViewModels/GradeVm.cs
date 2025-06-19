@@ -117,11 +117,6 @@ namespace SchoolApplication.ViewModels
                                 Comment = grade.Comment ?? ""
                             });
                         }
-                        Debug.WriteLine($"GradeVm: Загружено {StudentGrades.Count} оценок.");
-                    }
-                    else
-                    {
-                        Debug.WriteLine("GradeVm: Оценки для студента не найдены.");
                     }
                 }
             }
