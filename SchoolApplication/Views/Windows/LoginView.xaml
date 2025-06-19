@@ -14,10 +14,6 @@
              Background="{x:Null}"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}">
 
-    <!--<UserControl.DataContext>
-        <vm:LoginViewModel/>
-    </UserControl.DataContext>-->
-    
     <materialDesign:Card UniformCornerRadius="15"
                          Background="{DynamicResource MaterialDesignPaper}"
                          Margin="25"

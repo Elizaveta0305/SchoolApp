@@ -4,16 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SchoolApplication.ViewModels"
-
         xmlns:views="clr-namespace:SchoolApplication.Views.Windows"
-
         xmlns:adminUC="clr-namespace:SchoolApplication.Views.UserControls.AdminUC"
         xmlns:studentUC="clr-namespace:SchoolApplication.Views.UserControls.StudentUC"
         xmlns:teacherUC="clr-namespace:SchoolApplication.Views.UserControls.TeacherUC"
-
         mc:Ignorable="d"
-        Title="App" 
-        Height="800" 
+        Title="App"
+        Height="800"
         Width="1440"
         AllowsTransparency="True"
         WindowStyle="None"
@@ -24,6 +21,51 @@
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:LoginViewModel}">
             <views:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:ApplicationShellViewModel}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ContentControl Grid.Column="0" Content="{Binding CurrentNavigationViewModel}">
+                    <ContentControl.Template>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border Background="Transparent">
+                                <ContentPresenter Content="{TemplateBinding Content}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </ContentControl.Template>
+                </ContentControl>
+
+                <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}" Background="White">
+                    <ContentControl.Template>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="{TemplateBinding Content}">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform X="0" Y="0"/>
+                                    </ContentPresenter.RenderTransform>
+                                    <ContentPresenter.Triggers>
+                                        <EventTrigger RoutedEvent="ContentPresenter.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.8"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Y"
+                                                                     From="20" To="0" Duration="0:0:0.7"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </ContentPresenter.Triggers>
+                                </ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </ContentControl.Template>
+                </ContentControl>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:HomeAdminVm}">
@@ -63,7 +105,7 @@
         <DataTemplate DataType="{x:Type vm:NavigationVm}">
             <studentUC:NavBarView/>
         </DataTemplate>
-        
+
         <DataTemplate DataType="{x:Type vm:HomeTeacherVm}">
             <teacherUC:HomeTeacherView/>
         </DataTemplate>
@@ -79,37 +121,8 @@
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <ContentControl Grid.Column="0" Content="{Binding CurrentNavigationViewModel}"/>
-
-        <ContentControl Grid.Column="1" Content="{Binding CurrentMainContentViewModel}" Background="White">
-            <ContentControl.Template>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Background="{TemplateBinding Background}">
-                        <ContentPresenter Content="{TemplateBinding Content}">
-                            <ContentPresenter.RenderTransform>
-                                <TranslateTransform X="0" Y="0"/>
-                            </ContentPresenter.RenderTransform>
-                            <ContentPresenter.Triggers>
-                                <EventTrigger RoutedEvent="ContentPresenter.Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                               From="0" To="1" Duration="0:0:0.8"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Y"
-                               From="20" To="0" Duration="0:0:0.7"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </ContentPresenter.Triggers>
-                        </ContentPresenter>
-                    </Border>
-                </ControlTemplate>
-            </ContentControl.Template>
-        </ContentControl>
+        <ContentControl Content="{Binding CurrentApplicationContent}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"/>
     </Grid>
 </Window>
