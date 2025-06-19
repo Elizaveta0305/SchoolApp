@@ -25,5 +25,14 @@ namespace SchoolApplication.Models
         public Classroom? Classroom { get; set; }
 
         public ICollection<AcademicPerformance>? AcademicPerformances { get; set; }
+
+        public string LessonDisplay
+        {
+            get
+            {
+                return $"{Topic ?? "Без темы"}";
+            }
+        }
     }
+
 }

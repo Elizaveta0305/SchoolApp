@@ -47,9 +47,6 @@
     <Compile Update="Views\UserControls\TeacherUC\LessonTeacherView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\UserControls\TeacherUC\LiveChartTeacherUsers.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\UserControls\TeacherUC\NavBarTeacherView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

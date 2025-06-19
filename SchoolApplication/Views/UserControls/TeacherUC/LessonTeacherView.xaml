@@ -49,7 +49,7 @@
                             <TextBlock Text="Группа"
                                        FontSize="18"/>
                             
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
+                            <ComboBox ItemsSource="{Binding}" Width="180"
                                       Height="36"/>
                             
                         </StackPanel>
@@ -59,7 +59,7 @@
                             <TextBlock Text="Кабинет"
                                        FontSize="18"/>
 
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
+                            <ComboBox ItemsSource="{Binding}" Width="180"
                                                                            Height="36"/>
                             
                         </StackPanel>

@@ -6,143 +6,136 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:vm="clr-namespace:SchoolApplication.ViewModels" 
-             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="800" 
              d:DesignWidth="1090"
              Background="Transparent">
 
-    <UserControl.DataContext>
-        <vm:DiaryTeacherVm/>
-    </UserControl.DataContext>
-
     <Grid>
-
-        <materialDesign:Card Margin="20" 
-                     Background="White"
-                     UniformCornerRadius="15">
-
+        <materialDesign:Card Margin="20" Background="White" UniformCornerRadius="15">
             <Grid>
-                
                 <StackPanel>
-                    
                     <DockPanel>
-                        
                         <TextBlock Text="Успеваемость"
-                               FontWeight="Bold"
-                               Margin="20 30"
-                               FontSize="40"/>
-                        
+                                   FontWeight="Bold"
+                                   Margin="20 30"
+                                   FontSize="40"/>
                     </DockPanel>
-                    
-                    <ui:DataGrid ItemsSource="{Binding DiaryTeacherVm.DiaryCollection, Mode=TwoWay}"
-                             Height="370"
-                             Width="998"
-                             BorderThickness="1"/>
-                    
+
+                    <DataGrid ItemsSource="{Binding DiaryCollection, Mode=TwoWay}"
+                              Height="370"
+                              Width="998"
+                              BorderThickness="1"
+                              IsReadOnly="True"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Группа" Binding="{Binding GroupName}" Width="Auto"/>
+                            <DataGridTextColumn Header="Студент" Binding="{Binding StudentFullName}" Width="Auto"/>
+                            <DataGridTextColumn Header="Предмет" Binding="{Binding SubjectName}" Width="Auto"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding LessonDate, StringFormat='dd.MM.yyyy'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding LessonTime, StringFormat='hh\\:mm'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Тема занятия" Binding="{Binding LessonDescription}" Width="*"/>
+                            <DataGridTextColumn Header="Оценка" Binding="{Binding Grade}" Width="*"/>
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*"/>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                    ToolTip="Редактировать оценку"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.EditGradeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="2">
+                                                <materialDesign:PackIcon Kind="Edit" Foreground="{StaticResource MaterialDesign.Brush.Primary}" Width="20" Height="20"/>
+                                            </Button>
+                                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                    ToolTip="Удалить оценку"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.DeleteGradeCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="2">
+                                                <materialDesign:PackIcon Kind="Delete" Foreground="{StaticResource MaterialDesign.Brush.ValidationError}" Width="20" Height="20"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
                     <TextBlock Text="Выставить оценки"
                                FontSize="22"
                                FontWeight="Bold"
                                Margin="26 20 26 0"/>
-                    
-                    <WrapPanel Width="998"
-                           Margin="20"
-                           HorizontalAlignment="Center">
 
-                        <StackPanel>
-
-                            <TextBlock Text="Группа"
-                                   FontSize="18"/>
-
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
-                                  Height="36"/>
-
+                    <WrapPanel Width="998" Margin="20" HorizontalAlignment="Center">
+                        <StackPanel Margin="0 0 10 0">
+                            <TextBlock Text="Группа" FontSize="18"/>
+                            <ComboBox ItemsSource="{Binding Groups}"
+                                      DisplayMemberPath="GroupName"
+                                      SelectedItem="{Binding SelectedGroup}"
+                                      Width="180" Height="36"
+                                      materialDesign:HintAssist.Hint="Выберите группу"/>
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="ФИО"
-                                   FontSize="18"/>
-
-                            <ComboBox ItemsSource="{Binding FontFamilies}" Width="180"
-                                                                       Height="36"/>
-
+                        <StackPanel Margin="0 0 10 0">
+                            <TextBlock Text="ФИО Студента" FontSize="18"/>
+                            <ComboBox ItemsSource="{Binding StudentsInSelectedGroup}"
+                                      DisplayMemberPath="FullName"
+                                      SelectedItem="{Binding SelectedStudent}"
+                                      Width="180" Height="36"
+                                      materialDesign:HintAssist.Hint="Выберите студента"/>
                         </StackPanel>
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Занятие"
-                                   FontSize="18"/>
-
-                            <ComboBox Width="180"
-                                      Height="36">
-                            </ComboBox>
-                            
-                        </StackPanel>
-
                         
-
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Предмет"
-           FontSize="18"/>
-
-                            <ComboBox Width="180"
-                                  Height="36">
-                                <ComboBoxItem>Веб дизайн</ComboBoxItem>
-                                <ComboBoxItem>Алгоритмика</ComboBoxItem>
-                                <ComboBoxItem>ЕГЭ</ComboBoxItem>
-                            </ComboBox>
-
+                        <StackPanel Margin="0 0 10 0">
+                            <TextBlock Text="Предмет" FontSize="18"/>
+                            <ComboBox ItemsSource="{Binding Subjects}"
+                                      DisplayMemberPath="SubjectName"
+                                      SelectedItem="{Binding SelectedSubject}"
+                                      Width="180" Height="36"
+                                      materialDesign:HintAssist.Hint="Выберите предмет"/>
+                        </StackPanel>
+                        
+                        <StackPanel Margin="0 0 10 0">
+                            <TextBlock Text="Занятие" FontSize="18"/>
+                            <ComboBox ItemsSource="{Binding LessonsForSelectedStudent}"
+                                      DisplayMemberPath="Topic"  SelectedItem="{Binding SelectedLesson}"
+                                      Width="180" Height="36"
+                                      materialDesign:HintAssist.Hint="Выберите занятие"/>
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0">
-
-                            <TextBlock Text="Оценка"
-                                       FontSize="18"/>
-
-                            <ComboBox Width="180"
-                                      Height="36">
-                                <ComboBoxItem>5</ComboBoxItem>
-                                <ComboBoxItem>4</ComboBoxItem>
-                                <ComboBoxItem>3</ComboBoxItem>
-                                <ComboBoxItem>2</ComboBoxItem>
-                                <ComboBoxItem>Null</ComboBoxItem>
-
-                            </ComboBox>
-
+                        <StackPanel Margin="0 0 10 0">
+                            <TextBlock Text="Оценка" FontSize="18"/>
+                            <ComboBox ItemsSource="{Binding AvailableGrades}"
+                                      SelectedItem="{Binding SelectedGrade}"
+                                      Width="180" Height="36"
+                                      materialDesign:HintAssist.Hint="Выберите оценку"/>
                         </StackPanel>
 
-                        <StackPanel Margin="0 20 0 0">
-
-                            <TextBlock Text="Действие"
-                                   FontSize="18"/>
-
-                            <ComboBox Width="180"
-                                  Height="36">
-                                <ComboBoxItem>Добавить</ComboBoxItem>
-                                <ComboBoxItem>Обновить</ComboBoxItem>
-                            </ComboBox>
-
+                        <StackPanel Margin="0 20 10 0">
+                            <TextBlock Text="Комментарий" FontSize="18"/>
+                            <TextBox Text="{Binding CommentInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Добавить комментарий"
+                                     Width="180" Height="36"
+                                     VerticalContentAlignment="Center"
+                                     materialDesign:TextFieldAssist.HasClearButton="True"/>
+                        </StackPanel>
+                        
+                        <StackPanel Margin="0 20 10 0">
+                            <TextBlock Text="Действие" FontSize="18"/>
+                            <ComboBox ItemsSource="{Binding ActionTypes}"
+                                      SelectedItem="{Binding SelectedActionType}"
+                                      Width="180" Height="36"
+                                      materialDesign:HintAssist.Hint="Выберите действие"/>
                         </StackPanel>
 
-                        <StackPanel Margin="10 0 0 0"
-                                VerticalAlignment="Bottom">
-
-                            <Button Width="180"
-                                Height="36"
-                                Content="Выполнить"
-                                />
-
+                        <StackPanel Margin="0 20 0 0" VerticalAlignment="Bottom">
+                            <Button Width="180" Height="36" Content="Выполнить"
+                                    Command="{Binding PerformGradeActionCommand}"/>
                         </StackPanel>
                     </WrapPanel>
-
                 </StackPanel>
-
             </Grid>
-
         </materialDesign:Card>
-
     </Grid>
-    
 </UserControl>

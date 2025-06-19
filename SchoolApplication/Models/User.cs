@@ -31,6 +31,9 @@ namespace SchoolApplication.Models
         [ForeignKey("GroupID")]
         public Group? Group { get; set; }
 
+        [NotMapped]
+        public string FullName => $"{LastName} {FirstName} {MiddleName}".Trim();
+
         public ICollection<StudyGroup>? StudyGroupsAsTeacher { get; set; }
         public ICollection<AcademicPerformance>? AcademicPerformanceAsStudent { get; set; }
     }

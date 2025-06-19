@@ -1,7 +1,6 @@
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\SchoolApplication.csproj.AssemblyReference.cache
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Styles\Button.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Styles\Page.baml
-D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\TeacherUC\LiveChartTeacherUsers.baml
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\MainWindow.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\AdminUC\ClassroomsAdminView.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\AdminUC\DiaryAdminView.g.cs
@@ -18,7 +17,6 @@ D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControl
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\TeacherUC\DiaryTeacherView.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\TeacherUC\HomeTeacherView.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\TeacherUC\LessonTeacherView.g.cs
-D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\TeacherUC\LiveChartTeacherUsers.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\UserControls\TeacherUC\NavBarTeacherView.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\Windows\AdminView.g.cs
 D:\App\SchoolApp\SchoolApplication\obj\Debug\net8.0-windows7.0\Views\Windows\LoginView.g.cs
