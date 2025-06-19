@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\diaryteachervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\diaryteachervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\diaryteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\teacheruc\\diaryteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\diaryteachervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\diaryteachervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\teacheruc\\lessonteacherview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,8 +54,7 @@
               "RelativeToolTip": "Models\\Lessons.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T18:29:11.809Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-19T18:29:11.809Z"
             },
             {
               "$type": "Document",
@@ -66,8 +65,7 @@
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\LessonTeacherView.xaml",
               "RelativeToolTip": "Views\\UserControls\\TeacherUC\\LessonTeacherView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-19T18:13:24.718Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-19T18:13:24.718Z"
             },
             {
               "$type": "Document",
@@ -79,12 +77,11 @@
               "RelativeToolTip": "ViewModels\\LessonTeacherVm.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T17:59:52.759Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-19T17:59:52.759Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DiaryTeacherVm.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\DiaryTeacherVm.cs",
               "RelativeDocumentMoniker": "ViewModels\\DiaryTeacherVm.cs",
@@ -97,7 +94,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "DiaryTeacherView.xaml",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\TeacherUC\\DiaryTeacherView.xaml",
               "RelativeDocumentMoniker": "Views\\UserControls\\TeacherUC\\DiaryTeacherView.xaml",
@@ -116,8 +113,7 @@
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\MainWindow.xaml",
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-06-14T11:05:59.211Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T11:05:59.211Z"
             }
           ]
         }

@@ -32,13 +32,13 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Группа" Binding="{Binding GroupName}" Width="Auto"/>
                             <DataGridTextColumn Header="Студент" Binding="{Binding StudentFullName}" Width="Auto"/>
-                            <DataGridTextColumn Header="Предмет" Binding="{Binding SubjectName}" Width="Auto"/>
-                            <DataGridTextColumn Header="Дата" Binding="{Binding LessonDate, StringFormat='dd.MM.yyyy'}" Width="Auto"/>
-                            <DataGridTextColumn Header="Время" Binding="{Binding LessonTime, StringFormat='hh\\:mm'}" Width="Auto"/>
-                            <DataGridTextColumn Header="Тема занятия" Binding="{Binding LessonDescription}" Width="*"/>
-                            <DataGridTextColumn Header="Оценка" Binding="{Binding Grade}" Width="*"/>
-                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="*"/>
-                            <DataGridTemplateColumn Width="Auto">
+                            <DataGridTextColumn Header="Предмет" Binding="{Binding SubjectName}" Width="110"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding LessonDate, StringFormat='dd.MM.yyyy'}" Width="110"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding LessonTime, StringFormat='hh\\:mm'}" Width="80"/>
+                            <DataGridTextColumn Header="Тема занятия" Binding="{Binding LessonDescription}" Width="120"/>
+                            <DataGridTextColumn Header="Оценка" Binding="{Binding Grade}" Width="90"/>
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}" Width="130"/>
+                            <DataGridTemplateColumn Width="60">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -46,15 +46,17 @@
                                                     ToolTip="Редактировать оценку"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.EditGradeCommand}"
                                                     CommandParameter="{Binding}"
-                                                    Margin="2">
-                                                <materialDesign:PackIcon Kind="Edit" Foreground="{StaticResource MaterialDesign.Brush.Primary}" Width="20" Height="20"/>
+                                                    Padding="0"
+                                                    Margin="0">
+                                                <materialDesign:PackIcon Kind="Edit" Foreground="{StaticResource MaterialDesign.Brush.Primary}" Width="15" Height="15"/>
                                             </Button>
                                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                     ToolTip="Удалить оценку"
                                                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.DeleteGradeCommand}"
                                                     CommandParameter="{Binding}"
-                                                    Margin="2">
-                                                <materialDesign:PackIcon Kind="Delete" Foreground="{StaticResource MaterialDesign.Brush.ValidationError}" Width="20" Height="20"/>
+                                                    Margin="0"
+                                                    Padding="0">
+                                                <materialDesign:PackIcon Kind="Delete" Foreground="{StaticResource MaterialDesign.Brush.ValidationError}" Width="15" Height="15"/>
                                             </Button>
                                         </StackPanel>
                                     </DataTemplate>
