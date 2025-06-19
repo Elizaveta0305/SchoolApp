@@ -335,6 +335,8 @@ namespace SchoolApplication.ViewModels
                 await dbContext.SaveChangesAsync();
                 dbContext.ChangeTracker.Clear();
 
+                WeakReferenceMessenger.Default.Send(new GradesUpdatedMessage(true));
+
                 SelectedStudent = null;
                 SelectedLesson = null;
                 SelectedSubject = null;
@@ -414,6 +416,8 @@ namespace SchoolApplication.ViewModels
                     dbContext.AcademicPerformance.Remove(academicPerformanceToDelete);
                     await dbContext.SaveChangesAsync();
                     dbContext.ChangeTracker.Clear();
+
+                    WeakReferenceMessenger.Default.Send(new GradesUpdatedMessage(true));
 
                     SelectedStudent = null;
                     SelectedLesson = null;

@@ -26,6 +26,7 @@
                     <DataGrid ItemsSource="{Binding DiaryCollection, Mode=TwoWay}"
                               Height="370"
                               Width="998"
+                              Style="{StaticResource MaterialDesignDataGrid}"
                               BorderThickness="1"
                               IsReadOnly="True"
                               AutoGenerateColumns="False">

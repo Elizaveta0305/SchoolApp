@@ -8,10 +8,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SchoolApplication.ViewModels
 {
-    public partial class HomeTeacherVm : ObservableObject, IRecipient<UserAuthenticatedMessage>
+    public partial class HomeTeacherVm : ObservableObject,
+                                         IRecipient<UserAuthenticatedMessage>,
+                                         IRecipient<LessonsUpdatedMessage>,
+                                         IRecipient<GradesUpdatedMessage>
     {
         [ObservableProperty]
         private string _currentTeacherFullName = "Неизвестный";
@@ -34,7 +38,6 @@ namespace SchoolApplication.ViewModels
 
         public string ConductedLessonsDisplayText => TotalLessonsInAcademicYear > 0 ? $"{ConductedLessonsCount} из {TotalLessonsInAcademicYear} ({((double)ConductedLessonsCount * 100 / TotalLessonsInAcademicYear).ToString("F0")}%)" : "0 занятий";
 
-
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
 
         private User? _currentTeacher;
@@ -43,6 +46,8 @@ namespace SchoolApplication.ViewModels
         {
             _dbContextFactory = dbContextFactory;
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            WeakReferenceMessenger.Default.Register<LessonsUpdatedMessage>(this);
+            WeakReferenceMessenger.Default.Register<GradesUpdatedMessage>(this);
         }
 
         public async void Receive(UserAuthenticatedMessage message)
@@ -61,6 +66,22 @@ namespace SchoolApplication.ViewModels
                 AverageGradeValue = 0;
                 ConductedLessonsCount = 0;
                 TotalLessonsInAcademicYear = 0;
+            }
+        }
+
+        public async void Receive(LessonsUpdatedMessage message)
+        {
+            if (message.Value)
+            {
+                await LoadAllTeacherHomeData();
+            }
+        }
+
+        public async void Receive(GradesUpdatedMessage message)
+        {
+            if (message.Value)
+            {
+                await LoadAllTeacherHomeData();
             }
         }
 
@@ -135,14 +156,16 @@ namespace SchoolApplication.ViewModels
                             .Where(u => u.RoleID == 3 && u.GroupID.HasValue && teacherGroupIds.Contains(u.GroupID.Value))
                             .CountAsync();
 
-                        var stringGrades = await dbContext.AcademicPerformance
+                        var gradesForTeacherLessons = await dbContext.AcademicPerformance
+                            .Include(ap => ap.Lesson)
+                            .Where(ap => ap.Lesson != null && ap.Lesson.StudyGroup != null && ap.Lesson.StudyGroup.TeacherID == _currentTeacher.UserID)
                             .Where(ap => ap.Grade != null && ap.Grade != "")
                             .Select(ap => ap.Grade)
                             .ToListAsync();
 
                         var numericGrades = new List<double>();
 
-                        foreach (var gradeStr in stringGrades)
+                        foreach (var gradeStr in gradesForTeacherLessons)
                         {
                             double gradeValue;
                             bool parsed = false;
@@ -200,13 +223,17 @@ namespace SchoolApplication.ViewModels
 
                         OnPropertyChanged(nameof(ConductedLessonsDisplayText));
 
-                        if (TotalLessonsInAcademicYear == 0)
+                        if (TotalLessonsInAcademicYear == 0 && ConductedLessonsCount > 0)
                         {
-                            TotalLessonsInAcademicYear = ConductedLessonsCount > 0 ? ConductedLessonsCount : 1;
+                            TotalLessonsInAcademicYear = ConductedLessonsCount;
                             OnPropertyChanged(nameof(TotalLessonsInAcademicYear));
                             OnPropertyChanged(nameof(ConductedLessonsDisplayText));
                         }
-
+                        else if (TotalLessonsInAcademicYear == 0 && ConductedLessonsCount == 0)
+                        {
+                            OnPropertyChanged(nameof(TotalLessonsInAcademicYear));
+                            OnPropertyChanged(nameof(ConductedLessonsDisplayText));
+                        }
                     }
                     else
                     {
