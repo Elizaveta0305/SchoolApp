@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1/XFcLB3DKQ=",
+  "dgSpecHash": "k29di5R9ERU=",
   "success": true,
   "projectFilePath": "D:\\App\\SchoolApp\\SchoolApplication\\SchoolApplication.csproj",
   "expectedPackageFiles": [
@@ -123,6 +123,8 @@
     "C:\\Users\\games\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\system.memory.data\\1.0.2\\system.memory.data.1.0.2.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\games\\.nuget\\packages\\system.reactive\\6.0.1\\system.reactive.6.0.1.nupkg.sha512",
+    "C:\\Users\\games\\.nuget\\packages\\system.reactive.linq\\6.0.1\\system.reactive.linq.6.0.1.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\system.reflection.metadata\\7.0.0\\system.reflection.metadata.7.0.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\system.runtime\\4.3.0\\system.runtime.4.3.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\system.runtime.caching\\6.0.0\\system.runtime.caching.6.0.0.nupkg.sha512",

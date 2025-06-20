@@ -18,5 +18,9 @@ namespace SchoolApplication.Models
         public TimeSpan LessonTime { get; set; }
         public string? Grade { get; set; }
         public string? Comment { get; set; }
+        public int StudentId { get; set; }
+        public int LessonId { get; set; }
+        public int? GroupId { get; set; }
+        public int? SubjectId { get; set; }
     }
 }

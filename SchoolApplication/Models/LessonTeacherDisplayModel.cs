@@ -14,6 +14,5 @@ namespace SchoolApplication.Models.DisplayModels
         public string? ClassroomNumber { get; set; }
 
         public string DateTimeDisplay => $"{LessonDate:dd.MM.yyyy} {LessonTime:hh\\:mm}";
-
     }
 }

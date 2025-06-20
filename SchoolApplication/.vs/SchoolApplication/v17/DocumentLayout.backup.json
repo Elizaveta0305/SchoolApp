@@ -1,11 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -13,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,19 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UnitTest1.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\UnitTest1.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\UnitTest1.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\UnitTest1.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\UnitTest1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T10:35:58.898Z",
-              "EditorCaption": ""
             }
           ]
         }
