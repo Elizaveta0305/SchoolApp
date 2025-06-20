@@ -9,7 +9,7 @@ on:
       - main
 jobs:
   build-and-test:
-    runs-on: window-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -21,12 +21,12 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-    
-      run: dotnet restore SchoolApplication/SchoolApplication.sln
+      working-directory: SchoolApplication
+      run: dotnet restore SchoolApplication.sln
 
     - name: Build solution
-
-      run: dotnet build SchoolApplication/SchoolApplication.sln --no-restore
+      working-directory: SchoolApplication
+      run: dotnet build SchoolApplication.sln --no-restore
 
     - name: Run Unit Tests
 
