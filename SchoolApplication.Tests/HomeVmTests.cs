@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 using System.Collections.Concurrent;
 
 namespace SchoolApplication.Tests
@@ -185,17 +186,17 @@ namespace SchoolApplication.Tests
             Assert.NotNull(firstLesson);
             Assert.Equal(_stm32StudyGroup.Subject.SubjectName, firstLesson.SubjectName);
             Assert.Equal(_stm32Lesson2Future.LessonDate.ToShortDateString(), firstLesson.FormattedLessonDate);
-            Assert.Equal(_stm32Lesson2Future.LessonTime.ToString(@"hh\:mm"), firstLesson.FormattedLessonTime);
+            Assert.Equal(_stm32Lesson2Future.LessonTime.ToString(@"hh\:mm", CultureInfo.InvariantCulture), firstLesson.FormattedLessonTime);
             Assert.Equal(_classroom101.RoomNumber, firstLesson.RoomNumber);
-            Assert.Equal($"{_stm32StudyGroup.Teacher.LastName} {_stm32StudyGroup.Teacher.FirstName.Substring(0, 1)}.", firstLesson.TeacherFullName); // ИЗМЕНЕНО: ожидаем сокращенное имя
+            Assert.Equal($"{_stm32StudyGroup.Teacher.LastName} {_stm32StudyGroup.Teacher.FirstName.Substring(0, 1)}.", firstLesson.TeacherFullName);
 
             var secondLesson = vm.UpcomingLessons.FirstOrDefault(l => l.LessonId == _scratchLesson2Future.LessonID);
             Assert.NotNull(secondLesson);
             Assert.Equal(_scratchStudyGroup.Subject.SubjectName, secondLesson.SubjectName);
             Assert.Equal(_scratchLesson2Future.LessonDate.ToShortDateString(), secondLesson.FormattedLessonDate);
-            Assert.Equal(_scratchLesson2Future.LessonTime.ToString(@"hh\:mm"), secondLesson.FormattedLessonTime);
+            Assert.Equal(_scratchLesson2Future.LessonTime.ToString(@"hh\:mm", CultureInfo.InvariantCulture), secondLesson.FormattedLessonTime);
             Assert.Equal(_classroom102.RoomNumber, secondLesson.RoomNumber);
-            Assert.Equal($"{_scratchStudyGroup.Teacher.LastName} {_scratchStudyGroup.Teacher.FirstName.Substring(0, 1)}.", secondLesson.TeacherFullName); // ИЗМЕНЕНО: ожидаем сокращенное имя
+            Assert.Equal($"{_scratchStudyGroup.Teacher.LastName} {_scratchStudyGroup.Teacher.FirstName.Substring(0, 1)}.", secondLesson.TeacherFullName);
         }
 
         [Fact]
