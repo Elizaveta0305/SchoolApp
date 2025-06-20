@@ -85,6 +85,15 @@ namespace SchoolApplication
             mainWindow.Show();
 
             base.OnStartup(e);
+
+            string studentPassword = "Emr1105";
+            string teacherPassword = "LazarevaT1203";
+
+            string studentHashedPassword = BCrypt.Net.BCrypt.HashPassword(studentPassword);
+            string teacherHashedPassword = BCrypt.Net.BCrypt.HashPassword(teacherPassword);
+
+            Console.WriteLine($"Хеш для '{studentPassword}': {studentHashedPassword}");
+            Console.WriteLine($"Хеш для '{teacherPassword}': {teacherHashedPassword}");
         }
 
         protected override async void OnExit(ExitEventArgs e)

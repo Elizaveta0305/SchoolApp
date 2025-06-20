@@ -10,5 +10,6 @@ namespace SchoolApplication.Services
     public interface IAuthService
     {
         Task<User?> AuthenticateUser(string username, string password);
+        string HashPassword(string password);
     }
 }
