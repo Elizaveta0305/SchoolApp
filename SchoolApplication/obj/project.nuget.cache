@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "KMPhd74v/O4=",
+  "dgSpecHash": "1/XFcLB3DKQ=",
   "success": true,
   "projectFilePath": "D:\\App\\SchoolApp\\SchoolApplication\\SchoolApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\games\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\games\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\controlzex\\4.3.0\\controlzex.4.3.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\harfbuzzsharp\\7.3.0.3\\harfbuzzsharp.7.3.0.3.nupkg.sha512",
@@ -81,6 +82,7 @@
     "C:\\Users\\games\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\games\\.nuget\\packages\\moq\\4.20.72\\moq.4.20.72.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\opentk\\4.3.0\\opentk.4.3.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\opentk.compute\\4.3.0\\opentk.compute.4.3.0.nupkg.sha512",
     "C:\\Users\\games\\.nuget\\packages\\opentk.core\\4.3.0\\opentk.core.4.3.0.nupkg.sha512",
