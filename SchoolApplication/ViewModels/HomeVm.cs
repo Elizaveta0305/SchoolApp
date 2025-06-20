@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using SchoolApplication.Data;
 using SchoolApplication.Messages;
 using SchoolApplication.Models;
+using SchoolApplication.Models.DisplayModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace SchoolApplication.ViewModels
 {
@@ -43,8 +45,17 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private double _averageGradeValue;
 
-        [ObservableProperty]
-        private string _averageGradeDisplayText = "0.00";
+        public string AverageGradeDisplayText
+        {
+            get
+            {
+                if (AverageGradeValue == 0.0 && SubjectsCount == 0)
+                {
+                    return "Н/Д";
+                }
+                return AverageGradeValue.ToString("F2", CultureInfo.InvariantCulture);
+            }
+        }
 
         [ObservableProperty]
         private string _academicYear = "Неизвестно";
@@ -71,7 +82,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
-                AverageGradeDisplayText = "0.00";
+                OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Неизвестно";
             }
         }
@@ -86,7 +97,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
-                AverageGradeDisplayText = "0.00";
+                OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Неизвестно";
                 return;
             }
@@ -124,9 +135,8 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
-                AverageGradeDisplayText = "0.00";
+                OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Ошибка загрузки";
-
             }
         }
 
@@ -179,9 +189,9 @@ namespace SchoolApplication.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                Debug.WriteLine($"Error loading upcoming lessons: {ex.Message}");
             }
         }
 
@@ -193,7 +203,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
-                AverageGradeDisplayText = "0.00";
+                OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Неизвестно";
                 return;
             }
@@ -235,13 +245,15 @@ namespace SchoolApplication.ViewModels
                 {
                     double averageGrade = validGrades.Average();
                     AverageGradeValue = averageGrade;
-                    AverageGradeDisplayText = averageGrade.ToString("F2");
+                    OnPropertyChanged(nameof(AverageGradeDisplayText));
                 }
                 else
                 {
                     AverageGradeValue = 0.0;
-                    AverageGradeDisplayText = "Н/Д";
+                    OnPropertyChanged(nameof(AverageGradeDisplayText));
                 }
+
+                AcademicYear = $"{DateTime.Now.Year}-{DateTime.Now.Year + 1}";
             }
             catch (Exception ex)
             {
@@ -250,7 +262,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
-                AverageGradeDisplayText = "0.00";
+                OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Ошибка загрузки";
             }
         }
