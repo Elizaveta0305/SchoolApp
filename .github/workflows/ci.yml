@@ -22,10 +22,13 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore SchoolApplication.sln
+
+      run: dotnet restore SchoolApplication/SchoolApplication.sln
 
     - name: Build solution
-      run: dotnet build SchoolApplication.sln --no-restore
+    
+      run: dotnet build SchoolApplication/SchoolApplication.sln --no-restore
 
     - name: Run Unit Tests
+    
       run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --no-build --verbosity normal
