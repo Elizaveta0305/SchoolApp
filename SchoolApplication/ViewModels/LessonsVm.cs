@@ -10,26 +10,35 @@ using Microsoft.EntityFrameworkCore;
 using SchoolApplication.Data;
 using SchoolApplication.Models;
 using SchoolApplication.Messages;
+using System.Globalization;
 
 namespace SchoolApplication.ViewModels
 {
     public partial class LessonsVm : ObservableObject
     {
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
+        private readonly IMessenger _messenger;
 
         [ObservableProperty]
         private ObservableCollection<LessonDisplayModel> _allStudentLessons = new ObservableCollection<LessonDisplayModel>();
 
         private User? _currentUser;
 
-        public LessonsVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        internal TaskCompletionSource<bool> _initialLoadCompletionSource = new TaskCompletionSource<bool>();
+
+        public LessonsVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger? messenger = null)
         {
             _dbContextFactory = dbContextFactory;
+            _messenger = messenger ?? WeakReferenceMessenger.Default;
 
-            WeakReferenceMessenger.Default.Register<LessonsVm, UserAuthenticatedMessage>(this, (r, m) =>
+            _messenger.Register<LessonsVm, UserAuthenticatedMessage>(this, async (r, m) =>
             {
                 r._currentUser = m.Value;
-                r.LoadAllStudentLessonsCommand.Execute(null);
+                if (r.LoadAllStudentLessonsCommand.CanExecute(null))
+                {
+                    await r.LoadAllStudentLessonsCommand.ExecuteAsync(null);
+                }
+                r._initialLoadCompletionSource.TrySetResult(true);
             });
         }
 
@@ -77,6 +86,7 @@ namespace SchoolApplication.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine($"Ошибка при загрузке всех занятий: {ex.Message}");
+                AllStudentLessons.Clear();
             }
         }
     }

@@ -47,7 +47,7 @@ namespace SchoolApplication.Tests
 
             _mockHomeStudentVm = new Mock<HomeVm>(_mockDbContextFactory.Object);
             _mockGradeVm = new Mock<GradeVm>(_mockDbContextFactory.Object);
-            _mockLessonsVm = new Mock<LessonsVm>(_mockDbContextFactory.Object);
+            _mockLessonsVm = new Mock<LessonsVm>(_mockDbContextFactory.Object, _messenger);
 
             _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object);
             _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object);

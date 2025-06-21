@@ -26,141 +26,89 @@ namespace SchoolApplication.Tests
 
         public void SeedData(ApplicationDbContext context, params object[] entities)
         {
-            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var rolesToAdd = new List<Role>();
-            var usersToAdd = new List<User>();
-            var groupsToAdd = new List<Group>();
-            var subjectsToAdd = new List<Subject>();
-            var studyGroupsToAdd = new List<StudyGroup>();
-            var lessonsToAdd = new List<Lesson>();
-            var academicPerformancesToAdd = new List<AcademicPerformance>();
-            var classroomsToAdd = new List<Classroom>();
-
-            foreach (var entity in entities)
+            var newRoles = entities.OfType<Role>().DistinctBy(r => r.RoleID).ToList();
+            foreach (var role in newRoles)
             {
-                if (entity is Role role) rolesToAdd.Add(role);
-                else if (entity is User user) usersToAdd.Add(user);
-                else if (entity is Group group) groupsToAdd.Add(group);
-                else if (entity is Subject subject) subjectsToAdd.Add(subject);
-                else if (entity is StudyGroup studyGroup) studyGroupsToAdd.Add(studyGroup);
-                else if (entity is Lesson lesson) lessonsToAdd.Add(lesson);
-                else if (entity is AcademicPerformance performance) academicPerformancesToAdd.Add(performance);
-                else if (entity is Classroom classroom) classroomsToAdd.Add(classroom);
-            }
-
-            foreach (var role in rolesToAdd.DistinctBy(r => r.RoleID))
-            {
-                if (context.Entry(role).State == EntityState.Detached)
+                if (context.Roles.Find(role.RoleID) == null)
                 {
                     context.Roles.Add(role);
                 }
             }
             context.SaveChanges();
 
-            foreach (var user in usersToAdd.DistinctBy(u => u.UserID))
+            var newGroups = entities.OfType<Group>().DistinctBy(g => g.GroupID).ToList();
+            foreach (var group in newGroups)
             {
-                if (user.Role != null && context.Entry(user.Role).State == EntityState.Detached)
-                {
-                    context.Roles.Attach(user.Role);
-                }
-                if (context.Entry(user).State == EntityState.Detached)
-                {
-                    context.Users.Add(user);
-                }
-            }
-            context.SaveChanges();
-
-            foreach (var subject in subjectsToAdd.DistinctBy(s => s.SubjectID))
-            {
-                if (context.Entry(subject).State == EntityState.Detached)
-                {
-                    context.Subjects.Add(subject);
-                }
-            }
-            context.SaveChanges();
-
-            foreach (var group in groupsToAdd.DistinctBy(g => g.GroupID))
-            {
-                if (group.Users != null)
-                {
-                    foreach (var userInGroup in group.Users.ToList())
-                    {
-                        if (context.Entry(userInGroup).State == EntityState.Detached)
-                        {
-                            context.Users.Attach(userInGroup);
-                        }
-                    }
-                }
-                if (context.Entry(group).State == EntityState.Detached)
+                if (context.Groups.Find(group.GroupID) == null)
                 {
                     context.Groups.Add(group);
                 }
             }
             context.SaveChanges();
 
-            foreach (var classroom in classroomsToAdd.DistinctBy(c => c.ClassroomID))
+            var newSubjects = entities.OfType<Subject>().DistinctBy(s => s.SubjectID).ToList();
+            foreach (var subject in newSubjects)
             {
-                if (context.Entry(classroom).State == EntityState.Detached)
+                if (context.Subjects.Find(subject.SubjectID) == null)
+                {
+                    context.Subjects.Add(subject);
+                }
+            }
+            context.SaveChanges();
+
+            var newClassrooms = entities.OfType<Classroom>().DistinctBy(c => c.ClassroomID).ToList();
+            foreach (var classroom in newClassrooms)
+            {
+                if (context.Classrooms.Find(classroom.ClassroomID) == null)
                 {
                     context.Classrooms.Add(classroom);
                 }
             }
             context.SaveChanges();
 
-            foreach (var studyGroup in studyGroupsToAdd.DistinctBy(sg => sg.StudyGroupID))
+            var newUsers = entities.OfType<User>().DistinctBy(u => u.UserID).ToList();
+            foreach (var user in newUsers)
             {
-                if (studyGroup.Teacher != null && context.Entry(studyGroup.Teacher).State == EntityState.Detached)
+                if (context.Users.Find(user.UserID) == null)
                 {
-                    context.Users.Attach(studyGroup.Teacher);
+                    context.Users.Add(user);
                 }
-                if (studyGroup.Group != null && context.Entry(studyGroup.Group).State == EntityState.Detached)
+                else
                 {
-                    context.Groups.Attach(studyGroup.Group);
+                    context.Entry(user).State = EntityState.Modified;
                 }
-                if (studyGroup.Subject != null && context.Entry(studyGroup.Subject).State == EntityState.Detached)
-                {
-                    context.Subjects.Attach(studyGroup.Subject);
-                }
+            }
+            context.SaveChanges();
 
-                if (context.Entry(studyGroup).State == EntityState.Detached)
+
+            var newStudyGroups = entities.OfType<StudyGroup>().DistinctBy(sg => sg.StudyGroupID).ToList();
+            foreach (var studyGroup in newStudyGroups)
+            {
+                if (context.StudyGroups.Find(studyGroup.StudyGroupID) == null)
                 {
                     context.StudyGroups.Add(studyGroup);
                 }
             }
             context.SaveChanges();
 
-            foreach (var lesson in lessonsToAdd.DistinctBy(l => l.LessonID))
+            var newLessons = entities.OfType<Lesson>().DistinctBy(l => l.LessonID).ToList();
+            foreach (var lesson in newLessons)
             {
-                if (lesson.StudyGroup != null && context.Entry(lesson.StudyGroup).State == EntityState.Detached)
-                {
-                    context.StudyGroups.Attach(lesson.StudyGroup);
-                }
-                if (lesson.Classroom != null && context.Entry(lesson.Classroom).State == EntityState.Detached)
-                {
-                    context.Classrooms.Attach(lesson.Classroom);
-                }
-                if (context.Entry(lesson).State == EntityState.Detached)
+                if (context.Lessons.Find(lesson.LessonID) == null)
                 {
                     context.Lessons.Add(lesson);
                 }
             }
             context.SaveChanges();
 
-            foreach (var performance in academicPerformancesToAdd.DistinctBy(ap => ap.PerformanceID))
+            var newAcademicPerformances = entities.OfType<AcademicPerformance>().DistinctBy(ap => ap.PerformanceID).ToList();
+            foreach (var ap in newAcademicPerformances)
             {
-                if (performance.Student != null && context.Entry(performance.Student).State == EntityState.Detached)
+                if (context.AcademicPerformance.Find(ap.PerformanceID) == null)
                 {
-                    context.Users.Attach(performance.Student);
-                }
-                if (performance.Lesson != null && context.Entry(performance.Lesson).State == EntityState.Detached)
-                {
-                    context.Lessons.Attach(performance.Lesson);
-                }
-                if (context.Entry(performance).State == EntityState.Detached)
-                {
-                    context.AcademicPerformance.Add(performance);
+                    context.AcademicPerformance.Add(ap);
                 }
             }
             context.SaveChanges();

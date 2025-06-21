@@ -45,11 +45,14 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private double _averageGradeValue;
 
+        [ObservableProperty]
+        private bool _hasGradesToDisplay;
+
         public string AverageGradeDisplayText
         {
             get
             {
-                if (AverageGradeValue == 0.0 && SubjectsCount == 0)
+                if (_currentUser == null || !HasGradesToDisplay)
                 {
                     return "Н/Д";
                 }
@@ -64,6 +67,7 @@ namespace SchoolApplication.ViewModels
         {
             _dbContextFactory = dbContextFactory;
             WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            HasGradesToDisplay = false;
         }
 
         public async void Receive(UserAuthenticatedMessage message)
@@ -82,6 +86,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
+                HasGradesToDisplay = false;
                 OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Неизвестно";
             }
@@ -89,7 +94,7 @@ namespace SchoolApplication.ViewModels
 
         private async Task LoadAllHomeData()
         {
-            if (_currentUser == null)
+            if (_currentUser == null || _currentUser.GroupID == null)
             {
                 WelcomeMessage = "Добро пожаловать!";
                 UpcomingLessons.Clear();
@@ -97,6 +102,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
+                HasGradesToDisplay = false;
                 OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Неизвестно";
                 return;
@@ -126,6 +132,7 @@ namespace SchoolApplication.ViewModels
                     await LoadUpcomingLessonsInternal(dbContext);
                     await LoadAnalyticsData(dbContext);
                 }
+                AcademicYear = $"{DateTime.Now.Year}-{DateTime.Now.Year + 1}";
             }
             catch (Exception)
             {
@@ -135,6 +142,7 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
+                HasGradesToDisplay = false;
                 OnPropertyChanged(nameof(AverageGradeDisplayText));
                 AcademicYear = "Ошибка загрузки";
             }
@@ -197,17 +205,6 @@ namespace SchoolApplication.ViewModels
 
         private async Task LoadAnalyticsData(ApplicationDbContext dbContext)
         {
-            if (_currentUser == null || _currentUser.GroupID == null)
-            {
-                AbsencesCount = 0;
-                AbsencesDisplayText = "0 / 30";
-                SubjectsCount = 0;
-                AverageGradeValue = 0.0;
-                OnPropertyChanged(nameof(AverageGradeDisplayText));
-                AcademicYear = "Неизвестно";
-                return;
-            }
-
             try
             {
                 var absences = await dbContext.AcademicPerformance
@@ -245,15 +242,15 @@ namespace SchoolApplication.ViewModels
                 {
                     double averageGrade = validGrades.Average();
                     AverageGradeValue = averageGrade;
+                    HasGradesToDisplay = true;
                     OnPropertyChanged(nameof(AverageGradeDisplayText));
                 }
                 else
                 {
                     AverageGradeValue = 0.0;
+                    HasGradesToDisplay = false;
                     OnPropertyChanged(nameof(AverageGradeDisplayText));
                 }
-
-                AcademicYear = $"{DateTime.Now.Year}-{DateTime.Now.Year + 1}";
             }
             catch (Exception ex)
             {
@@ -262,8 +259,8 @@ namespace SchoolApplication.ViewModels
                 AbsencesDisplayText = "0 / 30";
                 SubjectsCount = 0;
                 AverageGradeValue = 0.0;
+                HasGradesToDisplay = false;
                 OnPropertyChanged(nameof(AverageGradeDisplayText));
-                AcademicYear = "Ошибка загрузки";
             }
         }
     }

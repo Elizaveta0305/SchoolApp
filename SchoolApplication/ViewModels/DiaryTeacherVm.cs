@@ -66,7 +66,7 @@ namespace SchoolApplication.ViewModels
             if (message?.Value != null)
             {
                 _currentTeacherUser = message.Value;
-                _ = LoadInitialDataAsync();
+                _ = LoadDiaryDataAsync();
             }
             else
             {
@@ -77,59 +77,6 @@ namespace SchoolApplication.ViewModels
                 LessonsForSelectedStudent.Clear();
                 Subjects.Clear();
                 ClearAllInputFields();
-            }
-        }
-
-        internal async Task LoadInitialDataAsync()
-        {
-            using (var dbContext = _dbContextFactory.CreateDbContext())
-            {
-                if (_currentTeacherUser != null)
-                {
-                    var teacherGroups = await dbContext.StudyGroups
-                        .Where(sg => sg.TeacherID == _currentTeacherUser.UserID)
-                        .Select(sg => sg.Group!)
-                        .Distinct()
-                        .OrderBy(g => g.GroupName)
-                        .ToListAsync();
-
-                    Groups.Clear();
-                    foreach (var group in teacherGroups)
-                    {
-                        Groups.Add(group);
-                    }
-
-                    var teacherSubjects = await dbContext.StudyGroups
-                        .Where(sg => sg.TeacherID == _currentTeacherUser.UserID)
-                        .Select(sg => sg.Subject!)
-                        .Distinct()
-                        .OrderBy(s => s.SubjectName)
-                        .ToListAsync();
-
-                    Subjects.Clear();
-                    foreach (var subject in teacherSubjects)
-                    {
-                        Subjects.Add(subject);
-                    }
-
-                    if (SelectedGroup == null && Groups.Any())
-                    {
-                        SelectedGroup = Groups.FirstOrDefault();
-                    }
-                    if (SelectedGroup != null)
-                    {
-                        await LoadStudentsAndLessonsForGroupAsync(SelectedGroup);
-                        await LoadDiaryDataAsync();
-                    }
-                }
-                else
-                {
-                    Groups.Clear();
-                    Subjects.Clear();
-                    StudentsInSelectedGroup.Clear();
-                    LessonsForSelectedStudent.Clear();
-                    DiaryCollection.Clear();
-                }
             }
         }
 

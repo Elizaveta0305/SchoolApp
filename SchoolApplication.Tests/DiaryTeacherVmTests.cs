@@ -1,470 +1,416 @@
-﻿using Xunit;
-using Moq;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using SchoolApplication.Data;
-using SchoolApplication.Models;
-using SchoolApplication.ViewModels;
 using SchoolApplication.Messages;
+using SchoolApplication.Models;
+using SchoolApplication.Tests;
+using SchoolApplication.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
-using SchoolApplication.Models.DisplayModels;
+using Xunit;
 
 namespace SchoolApplication.Tests
 {
-    public class DiaryTeacherVmTests
+    public class DiaryTeacherVmTests : IDisposable
     {
-        private readonly IMessenger _messenger;
         private readonly TestDbContextFactory _dbContextFactory;
-        private readonly Role _teacherRole;
-        private readonly Role _studentRole;
-        private readonly User _teacherUser;
-        private readonly Group _group10A;
-        private readonly Group _group11B;
-        private readonly Subject _itTechSubject;
-        private readonly Subject _roboticsSubject;
-        private readonly StudyGroup _itTech10AStudyGroup;
-        private readonly StudyGroup _robotics11BStudyGroup;
-        private readonly User _studentJohn;
-        private readonly User _studentJane;
-        private readonly Lesson _itTechLesson1;
-        private readonly Lesson _roboticsLesson1;
-        private readonly AcademicPerformance _johnItTechGrade;
+        private readonly Mock<IMessenger> _mockMessenger;
+        private DiaryTeacherVm _viewModel;
+
+        private readonly Role _teacherRole = new Role { RoleID = 1, RoleName = "Teacher" };
+        private readonly Role _studentRole = new Role { RoleID = 3, RoleName = "Student" };
+        private readonly Group _group1 = new Group { GroupID = 1, GroupName = "10A" };
+        private readonly Group _group2 = new Group { GroupID = 2, GroupName = "11B" };
+        private readonly Subject _math = new Subject { SubjectID = 1, SubjectName = "Математика" };
+        private readonly Subject _physics = new Subject { SubjectID = 2, SubjectName = "Физика" };
+        private readonly Classroom _classroom1 = new Classroom { ClassroomID = 1, RoomNumber = "101" };
+
+        private User _teacherUser;
+        private User _student1;
+        private User _student2;
+        private StudyGroup _studyGroup1;
+        private StudyGroup _studyGroup2;
+        private Lesson _lesson1;
+        private Lesson _lesson2;
+        private AcademicPerformance _performance1;
 
         public DiaryTeacherVmTests()
         {
-            _messenger = WeakReferenceMessenger.Default;
-            _messenger.Reset();
-
             _dbContextFactory = new TestDbContextFactory(Guid.NewGuid().ToString());
+            _mockMessenger = new Mock<IMessenger>();
 
-            _teacherRole = new Role { RoleID = 2, RoleName = "Преподаватель" };
-            _studentRole = new Role { RoleID = 3, RoleName = "Ученик" };
+            // Явно указываем строковый токен для TToken
+            _mockMessenger.Setup(m => m.Register<IRecipient<UserAuthenticatedMessage>, UserAuthenticatedMessage, string>( // Изменено с object на string
+                                    It.IsAny<IRecipient<UserAuthenticatedMessage>>(),
+                                    It.IsAny<string>(), // Изменено с object на string
+                                    It.IsAny<MessageHandler<IRecipient<UserAuthenticatedMessage>, UserAuthenticatedMessage>>()))
+                          .Callback<IRecipient<UserAuthenticatedMessage>, string, MessageHandler<IRecipient<UserAuthenticatedMessage>, UserAuthenticatedMessage>>((recipient, token, handler) => // Изменено с object на string
+                          {
+                              // Здесь ничего не делаем, так как это мок
+                          });
+            _mockMessenger.Setup(m => m.UnregisterAll(It.IsAny<object>()));
 
-            _teacherUser = new User { UserID = 101, Username = "teacher1", FirstName = "Иван", LastName = "Иванов", RoleID = _teacherRole.RoleID };
-            _group10A = new Group { GroupID = 1, GroupName = "10А" };
-            _group11B = new Group { GroupID = 2, GroupName = "11Б" };
-            _itTechSubject = new Subject { SubjectID = 1, SubjectName = "Изучение IT-технологий" };
-            _roboticsSubject = new Subject { SubjectID = 2, SubjectName = "LEGO Mindstorms EV3" };
+            _viewModel = new DiaryTeacherVm(_dbContextFactory);
 
-            _itTech10AStudyGroup = new StudyGroup
-            {
-                StudyGroupID = 1001,
-                TeacherID = _teacherUser.UserID,
-                GroupID = _group10A.GroupID,
-                SubjectID = _itTechSubject.SubjectID,
-                Teacher = _teacherUser,
-                Group = _group10A,
-                Subject = _itTechSubject
-            };
-            _robotics11BStudyGroup = new StudyGroup
-            {
-                StudyGroupID = 1002,
-                TeacherID = _teacherUser.UserID,
-                GroupID = _group11B.GroupID,
-                SubjectID = _roboticsSubject.SubjectID,
-                Teacher = _teacherUser,
-                Group = _group11B,
-                Subject = _roboticsSubject
-            };
-
-            _studentJohn = new User { UserID = 201, Username = "john", FirstName = "Иван", LastName = "Петров", RoleID = _studentRole.RoleID, GroupID = _group10A.GroupID };
-            _studentJane = new User { UserID = 202, Username = "jane", FirstName = "Анна", LastName = "Сидорова", RoleID = _studentRole.RoleID, GroupID = _group10A.GroupID };
-
-            _itTechLesson1 = new Lesson
-            {
-                LessonID = 301,
-                StudyGroupID = _itTech10AStudyGroup.StudyGroupID,
-                LessonDate = new DateTime(2023, 10, 26),
-                LessonTime = new TimeSpan(10, 0, 0),
-                Topic = "Основы кибербезопасности",
-                StudyGroup = _itTech10AStudyGroup
-            };
-            _roboticsLesson1 = new Lesson
-            {
-                LessonID = 302,
-                StudyGroupID = _robotics11BStudyGroup.StudyGroupID,
-                LessonDate = new DateTime(2023, 10, 27),
-                LessonTime = new TimeSpan(11, 0, 0),
-                Topic = "Движение робота по линии",
-                StudyGroup = _robotics11BStudyGroup
-            };
-
-            _johnItTechGrade = new AcademicPerformance
-            {
-                PerformanceID = 401,
-                StudentID = _studentJohn.UserID,
-                LessonID = _itTechLesson1.LessonID,
-                Grade = "5",
-                Attendance = true,
-                Comment = "Отлично",
-                Student = _studentJohn,
-                Lesson = _itTechLesson1
-            };
+            InitializeTestData();
         }
 
-        private async Task<DiaryTeacherVm> CreateViewModel(User? currentUser = null)
+        private void InitializeTestData()
+        {
+            _teacherUser = new User { UserID = 1, FirstName = "Иван", LastName = "Петров", Email = "teacher@school.com", RoleID = _teacherRole.RoleID, Role = _teacherRole };
+            _student1 = new User { UserID = 2, FirstName = "Анна", LastName = "Иванова", Email = "anna@school.com", RoleID = _studentRole.RoleID, GroupID = _group1.GroupID, Role = _studentRole, Group = _group1 };
+            _student2 = new User { UserID = 3, FirstName = "Петр", LastName = "Сидоров", Email = "petr@school.com", RoleID = _studentRole.RoleID, GroupID = _group1.GroupID, Role = _studentRole, Group = _group1 };
+
+            _studyGroup1 = new StudyGroup { StudyGroupID = 1, GroupID = _group1.GroupID, SubjectID = _math.SubjectID, TeacherID = _teacherUser.UserID, Group = _group1, Subject = _math, Teacher = _teacherUser };
+            _studyGroup2 = new StudyGroup { StudyGroupID = 2, GroupID = _group2.GroupID, SubjectID = _physics.SubjectID, TeacherID = _teacherUser.UserID, Group = _group2, Subject = _physics, Teacher = _teacherUser };
+
+            _lesson1 = new Lesson { LessonID = 1, StudyGroupID = _studyGroup1.StudyGroupID, LessonDate = new DateTime(2025, 1, 10), LessonTime = new TimeSpan(9, 0, 0), Topic = "Алгебра", StudyGroup = _studyGroup1, ClassroomID = _classroom1.ClassroomID };
+            _lesson2 = new Lesson { LessonID = 2, StudyGroupID = _studyGroup1.StudyGroupID, LessonDate = new DateTime(2025, 1, 12), LessonTime = new TimeSpan(10, 0, 0), Topic = "Геометрия", StudyGroup = _studyGroup1, ClassroomID = _classroom1.ClassroomID };
+
+            _performance1 = new AcademicPerformance { PerformanceID = 1, StudentID = _student1.UserID, LessonID = _lesson1.LessonID, Grade = "5", Attendance = true, Comment = "Хорошо", Student = _student1, Lesson = _lesson1 };
+        }
+
+        public void Dispose()
         {
             using (var context = _dbContextFactory.CreateDbContext())
             {
-                _dbContextFactory.SeedData(context,
-                    _teacherRole, _studentRole, _teacherUser, _group10A, _group11B,
-                    _itTechSubject, _roboticsSubject,
-                    _itTech10AStudyGroup, _robotics11BStudyGroup,
-                    _studentJohn, _studentJane,
-                    _itTechLesson1, _roboticsLesson1,
-                    _johnItTechGrade
-                );
+                context.Database.EnsureDeleted();
             }
-            var vm = new DiaryTeacherVm(_dbContextFactory);
-            if (currentUser != null)
+        }
+
+        private void SeedDatabase(params object[] entities)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
             {
-                vm.Receive(new UserAuthenticatedMessage(currentUser));
-                await Task.Delay(50);
+                _dbContextFactory.SeedData(context, entities);
             }
-            return vm;
+        }
+
+        private void SetAuthenticatedUser(User user)
+        {
+            _viewModel.Receive(new UserAuthenticatedMessage(user));
         }
 
         [Fact]
-        public async Task Receive_WithAuthenticatedTeacherUser_LoadsInitialData()
+        public async Task Receive_UserAuthenticatedMessage_LoadsDataAndSetsTeacher()
         {
-            var vm = await CreateViewModel();
-            Assert.Null(vm.SelectedGroup);
-            Assert.Empty(vm.Groups);
-            Assert.Empty(vm.Subjects);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
 
-            vm.Receive(new UserAuthenticatedMessage(_teacherUser));
+            SetAuthenticatedUser(_teacherUser);
             await Task.Delay(100);
 
-            Assert.NotNull(vm.SelectedGroup);
-            Assert.Equal(_group10A.GroupID, vm.SelectedGroup.GroupID);
-            Assert.Contains(vm.Groups, g => g.GroupID == _group10A.GroupID);
-            Assert.Contains(vm.Groups, g => g.GroupID == _group11B.GroupID);
-            Assert.Contains(vm.Subjects, s => s.SubjectID == _itTechSubject.SubjectID);
-            Assert.Contains(vm.Subjects, s => s.SubjectID == _roboticsSubject.SubjectID);
-            Assert.NotEmpty(vm.DiaryCollection);
-            Assert.NotEmpty(vm.StudentsInSelectedGroup);
-            Assert.Contains(vm.StudentsInSelectedGroup, s => s.UserID == _studentJohn.UserID);
-            Assert.Contains(vm.StudentsInSelectedGroup, s => s.UserID == _studentJane.UserID);
-            Assert.NotEmpty(vm.LessonsForSelectedStudent);
-            Assert.Contains(vm.LessonsForSelectedStudent, l => l.LessonID == _itTechLesson1.LessonID);
+            Assert.NotNull(GetPrivateFieldValue<User>(_viewModel, "_currentTeacherUser"));
+            Assert.True(_viewModel.DiaryCollection.Any());
         }
 
         [Fact]
-        public async Task Receive_WithNullUser_ClearsAllData()
+        public async Task Receive_UserAuthenticatedMessage_NullUserClearsData()
         {
-            var vm = await CreateViewModel(_teacherUser);
-            Assert.NotEmpty(vm.Groups);
-            Assert.NotEmpty(vm.Subjects);
-            Assert.NotEmpty(vm.DiaryCollection);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            await Task.Delay(100);
 
-            vm.Receive(new UserAuthenticatedMessage(null));
-            await Task.Delay(50);
+            _viewModel.Receive(new UserAuthenticatedMessage(null));
+            await Task.Delay(100);
 
-            Assert.Empty(vm.Groups);
-            Assert.Empty(vm.StudentsInSelectedGroup);
-            Assert.Empty(vm.LessonsForSelectedStudent);
-            Assert.Empty(vm.Subjects);
-            Assert.Empty(vm.DiaryCollection);
-            Assert.Null(vm.SelectedGroup);
-            Assert.Null(vm.SelectedStudent);
-            Assert.Null(vm.SelectedLesson);
-            Assert.Null(vm.SelectedSubject);
-            Assert.Null(vm.SelectedGrade);
-            Assert.Null(vm.CommentInput);
-            Assert.Null(vm.SelectedActionType);
+            Assert.Null(GetPrivateFieldValue<User>(_viewModel, "_currentTeacherUser"));
+            Assert.Empty(_viewModel.DiaryCollection);
+            Assert.Empty(_viewModel.Groups);
+            Assert.Empty(_viewModel.StudentsInSelectedGroup);
+            Assert.Empty(_viewModel.LessonsForSelectedStudent);
+            Assert.Empty(_viewModel.Subjects);
+            Assert.Null(_viewModel.SelectedGroup);
+            Assert.Null(_viewModel.SelectedStudent);
+            Assert.Null(_viewModel.SelectedLesson);
+            Assert.Null(_viewModel.SelectedSubject);
+            Assert.Null(_viewModel.SelectedGrade);
+            Assert.Null(_viewModel.CommentInput);
+            Assert.Null(_viewModel.SelectedActionType);
         }
+
+        [Fact]
+        public async Task LoadDiaryDataAsync_LoadsCorrectDataForTeacher()
+        {
+            SeedDatabase(_teacherRole, _studentRole, _group1, _group2, _math, _physics, _classroom1, _teacherUser, _student1, _student2, _studyGroup1, _studyGroup2, _lesson1, _lesson2, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+
+            await _viewModel.LoadDiaryDataAsync();
+
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == _performance1.PerformanceID);
+            Assert.Equal(1, _viewModel.DiaryCollection.Count);
+        }
+
+        [Fact]
+        public async Task LoadDiaryDataAsync_FiltersBySelectedGroup()
+        {
+            var student3 = new User { UserID = 4, FirstName = "Максим", LastName = "Козлов", Email = "max@school.com", RoleID = _studentRole.RoleID, GroupID = _group2.GroupID, Role = _studentRole, Group = _group2 };
+            var studyGroup3 = new StudyGroup { StudyGroupID = 3, GroupID = _group2.GroupID, SubjectID = _physics.SubjectID, TeacherID = _teacherUser.UserID, Group = _group2, Subject = _physics, Teacher = _teacherUser };
+            var lesson3 = new Lesson { LessonID = 3, StudyGroupID = studyGroup3.StudyGroupID, LessonDate = new DateTime(2025, 2, 1), LessonTime = new TimeSpan(11, 0, 0), Topic = "Оптика", StudyGroup = studyGroup3, ClassroomID = _classroom1.ClassroomID };
+            var performance3 = new AcademicPerformance { PerformanceID = 2, StudentID = student3.UserID, LessonID = lesson3.LessonID, Grade = "4", Attendance = true, Comment = "Хорошо", Student = student3, Lesson = lesson3 };
+
+            SeedDatabase(_teacherRole, _studentRole, _group1, _group2, _math, _physics, _classroom1, _teacherUser, _student1, _student2, student3, _studyGroup1, _studyGroup2, studyGroup3, _lesson1, _lesson2, lesson3, _performance1, performance3);
+            SetAuthenticatedUser(_teacherUser);
+
+            _viewModel.SelectedGroup = _group1;
+
+            await _viewModel.LoadDiaryDataAsync();
+
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == _performance1.PerformanceID);
+            Assert.DoesNotContain(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == performance3.PerformanceID);
+            Assert.Equal(1, _viewModel.DiaryCollection.Count);
+        }
+
+        [Fact]
+        public async Task LoadDiaryDataAsync_FiltersBySelectedStudent()
+        {
+            var performance2 = new AcademicPerformance { PerformanceID = 2, StudentID = _student2.UserID, LessonID = _lesson1.LessonID, Grade = "3", Attendance = true, Comment = "Требует внимания", Student = _student2, Lesson = _lesson1 };
+
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _student2, _studyGroup1, _lesson1, _lesson2, _performance1, performance2);
+            SetAuthenticatedUser(_teacherUser);
+
+            _viewModel.SelectedStudent = _student1;
+
+            await _viewModel.LoadDiaryDataAsync();
+
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == _performance1.PerformanceID);
+            Assert.DoesNotContain(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == performance2.PerformanceID);
+            Assert.Equal(1, _viewModel.DiaryCollection.Count);
+        }
+
+        [Fact]
+        public async Task LoadDiaryDataAsync_FiltersBySelectedSubject()
+        {
+            var lessonForPhysics = new Lesson { LessonID = 3, StudyGroupID = _studyGroup2.StudyGroupID, LessonDate = new DateTime(2025, 3, 1), LessonTime = new TimeSpan(14, 0, 0), Topic = "Механика", StudyGroup = _studyGroup2, ClassroomID = _classroom1.ClassroomID };
+            var performanceForPhysics = new AcademicPerformance { PerformanceID = 2, StudentID = _student1.UserID, LessonID = lessonForPhysics.LessonID, Grade = "4", Attendance = true, Comment = "Активно работает", Student = _student1, Lesson = lessonForPhysics };
+
+            SeedDatabase(_teacherRole, _studentRole, _group1, _group2, _math, _physics, _classroom1, _teacherUser, _student1, _studyGroup1, _studyGroup2, _lesson1, _lesson2, lessonForPhysics, _performance1, performanceForPhysics);
+            SetAuthenticatedUser(_teacherUser);
+
+            _viewModel.SelectedSubject = _physics;
+
+            await _viewModel.LoadDiaryDataAsync();
+
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == performanceForPhysics.PerformanceID);
+            Assert.DoesNotContain(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == _performance1.PerformanceID);
+            Assert.Equal(1, _viewModel.DiaryCollection.Count);
+        }
+
+        [Fact]
+        public async Task LoadDiaryDataAsync_FiltersBySelectedLesson()
+        {
+            var performance2 = new AcademicPerformance { PerformanceID = 2, StudentID = _student1.UserID, LessonID = _lesson2.LessonID, Grade = "4", Attendance = true, Comment = "Хорошо", Student = _student1, Lesson = _lesson2 };
+
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _lesson2, _performance1, performance2);
+            SetAuthenticatedUser(_teacherUser);
+
+            _viewModel.SelectedLesson = _lesson1;
+
+            await _viewModel.LoadDiaryDataAsync();
+
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.LessonDescription == _lesson1.Topic);
+            Assert.DoesNotContain(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == performance2.PerformanceID);
+            Assert.Equal(1, _viewModel.DiaryCollection.Count);
+        }
+
 
         [Fact]
         public async Task OnSelectedGroupChanged_LoadsStudentsAndLessonsAndDiaryData()
         {
-            var vm = await CreateViewModel(_teacherUser);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            await _viewModel.LoadDiaryDataAsync();
 
-            vm.SelectedGroup = _group10A;
+            _viewModel.SelectedGroup = _group1;
+
             await Task.Delay(100);
 
-            Assert.NotEmpty(vm.StudentsInSelectedGroup);
-            Assert.Contains(vm.StudentsInSelectedGroup, s => s.UserID == _studentJohn.UserID);
-            Assert.Contains(vm.StudentsInSelectedGroup, s => s.UserID == _studentJane.UserID);
-            Assert.NotEmpty(vm.LessonsForSelectedStudent);
-            Assert.Contains(vm.LessonsForSelectedStudent, l => l.LessonID == _itTechLesson1.LessonID);
-            Assert.NotEmpty(vm.DiaryCollection);
-            Assert.Contains(vm.DiaryCollection, ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
+            Assert.NotEmpty(_viewModel.StudentsInSelectedGroup);
+            Assert.Contains(_viewModel.StudentsInSelectedGroup, s => s.UserID == _student1.UserID);
+            Assert.NotEmpty(_viewModel.LessonsForSelectedStudent);
+            Assert.Contains(_viewModel.LessonsForSelectedStudent, l => l.LessonID == _lesson1.LessonID);
+            Assert.NotEmpty(_viewModel.DiaryCollection);
         }
 
         [Fact]
-        public async Task PerformGradeActionAsync_AddsNewGrade_WhenActionIsAdd()
+        public async Task OnSelectedStudentChanged_LoadsDiaryData()
         {
-            var vm = await CreateViewModel(_teacherUser);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            await _viewModel.LoadDiaryDataAsync();
 
-            vm.SelectedGroup = _group10A;
+            _viewModel.SelectedStudent = _student1;
+
             await Task.Delay(100);
 
-            vm.SelectedStudent = vm.StudentsInSelectedGroup.FirstOrDefault(s => s.UserID == _studentJane.UserID);
-            Assert.NotNull(vm.SelectedStudent);
-            await Task.Delay(100);
-
-            vm.SelectedSubject = _itTechSubject;
-            await Task.Delay(100);
-
-            vm.SelectedLesson = vm.LessonsForSelectedStudent.FirstOrDefault(l => l.LessonID == _itTechLesson1.LessonID);
-            Assert.NotNull(vm.SelectedLesson);
-            await Task.Delay(100);
-
-            Assert.Empty(vm.DiaryCollection);
-
-            vm.SelectedGrade = "4";
-            vm.CommentInput = "Хорошо";
-            vm.SelectedActionType = "Добавить";
-
-            int initialCountBeforeAdd = vm.DiaryCollection.Count;
-
-            await vm.PerformGradeActionCommand.ExecuteAsync(null);
-            await Task.Delay(100);
-
-            Assert.Equal(initialCountBeforeAdd + 2, vm.DiaryCollection.Count);
-
-            var newGrade = vm.DiaryCollection.FirstOrDefault(ap => ap.StudentFullName == $"{_studentJane.LastName} {_studentJane.FirstName}" && ap.LessonDescription == _itTechLesson1.Topic);
-            Assert.NotNull(newGrade);
-            Assert.Equal("4", newGrade.Grade);
-            Assert.Equal("Хорошо", newGrade.Comment);
-
-            using (var context = _dbContextFactory.CreateDbContext())
-            {
-                var addedPerformance = await context.AcademicPerformance
-                    .FirstOrDefaultAsync(ap => ap.StudentID == _studentJane.UserID && ap.LessonID == _itTechLesson1.LessonID);
-                Assert.NotNull(addedPerformance);
-                Assert.Equal("4", addedPerformance.Grade);
-                Assert.Equal("Хорошо", addedPerformance.Comment);
-            }
-
-            Assert.Null(vm.SelectedGrade);
-            Assert.Null(vm.CommentInput);
-            Assert.Null(vm.SelectedActionType);
-            Assert.Null(vm.SelectedStudent);
-            Assert.Null(vm.SelectedLesson);
-            Assert.Null(vm.SelectedSubject);
-            Assert.Null(vm.SelectedGroup);
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.StudentFullName == _student1.FullName);
         }
 
         [Fact]
-        public async Task PerformGradeActionAsync_UpdatesExistingGrade_WhenActionIsUpdate()
+        public async Task OnSelectedSubjectChanged_LoadsLessonsForGroupAndSubjectAndDiaryData()
         {
-            var vm = await CreateViewModel(_teacherUser);
-            Assert.NotEmpty(vm.DiaryCollection);
-            var existingDisplayModel = vm.DiaryCollection.First(ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _physics, _classroom1, _teacherUser, _student1, _studyGroup1, _studyGroup2, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            _viewModel.SelectedGroup = _group1;
+            await _viewModel.LoadDiaryDataAsync();
 
-            await vm.EditGradeCommand.ExecuteAsync(existingDisplayModel);
+            _viewModel.SelectedSubject = _math;
+
             await Task.Delay(100);
 
-            Assert.NotEmpty(vm.StudentsInSelectedGroup);
-            Assert.Contains(vm.StudentsInSelectedGroup, s => s.UserID == _studentJohn.UserID);
-            Assert.NotEmpty(vm.LessonsForSelectedStudent);
-            Assert.Contains(vm.LessonsForSelectedStudent, l => l.LessonID == _itTechLesson1.LessonID);
-
-            Assert.Equal(_studentJohn.UserID, vm.SelectedStudent?.UserID);
-            Assert.Equal(_itTechLesson1.LessonID, vm.SelectedLesson?.LessonID);
-            Assert.Equal(_itTechSubject.SubjectID, vm.SelectedSubject?.SubjectID);
-            Assert.Equal(_group10A.GroupID, vm.SelectedGroup?.GroupID);
-
-
-            vm.SelectedGrade = "3";
-            vm.CommentInput = "Средне";
-            vm.SelectedActionType = "Обновить";
-
-            await vm.PerformGradeActionCommand.ExecuteAsync(null);
-            await Task.Delay(100);
-
-            var updatedGrade = vm.DiaryCollection.FirstOrDefault(ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
-            Assert.NotNull(updatedGrade);
-            Assert.Equal("3", updatedGrade.Grade);
-            Assert.Equal("Средне", updatedGrade.Comment);
-
-            using (var context = _dbContextFactory.CreateDbContext())
-            {
-                var performanceInDb = await context.AcademicPerformance.FindAsync(_johnItTechGrade.PerformanceID);
-                Assert.NotNull(performanceInDb);
-                Assert.Equal("3", performanceInDb.Grade);
-                Assert.Equal("Средне", performanceInDb.Comment);
-            }
-        }
-
-        [Fact]
-        public async Task PerformGradeActionAsync_DeletesExistingGrade_WhenActionIsDelete()
-        {
-            var vm = await CreateViewModel(_teacherUser);
-            Assert.NotEmpty(vm.DiaryCollection);
-            var initialCount = vm.DiaryCollection.Count;
-            var existingGrade = vm.DiaryCollection.First(ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
-
-            await vm.EditGradeCommand.ExecuteAsync(existingGrade);
-            await Task.Delay(100);
-
-            vm.SelectedActionType = "Удалить";
-
-            await vm.PerformGradeActionCommand.ExecuteAsync(null);
-            await Task.Delay(100);
-
-            Assert.Equal(initialCount - 1, vm.DiaryCollection.Count);
-            Assert.DoesNotContain(vm.DiaryCollection, ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
-
-            using (var context = _dbContextFactory.CreateDbContext())
-            {
-                var deletedPerformance = await context.AcademicPerformance.FindAsync(_johnItTechGrade.PerformanceID);
-                Assert.Null(deletedPerformance);
-            }
-            Assert.Null(vm.SelectedGrade);
-            Assert.Null(vm.CommentInput);
-            Assert.Null(vm.SelectedActionType);
-            Assert.Null(vm.SelectedStudent);
-            Assert.Null(vm.SelectedLesson);
-            Assert.Null(vm.SelectedSubject);
-            Assert.Null(vm.SelectedGroup);
-        }
-
-        [Fact]
-        public async Task EditGrade_PopulatesInputFieldsWithSelectedPerformanceData()
-        {
-            var vm = await CreateViewModel(_teacherUser);
-            Assert.NotEmpty(vm.DiaryCollection);
-            var performanceToEdit = vm.DiaryCollection.First(ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
-
-            await vm.EditGradeCommand.ExecuteAsync(performanceToEdit);
-            await Task.Delay(100);
-
-            Assert.NotEmpty(vm.StudentsInSelectedGroup);
-            Assert.NotEmpty(vm.LessonsForSelectedStudent);
-
-            Assert.Equal("Обновить", vm.SelectedActionType);
-            Assert.Equal(_group10A.GroupID, vm.SelectedGroup?.GroupID);
-            Assert.Equal(_studentJohn.UserID, vm.SelectedStudent?.UserID);
-            Assert.Equal(_itTechSubject.SubjectID, vm.SelectedSubject?.SubjectID);
-            Assert.Equal(_itTechLesson1.LessonID, vm.SelectedLesson?.LessonID);
-            Assert.Equal(_johnItTechGrade.Grade, vm.SelectedGrade);
-            Assert.Equal(_johnItTechGrade.Comment, vm.CommentInput);
-        }
-
-        [Fact]
-        public async Task EditGrade_HandlesNullPerformance()
-        {
-            var vm = await CreateViewModel(_teacherUser);
-
-            await vm.EditGradeCommand.ExecuteAsync(null);
-            await Task.Delay(50);
-
-            Assert.Equal("Добавить", vm.SelectedActionType);
-            Assert.Null(vm.SelectedGrade);
-            Assert.Null(vm.CommentInput);
-            Assert.NotNull(vm.SelectedGroup);
-        }
-
-        [Fact]
-        public async Task DeleteGrade_RemovesPerformanceFromCollectionAndDb()
-        {
-            var vm = await CreateViewModel(_teacherUser);
-            Assert.NotEmpty(vm.DiaryCollection);
-            var initialCount = vm.DiaryCollection.Count;
-            var performanceToDelete = vm.DiaryCollection.First(ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
-
-            await vm.DeleteGradeCommand.ExecuteAsync(performanceToDelete);
-            await Task.Delay(100);
-
-            Assert.Equal(initialCount - 1, vm.DiaryCollection.Count);
-            Assert.DoesNotContain(vm.DiaryCollection, ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
-
-            using (var context = _dbContextFactory.CreateDbContext())
-            {
-                var deletedPerformance = await context.AcademicPerformance.FindAsync(_johnItTechGrade.PerformanceID);
-                Assert.Null(deletedPerformance);
-            }
-            Assert.Null(vm.SelectedStudent);
-            Assert.Null(vm.SelectedLesson);
-            Assert.Null(vm.SelectedSubject);
-            Assert.Null(vm.SelectedGrade);
-            Assert.Null(vm.CommentInput);
-            Assert.Null(vm.SelectedActionType);
-        }
-
-        [Fact]
-        public async Task DeleteGrade_DoesNothingForNullPerformance()
-        {
-            var vm = await CreateViewModel(_teacherUser);
-            var initialCount = vm.DiaryCollection.Count;
-
-            await vm.DeleteGradeCommand.ExecuteAsync(null);
-            await Task.Delay(10);
-
-            Assert.Equal(initialCount, vm.DiaryCollection.Count);
-        }
-
-        [Fact]
-        public async Task OnSelectedSubjectChanged_LoadsLessonsAndDiaryData()
-        {
-            var vm = await CreateViewModel(_teacherUser);
-
-            vm.SelectedGroup = _group10A;
-            await Task.Delay(100);
-
-            vm.LessonsForSelectedStudent.Clear();
-            vm.DiaryCollection.Clear();
-
-            vm.SelectedSubject = _itTechSubject;
-            await Task.Delay(100);
-
-            Assert.NotEmpty(vm.LessonsForSelectedStudent);
-            Assert.Contains(vm.LessonsForSelectedStudent, l => l.LessonID == _itTechLesson1.LessonID);
-            Assert.NotEmpty(vm.DiaryCollection);
-            Assert.Contains(vm.DiaryCollection, ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
+            Assert.NotEmpty(_viewModel.LessonsForSelectedStudent);
+            Assert.Contains(_viewModel.LessonsForSelectedStudent, l => l.StudyGroupID == _studyGroup1.StudyGroupID);
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.SubjectName == _math.SubjectName);
         }
 
         [Fact]
         public async Task OnSelectedLessonChanged_LoadsDiaryData()
         {
-            var vm = await CreateViewModel(_teacherUser);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            await _viewModel.LoadDiaryDataAsync();
 
-            vm.SelectedGroup = _group10A;
+            _viewModel.SelectedLesson = _lesson1;
+
             await Task.Delay(100);
 
-            vm.SelectedSubject = _itTechSubject;
-            await Task.Delay(100);
-
-            vm.DiaryCollection.Clear();
-
-            vm.SelectedLesson = _itTechLesson1;
-            await Task.Delay(100);
-
-            Assert.NotEmpty(vm.DiaryCollection);
-            Assert.Contains(vm.DiaryCollection, ap => ap.AcademicPerformanceId == _johnItTechGrade.PerformanceID);
+            Assert.NotEmpty(_viewModel.DiaryCollection);
+            Assert.Contains(_viewModel.DiaryCollection, ap => ap.LessonDescription == _lesson1.Topic);
         }
 
         [Fact]
-        public async Task PerformGradeActionAsync_DoesNotAddGrade_IfRequiredFieldsAreNull()
+        public async Task PerformGradeActionAsync_AddGrade_ExistingPerformance_DoesNothing()
         {
-            var vm = await CreateViewModel(_teacherUser);
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
 
-            var initialCount = vm.DiaryCollection.Count;
+            _viewModel.SelectedActionType = "Добавить";
+            _viewModel.SelectedGroup = _group1;
+            _viewModel.SelectedStudent = _student1;
+            _viewModel.SelectedLesson = _lesson1;
+            _viewModel.SelectedSubject = _math;
+            _viewModel.SelectedGrade = "2";
 
-            vm.SelectedActionType = "Добавить";
-            vm.SelectedStudent = null;
-            vm.SelectedLesson = null;
-            vm.SelectedGrade = null;
-            vm.SelectedSubject = null;
-            vm.SelectedGroup = null;
+            await _viewModel.PerformGradeActionCommand.ExecuteAsync(null);
 
-
-            await vm.PerformGradeActionCommand.ExecuteAsync(null);
-            await Task.Delay(50);
-
-            Assert.Equal(initialCount, vm.DiaryCollection.Count);
-
-            using (var context = _dbContextFactory.CreateDbContext())
+            using (var dbContext = _dbContextFactory.CreateDbContext())
             {
-                var newPerformance = await context.AcademicPerformance
-                    .FirstOrDefaultAsync(ap => ap.StudentID == null || ap.LessonID == null || ap.Grade == null);
-                Assert.Null(newPerformance);
+                var performance = await dbContext.AcademicPerformance
+                    .FirstOrDefaultAsync(ap => ap.PerformanceID == _performance1.PerformanceID);
+                Assert.Equal("5", performance.Grade);
             }
+        }
+
+        [Fact]
+        public async Task PerformGradeActionAsync_UpdateGrade_NonExistingPerformance_DoesNothing()
+        {
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1);
+            SetAuthenticatedUser(_teacherUser);
+
+            _viewModel.SelectedActionType = "Обновить";
+            _viewModel.SelectedGroup = _group1;
+            _viewModel.SelectedStudent = _student1;
+            _viewModel.SelectedLesson = _lesson1;
+            _viewModel.SelectedSubject = _math;
+            _viewModel.SelectedGrade = "4";
+
+            await _viewModel.PerformGradeActionCommand.ExecuteAsync(null);
+
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var performance = await dbContext.AcademicPerformance
+                    .FirstOrDefaultAsync(ap => ap.StudentID == _student1.UserID && ap.LessonID == _lesson1.LessonID);
+                Assert.Null(performance);
+            }
+        }
+
+        [Fact]
+        public async Task PerformGradeActionAsync_DeleteGrade_NonExistingPerformance_DoesNothing()
+        {
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1);
+            SetAuthenticatedUser(_teacherUser);
+
+            _viewModel.SelectedActionType = "Удалить";
+            _viewModel.SelectedGroup = _group1;
+            _viewModel.SelectedStudent = _student1;
+            _viewModel.SelectedLesson = _lesson1;
+            _viewModel.SelectedSubject = _math;
+
+            await _viewModel.PerformGradeActionCommand.ExecuteAsync(null);
+
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var performance = await dbContext.AcademicPerformance
+                    .FirstOrDefaultAsync(ap => ap.StudentID == _student1.UserID && ap.LessonID == _lesson1.LessonID);
+                Assert.Null(performance);
+            }
+        }
+
+        [Fact]
+        public async Task EditGrade_NullPerformanceSetsActionToAdd()
+        {
+            SetAuthenticatedUser(_teacherUser);
+
+            await _viewModel.EditGradeCommand.ExecuteAsync(null);
+
+            Assert.Equal("Добавить", _viewModel.SelectedActionType);
+            Assert.Null(_viewModel.SelectedGrade);
+            Assert.Null(_viewModel.CommentInput);
+            Assert.Equal(0, GetPrivateFieldValue<int>(_viewModel, "_editingPerformanceId"));
+        }
+
+        [Fact]
+        public async Task DeleteGrade_RemovesPerformanceAndReloadsData()
+        {
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            await _viewModel.LoadDiaryDataAsync();
+
+            var displayModel = _viewModel.DiaryCollection.First();
+
+            await _viewModel.DeleteGradeCommand.ExecuteAsync(displayModel);
+
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var deletedPerformance = await dbContext.AcademicPerformance
+                    .FirstOrDefaultAsync(ap => ap.PerformanceID == _performance1.PerformanceID);
+                Assert.Null(deletedPerformance);
+            }
+            Assert.Empty(_viewModel.DiaryCollection);
+        }
+
+        [Fact]
+        public async Task DeleteGrade_NullPerformance_DoesNothing()
+        {
+            SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _studyGroup1, _lesson1, _performance1);
+            SetAuthenticatedUser(_teacherUser);
+            await _viewModel.LoadDiaryDataAsync();
+            var initialCount = _viewModel.DiaryCollection.Count;
+
+            await _viewModel.DeleteGradeCommand.ExecuteAsync(null);
+
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var existingPerformance = await dbContext.AcademicPerformance.FirstOrDefaultAsync();
+                Assert.NotNull(existingPerformance);
+            }
+            Assert.Equal(initialCount, _viewModel.DiaryCollection.Count);
+        }
+
+        private T GetPrivateFieldValue<T>(object obj, string fieldName)
+        {
+            var field = obj.GetType().GetField(fieldName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            return (T)field.GetValue(obj)!;
         }
     }
 }
