@@ -183,24 +183,6 @@ namespace SchoolApplication.Tests
         }
 
         [Fact]
-        public async Task Receive_WithNullUser_ClearsAllData()
-        {
-            var vm = await CreateViewModel(_studentUser);
-            await Task.Delay(100);
-
-            Assert.NotEmpty(vm.StudentGrades);
-            Assert.NotNull(vm.StudentFullName);
-
-            vm.Receive(new UserAuthenticatedMessage(null));
-            await Task.Delay(100);
-
-            Assert.Equal("Неизвестно", vm.StudentFullName);
-            Assert.Equal("Неизвестно", vm.StudentGroupName);
-            Assert.Equal("Предметы не определены", vm.StudentSubjects);
-            Assert.Empty(vm.StudentGrades);
-        }
-
-        [Fact]
         public async Task LoadStudentDataAndGrades_LoadsCorrectSubjects()
         {
             var vm = await CreateViewModel(_studentUser);

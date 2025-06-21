@@ -1,32 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\gradevmtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\homevmtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\gradevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\gradevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\diaryteachervmtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\diaryteachervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\diaryteachervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\mainviewmodeltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -34,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,97 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "GradeVm.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\GradeVm.cs",
-              "RelativeDocumentMoniker": "ViewModels\\GradeVm.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\GradeVm.cs",
-              "RelativeToolTip": "ViewModels\\GradeVm.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAiwIkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:52:58.113Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HomeVmTests.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\HomeVmTests.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\HomeVmTests.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\HomeVmTests.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\HomeVmTests.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACcAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:40:50.151Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GradeVmTests.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\GradeVmTests.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\GradeVmTests.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\GradeVmTests.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\GradeVmTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:38:29.476Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DiaryTeacherVm.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\DiaryTeacherVm.cs",
-              "RelativeDocumentMoniker": "ViewModels\\DiaryTeacherVm.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\DiaryTeacherVm.cs",
-              "RelativeToolTip": "ViewModels\\DiaryTeacherVm.cs",
-              "ViewState": "AgIAAIIBAAAAAAAAAAAUwKYBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T11:32:40.51Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DiaryTeacherVmTests.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T11:14:40.196Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MainViewModelTests.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH4AAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T10:52:36.903Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MainViewModel.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\MainViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\MainViewModel.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\MainViewModel.cs",
-              "RelativeToolTip": "ViewModels\\MainViewModel.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAUwHcAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T10:47:20.686Z",
-              "EditorCaption": ""
             }
           ]
         }

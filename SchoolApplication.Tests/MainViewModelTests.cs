@@ -46,6 +46,10 @@ namespace SchoolApplication.Tests
 
             _mockLessonAdminVm = new Mock<LessonAdminVm>(MockBehavior.Loose);
 
+            _mockAuthService.Setup(x => x.AuthenticateUser(It.IsAny<string>(), It.IsAny<string>()))
+                            .ReturnsAsync(new User { UserID = 1, Username = "testuser", RoleID = 1 });
+
+
             _loginViewModelInstance = new LoginViewModel(_mockAuthService.Object);
 
             _homeAdminVmInstance = new HomeAdminVm();
@@ -152,17 +156,25 @@ namespace SchoolApplication.Tests
         [Fact]
         public async Task LogoutCommand_SendsUserAuthenticatedMessageWithNull()
         {
-            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
             var vm = CreateViewModel();
 
+            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
             _messenger.Send(new UserAuthenticatedMessage(user));
             await Task.Delay(100);
-            Assert.IsNotType<LoginViewModel>(vm.CurrentApplicationContent);
+
+            Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
 
             vm.LogoutCommand.Execute(null);
+
             await Task.Delay(100);
 
-            Assert.Equal(_loginViewModelInstance, vm.CurrentApplicationContent);
+            Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
+
+            var loginVm = vm.CurrentApplicationContent as LoginViewModel;
+            Assert.NotNull(loginVm);
+            Assert.Equal("", loginVm.Username);
+            Assert.Equal("", loginVm.Password);
+            Assert.Equal("", loginVm.ErrorMessage);
         }
     }
 }
