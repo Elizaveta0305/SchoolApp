@@ -2,118 +2,112 @@
 using SchoolApplication.Data;
 using SchoolApplication.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace SchoolApplication.Tests
 {
     public class TestDbContextFactory : IDbContextFactory<ApplicationDbContext>
     {
-        private readonly string _databaseName;
-
-        public TestDbContextFactory(string databaseName)
-        {
-            _databaseName = databaseName;
-        }
+        private readonly string _dbName = Guid.NewGuid().ToString();
 
         public ApplicationDbContext CreateDbContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: _databaseName)
+                .UseInMemoryDatabase(_dbName)
                 .Options;
-            return new ApplicationDbContext(options);
+
+            var context = new ApplicationDbContext(options);
+
+            return context;
         }
 
         public void SeedData(ApplicationDbContext context, params object[] entities)
         {
-            context.Database.EnsureCreated();
-
-            var newRoles = entities.OfType<Role>().DistinctBy(r => r.RoleID).ToList();
+            var newRoles = entities.OfType<Role>().ToList();
             foreach (var role in newRoles)
             {
-                if (context.Roles.Find(role.RoleID) == null)
+                if (!context.Roles.Any(r => r.RoleID == role.RoleID))
                 {
                     context.Roles.Add(role);
                 }
             }
             context.SaveChanges();
 
-            var newGroups = entities.OfType<Group>().DistinctBy(g => g.GroupID).ToList();
+            var newUsers = entities.OfType<User>().ToList();
+            foreach (var user in newUsers)
+            {
+                if (!context.Users.Any(u => u.UserID == user.UserID))
+                {
+                    context.Users.Add(user);
+                }
+            }
+            context.SaveChanges();
+
+            var newGroups = entities.OfType<Group>().ToList();
             foreach (var group in newGroups)
             {
-                if (context.Groups.Find(group.GroupID) == null)
+                if (!context.Groups.Any(g => g.GroupID == group.GroupID))
                 {
                     context.Groups.Add(group);
                 }
             }
             context.SaveChanges();
 
-            var newSubjects = entities.OfType<Subject>().DistinctBy(s => s.SubjectID).ToList();
+            var newSubjects = entities.OfType<Subject>().ToList();
             foreach (var subject in newSubjects)
             {
-                if (context.Subjects.Find(subject.SubjectID) == null)
+                if (!context.Subjects.Any(s => s.SubjectID == subject.SubjectID))
                 {
                     context.Subjects.Add(subject);
                 }
             }
             context.SaveChanges();
 
-            var newClassrooms = entities.OfType<Classroom>().DistinctBy(c => c.ClassroomID).ToList();
+            var newClassrooms = entities.OfType<Classroom>().ToList();
             foreach (var classroom in newClassrooms)
             {
-                if (context.Classrooms.Find(classroom.ClassroomID) == null)
+                if (!context.Classrooms.Any(c => c.ClassroomID == classroom.ClassroomID))
                 {
                     context.Classrooms.Add(classroom);
                 }
             }
             context.SaveChanges();
 
-            var newUsers = entities.OfType<User>().DistinctBy(u => u.UserID).ToList();
-            foreach (var user in newUsers)
-            {
-                if (context.Users.Find(user.UserID) == null)
-                {
-                    context.Users.Add(user);
-                }
-                else
-                {
-                    context.Entry(user).State = EntityState.Modified;
-                }
-            }
-            context.SaveChanges();
-
-
-            var newStudyGroups = entities.OfType<StudyGroup>().DistinctBy(sg => sg.StudyGroupID).ToList();
+            var newStudyGroups = entities.OfType<StudyGroup>().ToList();
             foreach (var studyGroup in newStudyGroups)
             {
-                if (context.StudyGroups.Find(studyGroup.StudyGroupID) == null)
+                if (!context.StudyGroups.Any(sg => sg.StudyGroupID == studyGroup.StudyGroupID))
                 {
                     context.StudyGroups.Add(studyGroup);
                 }
             }
             context.SaveChanges();
 
-            var newLessons = entities.OfType<Lesson>().DistinctBy(l => l.LessonID).ToList();
+            var newLessons = entities.OfType<Lesson>().ToList();
             foreach (var lesson in newLessons)
             {
-                if (context.Lessons.Find(lesson.LessonID) == null)
+                if (!context.Lessons.Any(l => l.LessonID == lesson.LessonID))
                 {
                     context.Lessons.Add(lesson);
                 }
             }
             context.SaveChanges();
 
-            var newAcademicPerformances = entities.OfType<AcademicPerformance>().DistinctBy(ap => ap.PerformanceID).ToList();
+            var newAcademicPerformances = entities.OfType<AcademicPerformance>().ToList();
             foreach (var ap in newAcademicPerformances)
             {
-                if (context.AcademicPerformance.Find(ap.PerformanceID) == null)
+                if (!context.AcademicPerformance.Any(a => a.PerformanceID == ap.PerformanceID))
                 {
                     context.AcademicPerformance.Add(ap);
                 }
             }
             context.SaveChanges();
 
-            context.ChangeTracker.Clear();
+            // В InMemory нет ChangeTracker.Clear(), но можно отсоединить сущности:
+            foreach (var entry in context.ChangeTracker.Entries())
+            {
+                entry.State = EntityState.Detached;
+            }
         }
     }
 }

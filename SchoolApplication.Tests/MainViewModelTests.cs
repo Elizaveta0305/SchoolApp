@@ -155,20 +155,51 @@ namespace SchoolApplication.Tests
         [Fact]
         public async Task LogoutCommand_SendsUserAuthenticatedMessageWithNull()
         {
-            var vm = CreateViewModel();
+            // Используем изолированный экземпляр WeakReferenceMessenger
+            var messenger = new WeakReferenceMessenger();
+
+            // Передаем messenger в MainViewModel
+            var vm = new MainViewModel(
+                _loginViewModelInstance,
+                _homeStudentVmInstance,
+                _homeAdminVmInstance,
+                _homeTeacherVmInstance,
+                _classroomsAdminVmInstance,
+                _diaryAdminVmInstance,
+                _groupsAdminVmInstance,
+                _subjectsAdminVmInstance,
+                _usersAdminVmInstance,
+                _gradeVmInstance,
+                _lessonsVmInstance,
+                _diaryTeacherVmInstance,
+                _lessonTeacherVmInstance,
+                _navigationAdminVmInstance,
+                _navigationVmInstance,
+                _teacherNavigationVmInstance,
+                messenger // Передаем сюда
+            );
 
             var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
-            _messenger.Send(new UserAuthenticatedMessage(user));
+
+            // Отправляем сообщение об аутентификации пользователя (логинимся)
+            messenger.Send(new UserAuthenticatedMessage(user));
+
+            // Ждем, чтобы состояние обновилось
             await Task.Delay(100);
+
             Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
 
+            // Выполняем логаут
             vm.LogoutCommand.Execute(null);
 
-            await Task.Delay(200);
+            // Ждем обновления состояния
+            await Task.Delay(100);
 
+            // Проверяем, что после логаута — логин вьюмодель
             Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
 
             var loginVm = vm.CurrentApplicationContent as LoginViewModel;
+
             Assert.NotNull(loginVm);
             Assert.Equal("", loginVm.Username);
             Assert.Equal("", loginVm.Password);

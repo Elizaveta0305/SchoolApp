@@ -42,6 +42,7 @@ namespace SchoolApplication.ViewModels
         private readonly NavigationAdminVm _navigationAdminVm;
         private readonly NavigationVm _navigationVm;
         private readonly TeacherNavigationVm _teacherNavigationVm;
+        private readonly IMessenger _messenger;
 
 
         public MainViewModel(
@@ -64,8 +65,11 @@ namespace SchoolApplication.ViewModels
 
             NavigationAdminVm navigationAdminVm,
             NavigationVm navigationVm,
-            TeacherNavigationVm teacherNavigationVm)
+            TeacherNavigationVm teacherNavigationVm,
+            IMessenger messenger = null)
         {
+            _messenger = messenger ?? WeakReferenceMessenger.Default;
+            _messenger.Register<UserAuthenticatedMessage>(this);
             _loginViewModel = loginViewModel;
             _homeStudentVm = homeStudentVm;
             _homeAdminVm = homeAdminVm;
@@ -89,7 +93,7 @@ namespace SchoolApplication.ViewModels
 
             CurrentApplicationContent = _loginViewModel;
 
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            //WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
         }
 
         public void Receive(UserAuthenticatedMessage message)
@@ -114,7 +118,7 @@ namespace SchoolApplication.ViewModels
         [RelayCommand]
         private void Logout()
         {
-            WeakReferenceMessenger.Default.Send(new UserAuthenticatedMessage(null));
+            _messenger.Send(new UserAuthenticatedMessage(null));
         }
     }
 }

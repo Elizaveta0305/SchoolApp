@@ -18,15 +18,18 @@ namespace SchoolApplication.ViewModels
         private readonly HomeTeacherVm _homeTeacherVm;
         private readonly LessonTeacherVm _lessonsTeacherViewModel;
         private readonly DiaryTeacherVm _diaryTeacherViewModel;
+        private readonly IMessenger _messenger;
 
         public TeacherNavigationVm(
             HomeTeacherVm homeTeacherVm,
             LessonTeacherVm lessonsTeacherViewModel,
-            DiaryTeacherVm diaryTeacherViewModel)
+            DiaryTeacherVm diaryTeacherViewModel,
+            IMessenger messenger = null)
         {
             _homeTeacherVm = homeTeacherVm;
             _lessonsTeacherViewModel = lessonsTeacherViewModel;
             _diaryTeacherViewModel = diaryTeacherViewModel;
+            _messenger = messenger ?? WeakReferenceMessenger.Default;
 
             HomeTeacherCommand = new RelayCommand(ExecuteHomeTeacherCommand);
             LessonsTeacherCommand = new RelayCommand(ExecuteLessonsTeacherCommand);
@@ -36,17 +39,17 @@ namespace SchoolApplication.ViewModels
 
         private void ExecuteHomeTeacherCommand()
         {
-            WeakReferenceMessenger.Default.Send(new NavigateMessage(_homeTeacherVm));
+            _messenger.Send(new NavigateMessage(_homeTeacherVm));
         }
 
         private void ExecuteLessonsTeacherCommand()
         {
-            WeakReferenceMessenger.Default.Send(new NavigateMessage(_lessonsTeacherViewModel));
+            _messenger.Send(new NavigateMessage(_lessonsTeacherViewModel));
         }
 
         private void ExecuteDiaryTeacherCommand()
         {
-            WeakReferenceMessenger.Default.Send(new NavigateMessage(_diaryTeacherViewModel));
+            _messenger.Send(new NavigateMessage(_diaryTeacherViewModel));
         }
         private void ExecuteExitApplicationCommand()
         {

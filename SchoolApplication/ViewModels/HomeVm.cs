@@ -70,12 +70,12 @@ namespace SchoolApplication.ViewModels
             HasGradesToDisplay = false;
         }
 
-        public async void Receive(UserAuthenticatedMessage message)
+        public void Receive(UserAuthenticatedMessage message)
         {
             if (message?.Value != null)
             {
                 _currentUser = message.Value;
-                await LoadAllHomeData();
+                _ = LoadAllHomeData();
             }
             else
             {
@@ -92,7 +92,7 @@ namespace SchoolApplication.ViewModels
             }
         }
 
-        private async Task LoadAllHomeData()
+        public async Task LoadAllHomeData()
         {
             if (_currentUser == null || _currentUser.GroupID == null)
             {

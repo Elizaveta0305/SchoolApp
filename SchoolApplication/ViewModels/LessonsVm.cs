@@ -62,7 +62,8 @@ namespace SchoolApplication.ViewModels
                             .ThenInclude(sg => sg.Teacher)
                         .Include(l => l.Classroom)
                         .Where(l => l.StudyGroup != null && l.StudyGroup.GroupID == _currentUser.GroupID)
-                        .OrderBy(l => l.LessonDate)
+                        .OrderBy(l => (l.LessonDate < DateTime.Now.Date || (l.LessonDate == DateTime.Now.Date && l.LessonTime < DateTime.Now.TimeOfDay)) ? 0 : 1) // 0 для прошедших, 1 для будущих
+                        .ThenBy(l => l.LessonDate)
                         .ThenBy(l => l.LessonTime)
                         .ToListAsync();
 
