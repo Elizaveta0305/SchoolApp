@@ -173,10 +173,14 @@ namespace SchoolApplication.Tests
 
             SeedDatabase(_teacherRole, _studentRole, _group1, _math, _classroom1, _teacherUser, _student1, _student2, _studyGroup1, _lesson1, _lesson2, _performance1, performance2);
             SetAuthenticatedUser(_teacherUser);
+            await Task.Delay(500);
+            _viewModel.SelectedGroup = _group1;
+            await Task.Delay(200);
 
             _viewModel.SelectedStudent = _student1;
 
-            await _viewModel.LoadDiaryDataAsync();
+            await Task.Delay(500);
+                                   
 
             Assert.NotEmpty(_viewModel.DiaryCollection);
             Assert.Contains(_viewModel.DiaryCollection, ap => ap.AcademicPerformanceId == _performance1.PerformanceID);
