@@ -144,12 +144,11 @@ namespace SchoolApplication.Tests
             _messenger.Send(new UserAuthenticatedMessage(user));
             await Task.Delay(100);
             Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
-            Assert.IsNotType<LoginViewModel>(vm.CurrentApplicationContent);
-
 
             _messenger.Send(new UserAuthenticatedMessage(null));
             await Task.Delay(100);
 
+            Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
             Assert.Equal(_loginViewModelInstance, vm.CurrentApplicationContent);
         }
 
@@ -161,12 +160,11 @@ namespace SchoolApplication.Tests
             var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
             _messenger.Send(new UserAuthenticatedMessage(user));
             await Task.Delay(100);
-
             Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
 
             vm.LogoutCommand.Execute(null);
 
-            await Task.Delay(100);
+            await Task.Delay(200);
 
             Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
 

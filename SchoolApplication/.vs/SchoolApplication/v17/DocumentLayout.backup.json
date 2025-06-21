@@ -3,7 +3,21 @@
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\diaryteachervmtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\gradevmtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\gradevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\gradevm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\testdbcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\mainviewmodeltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,14 +32,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DiaryTeacherVmTests.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\DiaryTeacherVmTests.cs",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAiwLUAAAAiAAAAAAAAAA==",
+              "Title": "GradeVmTests.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\GradeVmTests.cs",
+              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\GradeVmTests.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\GradeVmTests.cs",
+              "RelativeToolTip": "..\\SchoolApplication.Tests\\GradeVmTests.cs",
+              "ViewState": "AgIAACkBAAAAAAAAAAAqwEABAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T14:16:17.221Z",
+              "WhenOpened": "2025-06-21T14:25:18.739Z",
               "EditorCaption": ""
             },
             {
@@ -35,6 +49,58 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TestDbContextFactory.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\TestDbContextFactory.cs",
+              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\TestDbContextFactory.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\TestDbContextFactory.cs",
+              "RelativeToolTip": "..\\SchoolApplication.Tests\\TestDbContextFactory.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAqwHYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T14:30:31.866Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GradeVm.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\GradeVm.cs",
+              "RelativeDocumentMoniker": "ViewModels\\GradeVm.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\GradeVm.cs",
+              "RelativeToolTip": "ViewModels\\GradeVm.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAiwHwAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T14:29:28.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainViewModelTests.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\MainViewModelTests.cs",
+              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\MainViewModelTests.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\MainViewModelTests.cs",
+              "RelativeToolTip": "..\\SchoolApplication.Tests\\MainViewModelTests.cs",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAlwKcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T14:22:57.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\MainViewModel.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\MainViewModel.cs",
+              "RelativeToolTip": "ViewModels\\MainViewModel.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAUwHcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T14:22:50.308Z",
+              "EditorCaption": ""
             }
           ]
         }
