@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\models\\lessondisplaymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:models\\lessondisplaymodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\homevmtests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -40,19 +44,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "LessonDisplayModel.cs",
+              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\LessonDisplayModel.cs",
+              "RelativeDocumentMoniker": "Models\\LessonDisplayModel.cs",
+              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Models\\LessonDisplayModel.cs",
+              "RelativeToolTip": "Models\\LessonDisplayModel.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAYwFAAAABtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-21T09:24:49.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "HomeVmTests.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\HomeVmTests.cs",
               "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\HomeVmTests.cs",
               "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\HomeVmTests.cs",
               "RelativeToolTip": "..\\SchoolApplication.Tests\\HomeVmTests.cs",
-              "ViewState": "AgIAAKoAAAAAAAAAAAAlwMMAAABxAAAAAAAAAA==",
+              "ViewState": "AgIAAIgBAAAAAAAAAAAqwK4BAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-20T21:17:36.629Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "HomeVm.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\HomeVm.cs",
               "RelativeDocumentMoniker": "ViewModels\\HomeVm.cs",
@@ -60,12 +77,11 @@
               "RelativeToolTip": "ViewModels\\HomeVm.cs",
               "ViewState": "AgIAAOcAAAAAAAAAAAAqwAQBAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T21:16:43.63Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-20T21:16:43.63Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "TestDbContextFactory.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\TestDbContextFactory.cs",
               "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\TestDbContextFactory.cs",
@@ -77,7 +93,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "GradeVmTests.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\GradeVmTests.cs",
               "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\GradeVmTests.cs",
@@ -89,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "GradeVm.cs",
               "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\ViewModels\\GradeVm.cs",
               "RelativeDocumentMoniker": "ViewModels\\GradeVm.cs",

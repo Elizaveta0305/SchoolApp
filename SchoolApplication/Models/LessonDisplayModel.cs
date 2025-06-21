@@ -78,8 +78,8 @@ namespace SchoolApplication.Models
             }
         }
 
-        public string FormattedLessonDate => LessonDate.ToString("dd.MM.yyyy", CultureInfo.CurrentCulture);
-        public string FormattedLessonTime => LessonTime.ToString(@"hh\:mm", CultureInfo.CurrentCulture);
+        public string FormattedLessonDate => LessonDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture);
+        public string FormattedLessonTime => LessonTime.ToString(@"hh\:mm", CultureInfo.InvariantCulture);
         public DateTime FullLessonDateTime { get; set; }
 
         public int LessonId { get; set; }
