@@ -31,31 +31,21 @@ jobs:
 
     - name: Install Coverlet and ReportGenerator
       run: |
-        dotnet tool install --global coverlet.console --version 6.0.0 # Убедитесь, что используете актуальную версию
-        dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0 # Убедитесь, что используете актуальную версию
+        dotnet tool install --global coverlet.console --version 6.0.0
+        dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
 
     - name: Run Unit Tests with Coverage
       working-directory: SchoolApplication
-      run: |
-        dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj `
-        --collect:"XPlat Code Coverage" `
-        --settings "test.runsettings" ` # Это нужно, если вы хотите настроить, что включать/исключать
-        --results-directory "./TestResults" ` # Каталог для результатов тестов и покрытия
-        --logger "trx" ` # Логгер TRX для совместимости
-        --verbosity normal
+      run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --collect:"XPlat Code Coverage" --settings "test.runsettings" --results-directory "./TestResults" --logger "trx" --verbosity normal
 
     - name: Generate Coverage Report
       working-directory: SchoolApplication
       run: |
-        reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" ` # Путь к файлу cobertura.xml
-        "-targetdir:./CoverageReport" ` # Директория, куда будет сгенерирован отчет
-        "-reporttypes:Html" ` # Тип отчета: HTML
-        "-assemblyfilters:+SchoolApplication.ViewModels" ` # Включить только ViewModels для отчета
-        "-filefilters:-*Tests;+*;-*Migrations*" # Исключить тестовые файлы и миграции
+        reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication.ViewModels" "-filefilters:-*Tests;+*;-*Migrations*"
 
     - name: Upload Coverage Report Artifact
       uses: actions/upload-artifact@v4
       with:
         name: CodeCoverageReport
         path: SchoolApplication/CoverageReport/
-        retention-days: 5 
+        retention-days: 5
