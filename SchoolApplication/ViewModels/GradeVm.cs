@@ -1,133 +1,143 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using SchoolApplication.Data;
 using SchoolApplication.Messages;
 using SchoolApplication.Models;
-using Microsoft.EntityFrameworkCore;
+using SchoolApplication.Models.DisplayModels;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System;
+
+// Эта директива ОЧЕНЬ ВАЖНА для использования ValueMessage<T> и Recipient<T>
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace SchoolApplication.ViewModels
 {
     public partial class GradeVm : ObservableObject, IRecipient<UserAuthenticatedMessage>
     {
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
-        private User? _currentUser;
+        private readonly IMessenger _messenger;
 
         [ObservableProperty]
         private string _studentFullName = "Неизвестно";
+
         [ObservableProperty]
         private string _studentGroupName = "Неизвестно";
-        [ObservableProperty]
-        private string _studentSubjects = "Загрузка...";
 
         [ObservableProperty]
-        private ObservableCollection<GradeDisplayModel> _studentGrades = new ObservableCollection<GradeDisplayModel>();
+        private string _studentSubjects = "Предметы не определены";
 
-        public GradeVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        [ObservableProperty]
+        private ObservableCollection<GradeDisplayModel> _studentGrades = new();
+
+        private User? _currentUser;
+
+        public GradeVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            _messenger = messenger;
+            // Правильная регистрация: ViewModel сама является получателем сообщения.
+            // RegisterAll(this) регистрирует все интерфейсы IRecipient, реализованные в этом классе.
+            _messenger.RegisterAll(this);
         }
 
+        // Правильная реализация метода Receive из интерфейса IRecipient<UserAuthenticatedMessage>.
+        // Поле User в сообщении UserAuthenticatedMessage теперь доступно через свойство Value.
         public async void Receive(UserAuthenticatedMessage message)
         {
-            if (message?.Value != null)
+            _currentUser = message.Value; // Доступ к данным сообщения через .Value
+            if (_currentUser != null && _currentUser.Role?.RoleName == "Ученик")
             {
-                _currentUser = message.Value;
-                await LoadStudentDataAndGrades();
+                await LoadStudentDataAndGrades(_currentUser);
             }
             else
             {
-                _currentUser = null;
-                ClearStudentData();
+                ResetViewModelProperties();
             }
         }
 
-        public async Task LoadStudentDataAndGrades()
+        private async Task LoadStudentDataAndGrades(User student)
         {
-            if (_currentUser == null)
+            using (var context = _dbContextFactory.CreateDbContext())
             {
-                ClearStudentData();
-                return;
-            }
+                var studentData = await context.Users
+                    .AsNoTracking()
+                    .Include(u => u.Role)
+                    .Include(u => u.Group)
+                    .ThenInclude(g => g.StudyGroups) // <--- Убран '!'
+                        .ThenInclude(sg => sg.Subject)
+// ...
+                        .Include(u => u.AcademicPerformanceAsStudent) // <--- Убран '!'
+                            .ThenInclude(ap => ap.Lesson)
+                                .ThenInclude(l => l.StudyGroup)
+                                    .ThenInclude(sg => sg.Subject)
+// ...
+                                    .Include(u => u.AcademicPerformanceAsStudent) // <--- Убран '!'
+                                        .ThenInclude(ap => ap.Lesson)
+                                            .ThenInclude(l => l.StudyGroup)
+                                                .ThenInclude(sg => sg.Teacher)// Включаем учителя!
+                    .FirstOrDefaultAsync(u => u.UserID == student.UserID);
 
-            try
-            {
-                using (var dbContext = _dbContextFactory.CreateDbContext())
+                if (studentData != null)
                 {
-                    var student = await dbContext.Users
-                        .Include(u => u.Group)
-                            .ThenInclude(g => g.StudyGroups!)
-                                .ThenInclude(sg => sg.Subject)
-                        .FirstOrDefaultAsync(u => u.UserID == _currentUser.UserID);
-
-                    if (student != null)
-                    {
-                        StudentFullName = $"{student.LastName} {student.FirstName}{(string.IsNullOrEmpty(student.MiddleName) ? "" : $" {student.MiddleName}")}";
-                        StudentGroupName = student.Group?.GroupName ?? "Группа не определена";
-
-                        var subjects = student.Group?.StudyGroups?
+                    StudentFullName = $"{studentData.LastName ?? ""} {studentData.FirstName ?? ""} {studentData.MiddleName ?? ""}".Trim();
+                    StudentGroupName = studentData.Group?.GroupName ?? "Группа не определена";
+                    StudentSubjects = studentData.Group?.StudyGroups != null && studentData.Group.StudyGroups.Any()
+                        ? string.Join(", ", studentData.Group.StudyGroups
+                            .Where(sg => sg.Subject != null)
                             .Select(sg => sg.Subject?.SubjectName)
-                            .Where(name => !string.IsNullOrEmpty(name))
-                            .Distinct()
-                            .ToList();
+                            .Where(name => !string.IsNullOrEmpty(name)))
+                        : "Предметы не определены";
 
-                        StudentSubjects = subjects != null && subjects.Any()
-                            ? string.Join(", ", subjects)
-                            : "Предметы не определены";
-
-                    }
-                    else
+                    var gradesList = new List<GradeDisplayModel>();
+                    // *** AND HERE ***
+                    // Use AcademicPerformanceAsStudent when iterating the collection
+                    if (studentData.AcademicPerformanceAsStudent != null)
                     {
-                        ClearStudentData();
-                    }
-
-                    var grades = await dbContext.AcademicPerformance
-                        .Include(ap => ap.Lesson)
-                            .ThenInclude(l => l.StudyGroup)
-                                .ThenInclude(sg => sg.Subject)
-                        .Include(ap => ap.Lesson)
-                            .ThenInclude(l => l.StudyGroup)
-                                .ThenInclude(sg => sg.Teacher)
-                        .Where(ap => ap.StudentID == _currentUser.UserID)
-                        .OrderByDescending(ap => ap.Lesson!.LessonDate)
-                        .ThenByDescending(ap => ap.Lesson!.LessonTime)
-                        .ToListAsync();
-
-                    StudentGrades.Clear();
-                    if (grades.Any())
-                    {
-                        foreach (var grade in grades)
+                        foreach (var performance in studentData.AcademicPerformanceAsStudent
+                            .OrderByDescending(ap => ap.Lesson?.LessonDate)
+                            .ThenByDescending(ap => ap.Lesson?.LessonTime))
                         {
-                            StudentGrades.Add(new GradeDisplayModel
+                            var lesson = performance.Lesson;
+
+                            var studyGroup = lesson?.StudyGroup;
+                            var subject = studyGroup?.Subject;
+                            var teacher = studyGroup?.Teacher;
+
+                            string teacherFullName = "Неизвестный преподаватель";
+                            if (teacher != null)
                             {
-                                PerformanceID = grade.PerformanceID,
-                                SubjectName = grade.Lesson?.StudyGroup?.Subject?.SubjectName ?? "Неизвестно",
-                                TeacherFullName = grade.Lesson?.StudyGroup?.Teacher != null
-                                    ? $"{grade.Lesson.StudyGroup.Teacher.LastName} {grade.Lesson.StudyGroup.Teacher.FirstName[0]}.{(string.IsNullOrEmpty(grade.Lesson.StudyGroup.Teacher.MiddleName) ? "" : grade.Lesson.StudyGroup.Teacher.MiddleName[0] + ".")}"
-                                    : "Неизвестно",
-                                LessonDate = DateOnly.FromDateTime(grade.Lesson?.LessonDate ?? DateTime.MinValue),
-                                LessonTime = grade.Lesson?.LessonTime ?? TimeSpan.Zero,
-                                GradeValue = grade.Grade ?? "-",
-                                AttendanceMark = grade.Attendance,
-                                Comment = grade.Comment ?? ""
+                                var firstNameInitial = !string.IsNullOrEmpty(teacher.FirstName) ? teacher.FirstName[0].ToString() + "." : "";
+                                var middleNameInitial = !string.IsNullOrEmpty(teacher.MiddleName) ? teacher.MiddleName[0].ToString() + "." : "";
+                                teacherFullName = $"{teacher.LastName ?? ""} {firstNameInitial}{middleNameInitial}".Trim();
+                            }
+
+                            gradesList.Add(new GradeDisplayModel
+                            {
+                                PerformanceID = performance.PerformanceID,
+                                SubjectName = subject?.SubjectName ?? "Неизвестный предмет",
+                                TeacherFullName = teacherFullName,
+                                LessonDate = DateOnly.FromDateTime(lesson?.LessonDate ?? DateTime.MinValue),
+                                LessonTime = lesson?.LessonTime ?? TimeSpan.Zero,
+                                GradeValue = performance.Grade ?? "Н/Д",
+                                AttendanceMark = performance.Attendance,
+                                Comment = performance.Comment ?? "Нет комментария"
                             });
                         }
                     }
+                    StudentGrades = new ObservableCollection<GradeDisplayModel>(gradesList);
                 }
-            }
-            catch (Exception ex)
-            {
-                ClearStudentData();
-                StudentGrades.Clear();
+                else
+                {
+                    ResetViewModelProperties();
+                }
             }
         }
 
-        private void ClearStudentData()
+        private void ResetViewModelProperties()
         {
             StudentFullName = "Неизвестно";
             StudentGroupName = "Неизвестно";

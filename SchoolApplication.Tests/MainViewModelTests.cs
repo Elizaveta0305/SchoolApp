@@ -9,16 +9,22 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchoolApplication.Data;
 using SchoolApplication.Services;
+using CommunityToolkit.Mvvm.Input;
+using System;
 
 namespace SchoolApplication.Tests
 {
-    public class MainViewModelTests
+    [Collection("MessengerCollection")]
+    public class MainViewModelTests : IDisposable
     {
         private readonly Mock<IDbContextFactory<ApplicationDbContext>> _mockDbContextFactory;
         private readonly Mock<IAuthService> _mockAuthService;
+        private readonly IMessenger _messenger;
 
+        // ИСПРАВЛЕНИЕ: _mockLessonAdminVm должен быть инициализирован с нужными параметрами
         private readonly Mock<LessonAdminVm> _mockLessonAdminVm;
 
+        // Эти инстансы будут реальными объектами, но инициализированными с моками и инжектированным мессенджером
         private readonly LoginViewModel _loginViewModelInstance;
         private readonly HomeAdminVm _homeAdminVmInstance;
         private readonly HomeTeacherVm _homeTeacherVmInstance;
@@ -37,19 +43,20 @@ namespace SchoolApplication.Tests
         private readonly NavigationVm _navigationVmInstance;
         private readonly TeacherNavigationVm _teacherNavigationVmInstance;
 
-        private readonly WeakReferenceMessenger _messenger;
-
-        public MainViewModelTests()
+        public MainViewModelTests(MessengerFixture fixture)
         {
+            _messenger = fixture.Messenger;
+
             _mockDbContextFactory = new Mock<IDbContextFactory<ApplicationDbContext>>(MockBehavior.Loose);
             _mockAuthService = new Mock<IAuthService>(MockBehavior.Loose);
-
-            _mockLessonAdminVm = new Mock<LessonAdminVm>(MockBehavior.Loose);
 
             _mockAuthService.Setup(x => x.AuthenticateUser(It.IsAny<string>(), It.IsAny<string>()))
                             .ReturnsAsync(new User { UserID = 1, Username = "testuser", RoleID = 1 });
 
+            // ИСПРАВЛЕНИЕ ЗДЕСЬ: Инициализируем _mockLessonAdminVm с параметрами конструктора LessonAdminVm
+            _mockLessonAdminVm = new Mock<LessonAdminVm>(_mockDbContextFactory.Object, _messenger); // Передаем требуемые зависимости
 
+            // Инициализация ViewModels с учетом инжектированного мессенджера
             _loginViewModelInstance = new LoginViewModel(_mockAuthService.Object);
 
             _homeAdminVmInstance = new HomeAdminVm();
@@ -59,16 +66,16 @@ namespace SchoolApplication.Tests
             _subjectsAdminVmInstance = new SubjectAdminVm();
             _usersAdminVmInstance = new UsersAdminVm();
 
-            _homeTeacherVmInstance = new HomeTeacherVm(_mockDbContextFactory.Object);
-            _homeStudentVmInstance = new HomeVm(_mockDbContextFactory.Object);
-            _gradeVmInstance = new GradeVm(_mockDbContextFactory.Object);
-            _lessonsVmInstance = new LessonsVm(_mockDbContextFactory.Object);
-            _diaryTeacherVmInstance = new DiaryTeacherVm(_mockDbContextFactory.Object);
-            _lessonTeacherVmInstance = new LessonTeacherVm(_mockDbContextFactory.Object);
+            _homeTeacherVmInstance = new HomeTeacherVm(_mockDbContextFactory.Object, _messenger);
+            _homeStudentVmInstance = new HomeVm(_mockDbContextFactory.Object, _messenger);
+            _gradeVmInstance = new GradeVm(_mockDbContextFactory.Object, _messenger);
+            _lessonsVmInstance = new LessonsVm(_mockDbContextFactory.Object, _messenger);
+            _diaryTeacherVmInstance = new DiaryTeacherVm(_mockDbContextFactory.Object, _messenger);
+            _lessonTeacherVmInstance = new LessonTeacherVm(_mockDbContextFactory.Object, _messenger);
 
             _navigationAdminVmInstance = new NavigationAdminVm(
                 _homeAdminVmInstance,
-                _mockLessonAdminVm.Object,
+                _mockLessonAdminVm.Object, // ИСПОЛЬЗУЕМ КОРРЕКТНО ИНИЦИАЛИЗИРОВАННЫЙ МОК
                 _diaryAdminVmInstance,
                 _classroomsAdminVmInstance,
                 _subjectsAdminVmInstance,
@@ -79,17 +86,21 @@ namespace SchoolApplication.Tests
             _navigationVmInstance = new NavigationVm(
                 _homeStudentVmInstance,
                 _lessonsVmInstance,
-                _gradeVmInstance
+                _gradeVmInstance,
+                _messenger
             );
 
             _teacherNavigationVmInstance = new TeacherNavigationVm(
                 _homeTeacherVmInstance,
                 _lessonTeacherVmInstance,
-                _diaryTeacherVmInstance
+                _diaryTeacherVmInstance,
+                _messenger
             );
+        }
 
-            _messenger = WeakReferenceMessenger.Default;
-            _messenger.Reset();
+        public void Dispose()
+        {
+            // Здесь нет необходимости сбрасывать мессенджер, так как он управляется MessengerFixture.
         }
 
         private MainViewModel CreateViewModel()
@@ -110,7 +121,8 @@ namespace SchoolApplication.Tests
                 _lessonTeacherVmInstance,
                 _navigationAdminVmInstance,
                 _navigationVmInstance,
-                _teacherNavigationVmInstance
+                _teacherNavigationVmInstance,
+                _messenger
             );
         }
 
@@ -124,7 +136,7 @@ namespace SchoolApplication.Tests
         [Fact]
         public async Task Receive_UserAuthenticatedMessage_WithUser_SetsApplicationShellViewModel()
         {
-            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
+            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User", Role = new Role { RoleID = 1, RoleName = "SomeRole" } };
             var vm = CreateViewModel();
 
             _messenger.Send(new UserAuthenticatedMessage(user));
@@ -138,7 +150,7 @@ namespace SchoolApplication.Tests
         [Fact]
         public async Task Receive_UserAuthenticatedMessage_WithNullUser_SetsLoginViewModel()
         {
-            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
+            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User", Role = new Role { RoleID = 1, RoleName = "SomeRole" } };
             var vm = CreateViewModel();
 
             _messenger.Send(new UserAuthenticatedMessage(user));
@@ -155,47 +167,19 @@ namespace SchoolApplication.Tests
         [Fact]
         public async Task LogoutCommand_SendsUserAuthenticatedMessageWithNull()
         {
-            // Используем изолированный экземпляр WeakReferenceMessenger
-            var messenger = new WeakReferenceMessenger();
+            var vm = CreateViewModel();
 
-            // Передаем messenger в MainViewModel
-            var vm = new MainViewModel(
-                _loginViewModelInstance,
-                _homeStudentVmInstance,
-                _homeAdminVmInstance,
-                _homeTeacherVmInstance,
-                _classroomsAdminVmInstance,
-                _diaryAdminVmInstance,
-                _groupsAdminVmInstance,
-                _subjectsAdminVmInstance,
-                _usersAdminVmInstance,
-                _gradeVmInstance,
-                _lessonsVmInstance,
-                _diaryTeacherVmInstance,
-                _lessonTeacherVmInstance,
-                _navigationAdminVmInstance,
-                _navigationVmInstance,
-                _teacherNavigationVmInstance,
-                messenger // Передаем сюда
-            );
+            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User", Role = new Role { RoleID = 1, RoleName = "SomeRole" } };
 
-            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User" };
-
-            // Отправляем сообщение об аутентификации пользователя (логинимся)
-            messenger.Send(new UserAuthenticatedMessage(user));
-
-            // Ждем, чтобы состояние обновилось
+            _messenger.Send(new UserAuthenticatedMessage(user));
             await Task.Delay(100);
 
             Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
 
-            // Выполняем логаут
             vm.LogoutCommand.Execute(null);
 
-            // Ждем обновления состояния
             await Task.Delay(100);
 
-            // Проверяем, что после логаута — логин вьюмодель
             Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
 
             var loginVm = vm.CurrentApplicationContent as LoginViewModel;

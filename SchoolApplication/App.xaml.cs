@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SchoolApplication.Data;
@@ -57,8 +58,8 @@ namespace SchoolApplication
                     // ViewModel'ы для учительской части
                     services.AddSingleton<DiaryTeacherVm>();
                     services.AddSingleton<LessonTeacherVm>();
-                                                              
-                                                              // services.AddSingleton<LiveChartTeacherUsersVm>();
+
+                    services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
                     // ViewModel'ы для навигационных панелей
                     services.AddSingleton<NavigationAdminVm>();

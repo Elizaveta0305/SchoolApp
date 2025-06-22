@@ -39,15 +39,17 @@ namespace SchoolApplication.ViewModels
         public string ConductedLessonsDisplayText => TotalLessonsInAcademicYear > 0 ? $"{ConductedLessonsCount} из {TotalLessonsInAcademicYear} ({((double)ConductedLessonsCount * 100 / TotalLessonsInAcademicYear).ToString("F0")}%)" : "0 занятий";
 
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
+        private readonly IMessenger _messenger;
 
         private User? _currentTeacher;
 
-        public HomeTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public HomeTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
-            WeakReferenceMessenger.Default.Register<LessonsUpdatedMessage>(this);
-            WeakReferenceMessenger.Default.Register<GradesUpdatedMessage>(this);
+            _messenger = messenger;
+            _messenger.Register<UserAuthenticatedMessage>(this);
+            _messenger.Register<LessonsUpdatedMessage>(this);
+            _messenger.Register<GradesUpdatedMessage>(this);
         }
 
         public async void Receive(UserAuthenticatedMessage message)

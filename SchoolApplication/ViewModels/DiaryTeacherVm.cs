@@ -17,6 +17,7 @@ namespace SchoolApplication.ViewModels
     public partial class DiaryTeacherVm : ObservableObject, IRecipient<UserAuthenticatedMessage>
     {
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
+        private readonly IMessenger _messenger;
         private User? _currentTeacherUser;
 
         [ObservableProperty]
@@ -55,10 +56,11 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private string? _commentInput;
 
-        public DiaryTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public DiaryTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            _messenger = messenger;
+            _messenger.Register<DiaryTeacherVm, UserAuthenticatedMessage>(this, (r, m) => r.Receive(m));
         }
 
         public void Receive(UserAuthenticatedMessage message)

@@ -2,112 +2,60 @@
 using SchoolApplication.Data;
 using SchoolApplication.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SchoolApplication.Tests
 {
     public class TestDbContextFactory : IDbContextFactory<ApplicationDbContext>
     {
-        private readonly string _dbName = Guid.NewGuid().ToString();
+        private readonly string _databaseName;
+        // Используем статический Dictionary для отслеживания инициализации баз данных
+        // по их уникальному имени, чтобы EnsureDeleted/EnsureCreated вызывались только один раз для КАЖДОЙ уникальной базы.
+        private static readonly Dictionary<string, bool> _databaseInitializedFlags = new Dictionary<string, bool>();
+
+        public TestDbContextFactory()
+        {
+            _databaseName = Guid.NewGuid().ToString(); // Уникальное имя для каждой инстанции фабрики
+        }
 
         public ApplicationDbContext CreateDbContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(_dbName)
+                .UseInMemoryDatabase(_databaseName)
                 .Options;
 
             var context = new ApplicationDbContext(options);
 
+            // Синхронизированный доступ к флагу инициализации
+            lock (_databaseInitializedFlags)
+            {
+                if (!_databaseInitializedFlags.ContainsKey(_databaseName) || !_databaseInitializedFlags[_databaseName])
+                {
+                    context.Database.EnsureDeleted(); // Удаляем базу данных, если она существует
+                    context.Database.EnsureCreated(); // Создаем новую базу данных
+                    _databaseInitializedFlags[_databaseName] = true; // Устанавливаем флаг
+                }
+            }
+            context.ChangeTracker.Clear(); // Очищаем ChangeTracker после создания/получения контекста
             return context;
         }
 
         public void SeedData(ApplicationDbContext context, params object[] entities)
         {
-            var newRoles = entities.OfType<Role>().ToList();
-            foreach (var role in newRoles)
+            // Очищаем ChangeTracker перед засеиванием, чтобы избежать конфликтов
+            context.ChangeTracker.Clear();
+
+            // Добавляем сущности в правильном порядке, чтобы EF Core мог правильно отслеживать связи
+            foreach (var entity in entities)
             {
-                if (!context.Roles.Any(r => r.RoleID == role.RoleID))
-                {
-                    context.Roles.Add(role);
-                }
+                // Используем Add() вместо AddRange() для более точного контроля и отслеживания связанных сущностей
+                // EF Core должен автоматически устанавливать состояние Added для связанных сущностей,
+                // если они еще не отслеживаются.
+                context.Add(entity);
             }
             context.SaveChanges();
-
-            var newUsers = entities.OfType<User>().ToList();
-            foreach (var user in newUsers)
-            {
-                if (!context.Users.Any(u => u.UserID == user.UserID))
-                {
-                    context.Users.Add(user);
-                }
-            }
-            context.SaveChanges();
-
-            var newGroups = entities.OfType<Group>().ToList();
-            foreach (var group in newGroups)
-            {
-                if (!context.Groups.Any(g => g.GroupID == group.GroupID))
-                {
-                    context.Groups.Add(group);
-                }
-            }
-            context.SaveChanges();
-
-            var newSubjects = entities.OfType<Subject>().ToList();
-            foreach (var subject in newSubjects)
-            {
-                if (!context.Subjects.Any(s => s.SubjectID == subject.SubjectID))
-                {
-                    context.Subjects.Add(subject);
-                }
-            }
-            context.SaveChanges();
-
-            var newClassrooms = entities.OfType<Classroom>().ToList();
-            foreach (var classroom in newClassrooms)
-            {
-                if (!context.Classrooms.Any(c => c.ClassroomID == classroom.ClassroomID))
-                {
-                    context.Classrooms.Add(classroom);
-                }
-            }
-            context.SaveChanges();
-
-            var newStudyGroups = entities.OfType<StudyGroup>().ToList();
-            foreach (var studyGroup in newStudyGroups)
-            {
-                if (!context.StudyGroups.Any(sg => sg.StudyGroupID == studyGroup.StudyGroupID))
-                {
-                    context.StudyGroups.Add(studyGroup);
-                }
-            }
-            context.SaveChanges();
-
-            var newLessons = entities.OfType<Lesson>().ToList();
-            foreach (var lesson in newLessons)
-            {
-                if (!context.Lessons.Any(l => l.LessonID == lesson.LessonID))
-                {
-                    context.Lessons.Add(lesson);
-                }
-            }
-            context.SaveChanges();
-
-            var newAcademicPerformances = entities.OfType<AcademicPerformance>().ToList();
-            foreach (var ap in newAcademicPerformances)
-            {
-                if (!context.AcademicPerformance.Any(a => a.PerformanceID == ap.PerformanceID))
-                {
-                    context.AcademicPerformance.Add(ap);
-                }
-            }
-            context.SaveChanges();
-
-            // В InMemory нет ChangeTracker.Clear(), но можно отсоединить сущности:
-            foreach (var entry in context.ChangeTracker.Entries())
-            {
-                entry.State = EntityState.Detached;
-            }
+            context.ChangeTracker.Clear(); // Очищаем ChangeTracker после сохранения
         }
     }
 }

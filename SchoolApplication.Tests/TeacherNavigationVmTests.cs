@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.EntityFrameworkCore; // Необходимо для IDbContextFactory
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using SchoolApplication.Data;
 using SchoolApplication.Messages;
@@ -8,6 +8,7 @@ using Xunit;
 
 namespace SchoolApplication.Tests
 {
+    [Collection("MessengerCollection")]
     public class TeacherNavigationVmTests
     {
         private readonly Mock<HomeTeacherVm> _mockHomeTeacherVm;
@@ -16,18 +17,20 @@ namespace SchoolApplication.Tests
 
         private readonly Mock<IDbContextFactory<ApplicationDbContext>> _mockDbContextFactory;
 
-        private readonly WeakReferenceMessenger _messenger;
+        private readonly IMessenger _messenger;
 
-        public TeacherNavigationVmTests()
+        public TeacherNavigationVmTests(MessengerFixture fixture)
         {
             _mockDbContextFactory = new Mock<IDbContextFactory<ApplicationDbContext>>();
+            _messenger = fixture.Messenger; // Инициализируем мессенджер из фикстуры
 
-            _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object);
-            _mockLessonsTeacherVm = new Mock<LessonTeacherVm>(_mockDbContextFactory.Object);
-            _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object);
-
-            _messenger = WeakReferenceMessenger.Default;
-            _messenger.Reset();
+            // ИСПРАВЛЕНИЕ: Передаем ОБА требуемых аргумента в конструкторы моков
+            // HomeTeacherVm теперь имеет конструктор public HomeTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
+            _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object, _messenger);
+            // LessonTeacherVm, скорее всего, также имеет конструктор public LessonTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
+            _mockLessonsTeacherVm = new Mock<LessonTeacherVm>(_mockDbContextFactory.Object, _messenger);
+            // DiaryTeacherVm, скорее всего, также имеет конструктор public DiaryTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
+            _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object, _messenger);
         }
 
         [Fact]
@@ -40,7 +43,6 @@ namespace SchoolApplication.Tests
                 _messenger);
 
             NavigateMessage? receivedMessage = null;
-
             _messenger.Register<TeacherNavigationVmTests, NavigateMessage>(this, (r, m) =>
             {
                 receivedMessage = m;
@@ -61,7 +63,8 @@ namespace SchoolApplication.Tests
             var vm = new TeacherNavigationVm(
                 _mockHomeTeacherVm.Object,
                 _mockLessonsTeacherVm.Object,
-                _mockDiaryTeacherVm.Object);
+                _mockDiaryTeacherVm.Object,
+                _messenger);
 
             NavigateMessage? receivedMessage = null;
             _messenger.Register<TeacherNavigationVmTests, NavigateMessage>(this, (r, m) =>
@@ -72,7 +75,7 @@ namespace SchoolApplication.Tests
             vm.LessonsTeacherCommand.Execute(null);
 
             Assert.NotNull(receivedMessage);
-            Assert.Equal(_mockLessonsTeacherVm.Object, receivedMessage.Value);
+            Assert.Same(_mockLessonsTeacherVm.Object, receivedMessage.Value);
             Assert.IsAssignableFrom<LessonTeacherVm>(receivedMessage.Value);
 
             _messenger.UnregisterAll(this);
@@ -84,7 +87,8 @@ namespace SchoolApplication.Tests
             var vm = new TeacherNavigationVm(
                 _mockHomeTeacherVm.Object,
                 _mockLessonsTeacherVm.Object,
-                _mockDiaryTeacherVm.Object);
+                _mockDiaryTeacherVm.Object,
+                _messenger);
 
             NavigateMessage? receivedMessage = null;
             _messenger.Register<TeacherNavigationVmTests, NavigateMessage>(this, (r, m) =>
@@ -95,7 +99,7 @@ namespace SchoolApplication.Tests
             vm.DiaryTeacherCommand.Execute(null);
 
             Assert.NotNull(receivedMessage);
-            Assert.Equal(_mockDiaryTeacherVm.Object, receivedMessage.Value);
+            Assert.Same(_mockDiaryTeacherVm.Object, receivedMessage.Value);
             Assert.IsAssignableFrom<DiaryTeacherVm>(receivedMessage.Value);
 
             _messenger.UnregisterAll(this);

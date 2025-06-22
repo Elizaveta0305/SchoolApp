@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
+using SchoolApplication.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,9 @@ namespace SchoolApplication.ViewModels
 {
     public class LessonAdminVm : ObservableObject
     {
+        public LessonAdminVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
+        {
 
+        }
     }
 }

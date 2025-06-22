@@ -66,10 +66,10 @@ namespace SchoolApplication.ViewModels
             NavigationAdminVm navigationAdminVm,
             NavigationVm navigationVm,
             TeacherNavigationVm teacherNavigationVm,
-            IMessenger messenger = null)
+            IMessenger messenger)
         {
-            _messenger = messenger ?? WeakReferenceMessenger.Default;
-            _messenger.Register<UserAuthenticatedMessage>(this);
+            _messenger = messenger;
+
             _loginViewModel = loginViewModel;
             _homeStudentVm = homeStudentVm;
             _homeAdminVm = homeAdminVm;
@@ -91,9 +91,9 @@ namespace SchoolApplication.ViewModels
             _navigationVm = navigationVm;
             _teacherNavigationVm = teacherNavigationVm;
 
-            CurrentApplicationContent = _loginViewModel;
+            _messenger.Register<MainViewModel, UserAuthenticatedMessage>(this, (r, m) => r.Receive(m));
 
-            //WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            CurrentApplicationContent = _loginViewModel;
         }
 
         public void Receive(UserAuthenticatedMessage message)
@@ -106,12 +106,16 @@ namespace SchoolApplication.ViewModels
                     _classroomsAdminVm, _diaryAdminVm, _groupsAdminVm, _subjectsAdminVm, _usersAdminVm,
                     _gradeVm, _lessonsVm,
                     _diaryTeacherVm, _lessonTeacherVm,
-                    _navigationAdminVm, _navigationVm, _teacherNavigationVm
+                    _navigationAdminVm, _navigationVm, _teacherNavigationVm,
+                    _messenger
                 );
             }
             else
             {
                 CurrentApplicationContent = _loginViewModel;
+                _loginViewModel.Username = string.Empty;
+                _loginViewModel.Password = string.Empty;
+                _loginViewModel.ErrorMessage = string.Empty;
             }
         }
 

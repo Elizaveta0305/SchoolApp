@@ -26,7 +26,7 @@ namespace SchoolApplication.ViewModels
 
         internal TaskCompletionSource<bool> _initialLoadCompletionSource = new TaskCompletionSource<bool>();
 
-        public LessonsVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger? messenger = null)
+        public LessonsVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger? messenger)
         {
             _dbContextFactory = dbContextFactory;
             _messenger = messenger ?? WeakReferenceMessenger.Default;

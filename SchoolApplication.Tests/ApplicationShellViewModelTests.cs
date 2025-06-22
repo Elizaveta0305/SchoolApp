@@ -6,64 +6,67 @@ using SchoolApplication.Data;
 using SchoolApplication.Messages;
 using SchoolApplication.Models;
 using SchoolApplication.ViewModels;
+using System;
 using System.Linq;
 using Xunit;
 
 namespace SchoolApplication.Tests
 {
-    public class ApplicationShellViewModelTests
+    [Collection("MessengerCollection")]
+    public class ApplicationShellViewModelTests : IDisposable
     {
-        private readonly IMessenger _messenger;
         private readonly Mock<IDbContextFactory<ApplicationDbContext>> _mockDbContextFactory;
-
-        private readonly Mock<HomeVm> _mockHomeStudentVm;
-        private readonly Mock<GradeVm> _mockGradeVm;
-        private readonly Mock<LessonsVm> _mockLessonsVm;
-
-        private readonly Mock<HomeTeacherVm> _mockHomeTeacherVm;
-        private readonly Mock<DiaryTeacherVm> _mockDiaryTeacherVm;
-        private readonly Mock<LessonTeacherVm> _mockLessonTeacherVm;
-
-        private readonly Mock<NavigationVm> _mockNavigationVm;
-        private readonly Mock<TeacherNavigationVm> _mockTeacherNavigationVm;
+        private readonly IMessenger _messenger;
 
         private readonly Mock<HomeAdminVm> _mockHomeAdminVm;
+        private readonly Mock<HomeTeacherVm> _mockHomeTeacherVm;
+        private readonly Mock<HomeVm> _mockHomeStudentVm;
         private readonly Mock<ClassroomsAdminVm> _mockClassroomsAdminVm;
         private readonly Mock<DiaryAdminVm> _mockDiaryAdminVm;
         private readonly Mock<GroupsAdminVm> _mockGroupsAdminVm;
         private readonly Mock<SubjectAdminVm> _mockSubjectsAdminVm;
         private readonly Mock<UsersAdminVm> _mockUsersAdminVm;
-        private readonly Mock<LessonAdminVm> _mockLessonAdminVm;
+        private readonly Mock<GradeVm> _mockGradeVm;
+        private readonly Mock<LessonsVm> _mockLessonsVm;
+        private readonly Mock<DiaryTeacherVm> _mockDiaryTeacherVm;
+        private readonly Mock<LessonTeacherVm> _mockLessonTeacherVm;
+        private readonly Mock<LessonAdminVm> _mockLessonAdminVm; // Переименовал для ясности (было _mockLessonAdmin)
 
         private readonly Mock<NavigationAdminVm> _mockNavigationAdminVm;
+        private readonly Mock<NavigationVm> _mockNavigationVm;
+        private readonly Mock<TeacherNavigationVm> _mockTeacherNavigationVm;
 
-
-        public ApplicationShellViewModelTests()
+        public ApplicationShellViewModelTests(MessengerFixture fixture)
         {
-            _messenger = WeakReferenceMessenger.Default;
-            _messenger.Reset();
-
+            _messenger = fixture.Messenger;
             _mockDbContextFactory = new Mock<IDbContextFactory<ApplicationDbContext>>();
 
-            _mockHomeStudentVm = new Mock<HomeVm>(_mockDbContextFactory.Object);
-            _mockGradeVm = new Mock<GradeVm>(_mockDbContextFactory.Object);
-            _mockLessonsVm = new Mock<LessonsVm>(_mockDbContextFactory.Object, _messenger);
-
-            _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object);
-            _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object);
-            _mockLessonTeacherVm = new Mock<LessonTeacherVm>(_mockDbContextFactory.Object);
-
+            // --- ИСПРАВЛЕННЫЕ МОКИ В КОНСТРУКТОРЕ ---
+            // Админские VM, если они пустые и имеют конструктор по умолчанию (без параметров):
             _mockHomeAdminVm = new Mock<HomeAdminVm>();
             _mockClassroomsAdminVm = new Mock<ClassroomsAdminVm>();
             _mockDiaryAdminVm = new Mock<DiaryAdminVm>();
             _mockGroupsAdminVm = new Mock<GroupsAdminVm>();
             _mockSubjectsAdminVm = new Mock<SubjectAdminVm>();
             _mockUsersAdminVm = new Mock<UsersAdminVm>();
-            _mockLessonAdminVm = new Mock<LessonAdminVm>();
 
+            // ИСПРАВЛЕНИЕ LessonAdminVm:
+            // Теперь инициализируем его с необходимыми параметрами:
+            _mockLessonAdminVm = new Mock<LessonAdminVm>(_mockDbContextFactory.Object, _messenger);
+
+            // Студент и Преподаватель VM (уже были исправлены или теперь исправлены окончательно):
+            _mockHomeStudentVm = new Mock<HomeVm>(_mockDbContextFactory.Object, _messenger);
+            _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object, _messenger);
+            _mockGradeVm = new Mock<GradeVm>(_mockDbContextFactory.Object, _messenger);
+            _mockLessonsVm = new Mock<LessonsVm>(_mockDbContextFactory.Object, _messenger);
+            _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object, _messenger);
+            _mockLessonTeacherVm = new Mock<LessonTeacherVm>(_mockDbContextFactory.Object, _messenger);
+
+
+            // Моки для навигационных ViewModel.
             _mockNavigationAdminVm = new Mock<NavigationAdminVm>(
                 _mockHomeAdminVm.Object,
-                _mockLessonAdminVm.Object,
+                _mockLessonAdminVm.Object, // <-- ИСПОЛЬЗУЕМ ПРАВИЛЬНО ИНИЦИАЛИЗИРОВАННЫЙ МОК
                 _mockDiaryAdminVm.Object,
                 _mockClassroomsAdminVm.Object,
                 _mockSubjectsAdminVm.Object,
@@ -74,14 +77,21 @@ namespace SchoolApplication.Tests
             _mockNavigationVm = new Mock<NavigationVm>(
                 _mockHomeStudentVm.Object,
                 _mockLessonsVm.Object,
-                _mockGradeVm.Object
+                _mockGradeVm.Object,
+                _messenger
             );
 
             _mockTeacherNavigationVm = new Mock<TeacherNavigationVm>(
                 _mockHomeTeacherVm.Object,
                 _mockLessonTeacherVm.Object,
-                _mockDiaryTeacherVm.Object
+                _mockDiaryTeacherVm.Object,
+                _messenger
             );
+        }
+
+        public void Dispose()
+        {
+          
         }
 
         private ApplicationShellViewModel CreateViewModel(User user)
@@ -102,7 +112,8 @@ namespace SchoolApplication.Tests
                 _mockLessonTeacherVm.Object,
                 _mockNavigationAdminVm.Object,
                 _mockNavigationVm.Object,
-                _mockTeacherNavigationVm.Object
+                _mockTeacherNavigationVm.Object,
+                _messenger
             );
         }
 

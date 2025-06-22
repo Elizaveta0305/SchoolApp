@@ -24,12 +24,12 @@ namespace SchoolApplication.ViewModels
             HomeTeacherVm homeTeacherVm,
             LessonTeacherVm lessonsTeacherViewModel,
             DiaryTeacherVm diaryTeacherViewModel,
-            IMessenger messenger = null)
+            IMessenger messenger)
         {
             _homeTeacherVm = homeTeacherVm;
             _lessonsTeacherViewModel = lessonsTeacherViewModel;
             _diaryTeacherViewModel = diaryTeacherViewModel;
-            _messenger = messenger ?? WeakReferenceMessenger.Default;
+            _messenger = messenger;
 
             HomeTeacherCommand = new RelayCommand(ExecuteHomeTeacherCommand);
             LessonsTeacherCommand = new RelayCommand(ExecuteLessonsTeacherCommand);

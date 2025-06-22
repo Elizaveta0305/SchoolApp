@@ -8,16 +8,20 @@ using SchoolApplication.Messages;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using SchoolApplication.Models.DisplayModels; // Убедитесь, что это пространство имен существует
+using SchoolApplication.Models.DisplayModels;
 using System;
+using CommunityToolkit.Mvvm.Messaging.Messages; // Убедитесь, что эта директива using есть
 
 namespace SchoolApplication.Tests
 {
-    // Реализуем IDisposable для очистки ресурсов после каждого теста
+    // Используем коллекцию для мессенджера, чтобы обеспечить его сброс между тестами,
+    // но при этом использовать один и тот же экземпляр для инжекции в тесты.
+    [Collection("MessengerCollection")]
     public class GradeVmTests : IDisposable
     {
         private readonly TestDbContextFactory _dbContextFactory;
         private ApplicationDbContext _currentTestDbContext; // Контекст для текущего теста
+        private IMessenger _messenger; // Поле для инжектированного мессенджера
         private GradeVm _viewModel;
 
         // Эти поля будут инициализированы в SetupTest() для каждого теста
@@ -35,26 +39,23 @@ namespace SchoolApplication.Tests
         private AcademicPerformance _studentStm32Grade;
         private AcademicPerformance _studentScratchGrade;
 
-        public GradeVmTests()
+        public GradeVmTests(MessengerFixture fixture)
         {
-            // Фабрика теперь создается без аргументов, как мы её изменили.
-            // Она будет генерировать уникальное имя базы данных для каждого CreateDbContext()
             _dbContextFactory = new TestDbContextFactory();
+            _messenger = fixture.Messenger; // Инициализируем мессенджер из фикстуры
         }
 
         // Метод, который будет вызываться перед каждым тестом для инициализации
         private void SetupTest()
         {
-            // Сброс Messenger для каждого теста, чтобы избежать влияния предыдущих тестов
-            WeakReferenceMessenger.Default.Reset();
-
-            // Создаем новый, чистый DbContext для каждого теста
+            // Создаем новый, чистый DbContext для каждого теста.
+            // TestDbContextFactory.CreateDbContext() должен заботиться об очистке и создании базы данных.
             _currentTestDbContext = _dbContextFactory.CreateDbContext();
 
             // Инициализируем тестовые данные для каждого теста
             _studentRole = new Role { RoleID = 1, RoleName = "Ученик" };
             _teacherRole = new Role { RoleID = 2, RoleName = "Учитель" };
-            _group9B = new Group { GroupID = 201, GroupName = "9Б" }; // Убираем инициализацию коллекций здесь, EF Core сам их добавит
+            _group9B = new Group { GroupID = 201, GroupName = "9Б" };
 
             _studentUser = new User
             {
@@ -64,11 +65,22 @@ namespace SchoolApplication.Tests
                 LastName = "Смирнов",
                 RoleID = _studentRole.RoleID,
                 GroupID = _group9B.GroupID,
-                Role = _studentRole, // Добавляем ссылку на навигационное свойство для корректного связывания
-                Group = _group9B
+                Role = _studentRole,
+                Group = _group9B,
+                AcademicPerformanceAsStudent = new List<AcademicPerformance>() // Важно инициализировать коллекцию
             };
 
-            _teacherUser = new User { UserID = 102, Username = "teacher1", FirstName = "Иван", LastName = "Иванов", MiddleName = "Иванович", RoleID = _teacherRole.RoleID, Role = _teacherRole };
+            _teacherUser = new User
+            {
+                UserID = 102,
+                Username = "teacher1",
+                FirstName = "Иван",
+                LastName = "Иванов",
+                MiddleName = "Иванович",
+                RoleID = _teacherRole.RoleID,
+                Role = _teacherRole,
+                StudyGroupsAsTeacher = new List<StudyGroup>() // Инициализируем коллекцию
+            };
 
             _stm32Subject = new Subject { SubjectID = 301, SubjectName = "STM32 в среде STM32CubeIDE" };
             _scratchSubject = new Subject { SubjectID = 302, SubjectName = "Scratch" };
@@ -79,9 +91,10 @@ namespace SchoolApplication.Tests
                 TeacherID = _teacherUser.UserID,
                 GroupID = _group9B.GroupID,
                 SubjectID = _stm32Subject.SubjectID,
-                Teacher = _teacherUser, // Навигационные свойства
+                Teacher = _teacherUser,
                 Group = _group9B,
-                Subject = _stm32Subject
+                Subject = _stm32Subject,
+                Lessons = new List<Lesson>() // Инициализируем коллекцию
             };
             _scratchStudyGroup = new StudyGroup
             {
@@ -91,27 +104,45 @@ namespace SchoolApplication.Tests
                 SubjectID = _scratchSubject.SubjectID,
                 Teacher = _teacherUser,
                 Group = _group9B,
-                Subject = _scratchSubject
+                Subject = _scratchSubject,
+                Lessons = new List<Lesson>() // Инициализируем коллекцию
             };
+
+            // Добавляем StudyGroups к учителю (StudyGroupsAsTeacher)
+            _teacherUser.StudyGroupsAsTeacher.Add(_stm32StudyGroup);
+            _teacherUser.StudyGroupsAsTeacher.Add(_scratchStudyGroup);
+
+            // Добавляем StudyGroups к группе
+            _group9B.StudyGroups = new List<StudyGroup> { _stm32StudyGroup, _scratchStudyGroup };
+
 
             _stm32Lesson1 = new Lesson
             {
                 LessonID = 501,
                 StudyGroupID = _stm32StudyGroup.StudyGroupID,
+                ClassroomID = 1,
                 LessonDate = new DateTime(2024, 05, 10),
                 LessonTime = new TimeSpan(14, 0, 0),
                 Topic = "Введение в STM32CubeIDE",
-                StudyGroup = _stm32StudyGroup // Навигационные свойства
+                StudyGroup = _stm32StudyGroup,
+                Classroom = new Classroom { ClassroomID = 1, RoomNumber = "101" }
             };
             _scratchLesson1 = new Lesson
             {
                 LessonID = 502,
                 StudyGroupID = _scratchStudyGroup.StudyGroupID,
+                ClassroomID = 2,
                 LessonDate = new DateTime(2024, 05, 11),
                 LessonTime = new TimeSpan(10, 0, 0),
                 Topic = "Создание первого проекта",
-                StudyGroup = _scratchStudyGroup
+                StudyGroup = _scratchStudyGroup,
+                Classroom = new Classroom { ClassroomID = 2, RoomNumber = "102" }
             };
+
+            // Добавляем уроки к StudyGroup
+            _stm32StudyGroup.Lessons.Add(_stm32Lesson1);
+            _scratchStudyGroup.Lessons.Add(_scratchLesson1);
+
 
             _studentStm32Grade = new AcademicPerformance
             {
@@ -121,7 +152,7 @@ namespace SchoolApplication.Tests
                 Grade = "5",
                 Attendance = true,
                 Comment = "Отличная работа с платой",
-                Student = _studentUser, // Навигационные свойства
+                Student = _studentUser,
                 Lesson = _stm32Lesson1
             };
             _studentScratchGrade = new AcademicPerformance
@@ -136,6 +167,11 @@ namespace SchoolApplication.Tests
                 Lesson = _scratchLesson1
             };
 
+            // Добавляем AcademicPerformance к студенту
+            _studentUser.AcademicPerformanceAsStudent.Add(_studentStm32Grade);
+            _studentUser.AcademicPerformanceAsStudent.Add(_studentScratchGrade);
+
+
             // Сеем все базовые данные для большинства тестов
             SeedDatabase(
                 _studentRole,
@@ -149,54 +185,64 @@ namespace SchoolApplication.Tests
                 _scratchStudyGroup,
                 _stm32Lesson1,
                 _scratchLesson1,
+                _stm32Lesson1.Classroom, // Добавляем аудитории
+                _scratchLesson1.Classroom, // Добавляем аудитории
                 _studentStm32Grade,
                 _studentScratchGrade
             );
 
-            // Инициализируем ViewModel с новой фабрикой для каждого теста
-            _viewModel = new GradeVm(_dbContextFactory);
+            // Инициализируем ViewModel с новой фабрикой и ИНЖЕКТИРОВАННЫМ мессенджером для каждого теста
+            _viewModel = new GradeVm(_dbContextFactory, _messenger);
         }
 
         // Метод Dispose для очистки ресурсов после каждого теста
         public void Dispose()
         {
             _currentTestDbContext?.Dispose();
-            // Сброс Messenger после каждого теста
-            WeakReferenceMessenger.Default.Reset();
+            // Мессенджер сбрасывается MessengerFixture
         }
 
         // Вспомогательный метод для посева данных, использующий текущий DbContext
         private void SeedDatabase(params object[] entities)
         {
             _dbContextFactory.SeedData(_currentTestDbContext, entities);
-            _currentTestDbContext.ChangeTracker.Clear(); // Отсоединяем сущности, чтобы избежать проблем с отслеживанием
+            // ChangeTracker.Clear() вызывается внутри TestDbContextFactory.SeedData
         }
 
         // Вспомогательный метод для создания ViewModel и отправки сообщения аутентификации
         private async Task<GradeVm> CreateAndAuthenticateViewModel(User? currentUser = null)
         {
-            // Здесь мы создаем ViewModel. Если currentUser не null, мы его аутентифицируем.
-            // SetupTest уже создал _viewModel, так что просто используем его.
             if (currentUser != null)
             {
                 User userFromDb;
-                // Получаем пользователя с необходимыми включенными навигационными свойствами
-                // из свежего контекста, чтобы избежать ошибок отслеживания или Access to disposed context
-                using (var context = _dbContextFactory.CreateDbContext())
-                {
-                    userFromDb = await context.Users
-                        .Include(u => u.Role)
-                        .Include(u => u.Group)
-                            .ThenInclude(g => g.StudyGroups!)
-                                .ThenInclude(sg => sg.Subject)
-                        .FirstOrDefaultAsync(u => u.UserID == currentUser.UserID);
-                }
+                // ИСПОЛЬЗУЕМ _currentTestDbContext для получения пользователя,
+                // так как он уже содержит засеянные данные для текущего теста.
+                userFromDb = await _currentTestDbContext.Users
+                    .AsNoTracking() // Важно: AsNoTracking, чтобы не было конфликтов отслеживания.
+                    .Include(u => u.Role)
+                    .Include(u => u.Group)
+                        .ThenInclude(g => g.StudyGroups!)
+                            .ThenInclude(sg => sg.Subject)
+                    // *** Включаем AcademicPerformanceAsStudent, как в вашей модели User ***
+                    .Include(u => u.AcademicPerformanceAsStudent!)
+                        .ThenInclude(ap => ap.Lesson)
+                            .ThenInclude(l => l.StudyGroup)
+                                .ThenInclude(sg => sg.Subject) // Subject через StudyGroup урока
+                    .Include(u => u.AcademicPerformanceAsStudent!)
+                        .ThenInclude(ap => ap.Lesson)
+                            .ThenInclude(l => l.StudyGroup)
+                                .ThenInclude(sg => sg.Teacher) // Teacher через StudyGroup урока
+                    .FirstOrDefaultAsync(u => u.UserID == currentUser.UserID);
 
-                Assert.NotNull(userFromDb); // Убеждаемся, что пользователь найден
+                // Если userFromDb все еще null, значит, данные не были корректно засеяны
+                // или ID пользователя не совпадает.
+                Assert.NotNull(userFromDb);
 
-                // Отправляем сообщение об аутентификации
-                WeakReferenceMessenger.Default.Send(new UserAuthenticatedMessage(userFromDb));
-                await Task.Delay(200); // Даем время на асинхронную обработку в ViewModel
+                // Отправляем сообщение об аутентификации через инжектированный мессенджер
+                _messenger.Send(new UserAuthenticatedMessage(userFromDb));
+                // *** УВЕЛИЧЕННАЯ ЗАДЕРЖКА ***
+                await Task.Delay(1500); // Даем время на асинхронную обработку в ViewModel.
+                                       // Возможно, понадобится увеличить до 1000 мс в зависимости от окружения.
             }
             return _viewModel;
         }
@@ -208,16 +254,6 @@ namespace SchoolApplication.Tests
         {
             // Arrange
             SetupTest(); // Инициализируем свежее состояние для этого теста
-
-            // Act & Assert (проверяем начальное состояние VM до аутентификации)
-            // Эти assert'ы должны быть для ViewModel БЕЗ аутентифицированного пользователя
-            // Если вы хотите проверить начальное состояние, создайте VM без аутентификации:
-            // var initialVm = new GradeVm(_dbContextFactory);
-            // Assert.Equal("Неизвестно", initialVm.StudentFullName);
-            // Assert.Equal("Неизвестно", initialVm.StudentGroupName);
-            // Assert.Equal("Загрузка...", initialVm.StudentSubjects);
-            // Assert.Empty(initialVm.StudentGrades);
-
 
             // Act
             var vm = await CreateAndAuthenticateViewModel(_studentUser);
@@ -245,9 +281,6 @@ namespace SchoolApplication.Tests
             // Assert
             Assert.Contains("STM32 в среде STM32CubeIDE", vm.StudentSubjects);
             Assert.Contains("Scratch", vm.StudentSubjects);
-            // Split(", ") может быть проблематичен, если будет только один предмет или если формат изменится.
-            // Лучше проверить список, если ViewModel предоставляет его как список.
-            // Если StudentSubjects - это просто строка, то эта проверка ок.
             Assert.Equal(2, vm.StudentSubjects.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).Length);
         }
 
@@ -255,13 +288,12 @@ namespace SchoolApplication.Tests
         public async Task LoadStudentDataAndGrades_HandlesNoGrades()
         {
             // Arrange
-            SetupTest(); // Начнем со свежей базы данных
+            _currentTestDbContext = _dbContextFactory.CreateDbContext(); // Начинаем с чистой базы данных
 
-            // Создаем уникальные данные для этого конкретного теста
             var tempStudentRole = new Role { RoleID = 11, RoleName = "Ученик" };
             var tempTeacherRole = new Role { RoleID = 12, RoleName = "Учитель" };
-            var tempTeacherUser = new User { UserID = 112, Username = "tempTeacher", FirstName = "Тест", LastName = "Учитель", MiddleName = "Темп", RoleID = tempTeacherRole.RoleID, Role = tempTeacherRole };
-            var tempGroup = new Group { GroupID = 211, GroupName = "ТестГруппа" };
+            var tempTeacherUser = new User { UserID = 112, Username = "tempTeacher", FirstName = "Тест", LastName = "Учитель", MiddleName = "Темп", RoleID = tempTeacherRole.RoleID, Role = tempTeacherRole, StudyGroupsAsTeacher = new List<StudyGroup>() };
+            var tempGroup = new Group { GroupID = 211, GroupName = "ТестГруппа", StudyGroups = new List<StudyGroup>() };
             var tempStm32Subject = new Subject { SubjectID = 311, SubjectName = "Тест STM32" };
             var tempScratchSubject = new Subject { SubjectID = 312, SubjectName = "Тест Scratch" };
             var tempStm32StudyGroup = new StudyGroup
@@ -272,7 +304,8 @@ namespace SchoolApplication.Tests
                 SubjectID = tempStm32Subject.SubjectID,
                 Teacher = tempTeacherUser,
                 Group = tempGroup,
-                Subject = tempStm32Subject
+                Subject = tempStm32Subject,
+                Lessons = new List<Lesson>()
             };
             var tempScratchStudyGroup = new StudyGroup
             {
@@ -282,12 +315,37 @@ namespace SchoolApplication.Tests
                 SubjectID = tempScratchSubject.SubjectID,
                 Teacher = tempTeacherUser,
                 Group = tempGroup,
-                Subject = tempScratchSubject
+                Subject = tempScratchSubject,
+                Lessons = new List<Lesson>()
+            };
+            tempTeacherUser.StudyGroupsAsTeacher.Add(tempStm32StudyGroup);
+            tempTeacherUser.StudyGroupsAsTeacher.Add(tempScratchStudyGroup);
+            tempGroup.StudyGroups.Add(tempStm32StudyGroup);
+            tempGroup.StudyGroups.Add(tempScratchStudyGroup);
+
+            var tempClassroom1 = new Classroom { ClassroomID = 11, RoomNumber = "201" };
+            var tempClassroom2 = new Classroom { ClassroomID = 12, RoomNumber = "202" };
+            var tempStm32Lesson = new Lesson { LessonID = 511, StudyGroupID = tempStm32StudyGroup.StudyGroupID, ClassroomID = tempClassroom1.ClassroomID, LessonDate = new DateTime(2024, 6, 1), LessonTime = new TimeSpan(9, 0, 0), Topic = "Тест Урок 1", StudyGroup = tempStm32StudyGroup, Classroom = tempClassroom1 };
+            var tempScratchLesson = new Lesson { LessonID = 512, StudyGroupID = tempScratchStudyGroup.StudyGroupID, ClassroomID = tempClassroom2.ClassroomID, LessonDate = new DateTime(2024, 6, 2), LessonTime = new TimeSpan(10, 0, 0), Topic = "Тест Урок 2", StudyGroup = tempScratchStudyGroup, Classroom = tempClassroom2 };
+
+            tempStm32StudyGroup.Lessons.Add(tempStm32Lesson);
+            tempScratchStudyGroup.Lessons.Add(tempScratchLesson);
+
+            // Студент, у которого нет AcademicPerformance
+            var studentWithoutGrades_Test = new User
+            {
+                UserID = 113,
+                Username = "nogrades",
+                FirstName = "Тест",
+                LastName = "БезОценок",
+                RoleID = tempStudentRole.RoleID,
+                GroupID = tempGroup.GroupID,
+                Role = tempStudentRole,
+                Group = tempGroup,
+                AcademicPerformanceAsStudent = new List<AcademicPerformance>() // Пустая коллекция
             };
 
-            var studentWithoutGrades_Test = new User { UserID = 113, Username = "nogrades", FirstName = "Тест", LastName = "БезОценок", RoleID = tempStudentRole.RoleID, GroupID = tempGroup.GroupID, Role = tempStudentRole, Group = tempGroup };
-
-            // Сеем только необходимые данные для этого теста
+            // Сеем только необходимые данные для этого теста. Без AcademicPerformance для studentWithoutGrades_Test.
             SeedDatabase(
                 tempStudentRole,
                 tempTeacherRole,
@@ -297,9 +355,12 @@ namespace SchoolApplication.Tests
                 tempScratchSubject,
                 tempStm32StudyGroup,
                 tempScratchStudyGroup,
+                tempClassroom1,
+                tempClassroom2,
+                tempStm32Lesson,
+                tempScratchLesson,
                 studentWithoutGrades_Test
             );
-            // В этом тесте мы не сеем AcademicPerformance, чтобы проверить сценарий без оценок.
 
             // Act
             var vm = await CreateAndAuthenticateViewModel(studentWithoutGrades_Test);
@@ -317,14 +378,15 @@ namespace SchoolApplication.Tests
         public async Task GradeDisplayModel_CorrectlyMapsData()
         {
             // Arrange
-            SetupTest();
+            SetupTest(); // Инициализируем свежее состояние для этого теста
 
             // Act
             var vm = await CreateAndAuthenticateViewModel(_studentUser);
 
             // Assert
             var stm32DisplayGrade = vm.StudentGrades.FirstOrDefault(g => g.PerformanceID == _studentStm32Grade.PerformanceID);
-            Assert.NotNull(stm32DisplayGrade);
+            Assert.NotNull(stm32DisplayGrade); // Проверяем, что объект не null
+
             Assert.Equal(_stm32Subject.SubjectName, stm32DisplayGrade.SubjectName);
             // Убедитесь, что логика формирования TeacherFullName в GradeDisplayModel соответствует ожидаемой
             Assert.Equal($"{_teacherUser.LastName} {_teacherUser.FirstName[0]}.{_teacherUser.MiddleName[0]}.", stm32DisplayGrade.TeacherFullName);
@@ -335,7 +397,8 @@ namespace SchoolApplication.Tests
             Assert.Equal(_studentStm32Grade.Comment, stm32DisplayGrade.Comment);
 
             var scratchDisplayGrade = vm.StudentGrades.FirstOrDefault(g => g.PerformanceID == _studentScratchGrade.PerformanceID);
-            Assert.NotNull(scratchDisplayGrade);
+            Assert.NotNull(scratchDisplayGrade); // Проверяем, что объект не null
+
             Assert.Equal(_scratchSubject.SubjectName, scratchDisplayGrade.SubjectName);
             Assert.Equal($"{_teacherUser.LastName} {_teacherUser.FirstName[0]}.{_teacherUser.MiddleName[0]}.", scratchDisplayGrade.TeacherFullName);
             Assert.Equal(DateOnly.FromDateTime(_scratchLesson1.LessonDate), scratchDisplayGrade.LessonDate);
@@ -349,21 +412,100 @@ namespace SchoolApplication.Tests
         public async Task LoadStudentDataAndGrades_HandlesMissingGroupOrSubjects()
         {
             // Arrange
-            SetupTest(); // Начнем со свежей базы данных
+            _currentTestDbContext = _dbContextFactory.CreateDbContext(); // Начинаем с чистого контекста специально для этого теста.
 
-            // Создаем уникального пользователя без группы и без связанных StudyGroups/Subjects
-            var studentNoGroup = new User { UserID = 104, Username = "nogroup", FirstName = "Тест", LastName = "БезГруппы", RoleID = _studentRole.RoleID, Role = _studentRole };
+            // Создаем ТОЛЬКО те сущности, которые НУЖНЫ для этого теста.
+            var tempStudentRole = new Role { RoleID = 10, RoleName = "Ученик" };
+            var studentNoGroup_Test = new User
+            {
+                UserID = 104,
+                Username = "nogroup",
+                FirstName = "Тест",
+                LastName = "БезГруппы",
+                RoleID = tempStudentRole.RoleID,
+                Role = tempStudentRole,
+                AcademicPerformanceAsStudent = new List<AcademicPerformance>() // Инициализируем, даже если пусто
+            };
 
-            SeedDatabase(_studentRole, studentNoGroup); // Сеем только роль и пользователя без группы
+            // Сеем только роль и пользователя без группы.
+            SeedDatabase(tempStudentRole, studentNoGroup_Test);
 
             // Act
-            var vm = await CreateAndAuthenticateViewModel(studentNoGroup);
+            var vm = await CreateAndAuthenticateViewModel(studentNoGroup_Test);
 
             // Assert
-            Assert.Equal($"{studentNoGroup.LastName} {studentNoGroup.FirstName}", vm.StudentFullName);
+            Assert.Equal($"{studentNoGroup_Test.LastName} {studentNoGroup_Test.FirstName}", vm.StudentFullName);
             Assert.Equal("Группа не определена", vm.StudentGroupName);
             Assert.Equal("Предметы не определены", vm.StudentSubjects);
             Assert.Empty(vm.StudentGrades);
+        }
+
+        [Fact]
+        public async Task Receive_WithNullUser_ResetsProperties()
+        {
+            // Arrange
+            SetupTest(); // Инициализируем свежее состояние для этого теста
+
+            // Аутентифицируем пользователя, чтобы ViewModel заполнилась данными
+            await CreateAndAuthenticateViewModel(_studentUser);
+            Assert.NotEmpty(_viewModel.StudentGrades); // Убедимся, что данные загружены
+
+            // Act: Отправляем сообщение с null-пользователем
+            _messenger.Send(new UserAuthenticatedMessage(null));
+            await Task.Delay(100); // Даем время на обработку. Для сброса обычно хватает меньшей задержки.
+
+            // Assert: Проверяем, что свойства сброшены
+            Assert.Equal("Неизвестно", _viewModel.StudentFullName);
+            Assert.Equal("Неизвестно", _viewModel.StudentGroupName);
+            Assert.Equal("Предметы не определены", _viewModel.StudentSubjects);
+            Assert.Empty(_viewModel.StudentGrades);
+        }
+
+        [Fact]
+        public async Task LoadStudentDataAndGrades_HandlesNoLessonsForStudent()
+        {
+            // Arrange
+            _currentTestDbContext = _dbContextFactory.CreateDbContext(); // Начинаем с чистого контекста специально для этого теста.
+
+            // Сеем ТОЛЬКО те базовые данные, которые НУЖНЫ для этого теста, БЕЗ AcademicPerformance.
+            var studentNoLessons = new User
+            {
+                UserID = 105,
+                Username = "nolessons",
+                FirstName = "Тест",
+                LastName = "БезУроков",
+                RoleID = _studentRole.RoleID, // Используем общие поля для роли и группы
+                GroupID = _group9B.GroupID,
+                Role = _studentRole,
+                Group = _group9B,
+                AcademicPerformanceAsStudent = new List<AcademicPerformance>() // Пустая коллекция
+            };
+
+            // Сеем все необходимые связанные сущности для studentNoLessons, кроме AcademicPerformance
+            SeedDatabase(
+                _studentRole,
+                _teacherRole,
+                _group9B,
+                _teacherUser,
+                _stm32Subject,
+                _scratchSubject,
+                _stm32StudyGroup,
+                _scratchStudyGroup,
+                _stm32Lesson1.Classroom,
+                _stm32Lesson1,
+                _scratchLesson1.Classroom,
+                _scratchLesson1,
+                studentNoLessons // Засеиваем только этого нового студента
+            );
+
+            // Act
+            var vm = await CreateAndAuthenticateViewModel(studentNoLessons);
+
+            // Assert
+            Assert.Equal($"{studentNoLessons.LastName} {studentNoLessons.FirstName}", vm.StudentFullName);
+            Assert.Equal(_group9B.GroupName, vm.StudentGroupName);
+            Assert.Contains("STM32 в среде STM32CubeIDE", vm.StudentSubjects); // Проверяем, что предметы группы все еще отображаются
+            Assert.Empty(vm.StudentGrades); // Ожидаем, что оценок нет
         }
     }
 }

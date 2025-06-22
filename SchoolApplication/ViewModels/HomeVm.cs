@@ -29,6 +29,7 @@ namespace SchoolApplication.ViewModels
         private ObservableCollection<LessonDisplayModel> _upcomingLessons = new ObservableCollection<LessonDisplayModel>();
 
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
+        private readonly IMessenger _messenger;
         private User? _currentUser;
 
         [ObservableProperty]
@@ -63,10 +64,11 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private string _academicYear = "Неизвестно";
 
-        public HomeVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public HomeVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            _messenger = messenger;
+            _messenger.Register<UserAuthenticatedMessage>(this);
             HasGradesToDisplay = false;
         }
 

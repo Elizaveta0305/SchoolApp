@@ -14,41 +14,39 @@ namespace SchoolApplication.ViewModels
         private readonly HomeVm _homeVm;
         private readonly LessonsVm _lessonsVm;
         private readonly GradeVm _gradeVm;
+        private readonly IMessenger _messenger;
 
         public ICommand HomeCommand { get; }
         public ICommand LessonsCommand { get; }
         public ICommand GradeCommand { get; }
         public ICommand ExitApplicationCommand { get; }
 
-        public NavigationVm(HomeVm homeVm, LessonsVm lessonsVm, GradeVm gradeVm)
+        public NavigationVm(HomeVm homeVm, LessonsVm lessonsVm, GradeVm gradeVm, IMessenger messenger)
         {
             _homeVm = homeVm;
             _lessonsVm = lessonsVm;
             _gradeVm = gradeVm;
+            _messenger = messenger;
 
             HomeCommand = new RelayCommand(ExecuteHomeCommand);
             LessonsCommand = new RelayCommand(ExecuteLessonsCommand);
             GradeCommand = new RelayCommand(ExecuteGradeCommand);
             ExitApplicationCommand = new RelayCommand(ExecuteExitApplicationCommand);
-
         }
 
         private void ExecuteHomeCommand()
         {
-            Debug.WriteLine("NavigationVm: HomeCommand executed. Sending NavigateMessage for HomeVm.");
-            WeakReferenceMessenger.Default.Send(new NavigateMessage(_homeVm));
+            _messenger.Send(new NavigateMessage(_homeVm));
         }
 
         private void ExecuteLessonsCommand()
         {
-            Debug.WriteLine("NavigationVm: LessonsCommand executed. Sending NavigateMessage for LessonsVm.");
-            WeakReferenceMessenger.Default.Send(new NavigateMessage(_lessonsVm));
+            _messenger.Send(new NavigateMessage(_lessonsVm));
         }
 
         private void ExecuteGradeCommand()
         {
-            Debug.WriteLine("NavigationVm: GradeCommand executed. Sending NavigateMessage for GradeVm.");
-            WeakReferenceMessenger.Default.Send(new NavigateMessage(_gradeVm));
+            _messenger.Send(new NavigateMessage(_gradeVm));
         }
         private void ExecuteExitApplicationCommand()
         {

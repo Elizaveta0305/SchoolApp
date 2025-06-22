@@ -11,6 +11,8 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private ObservableObject? _currentNavigationViewModel;
 
+        private readonly IMessenger _messenger;
+
         [ObservableProperty]
         private ObservableObject _currentMainContentViewModel;
 
@@ -55,7 +57,8 @@ namespace SchoolApplication.ViewModels
             LessonTeacherVm lessonTeacherVm,
             NavigationAdminVm navigationAdminVm,
             NavigationVm navigationVm,
-            TeacherNavigationVm teacherNavigationVm)
+            TeacherNavigationVm teacherNavigationVm,
+            IMessenger messenger)
         {
             _authenticatedUser = authenticatedUser;
 
@@ -79,7 +82,9 @@ namespace SchoolApplication.ViewModels
             _navigationVm = navigationVm;
             _teacherNavigationVm = teacherNavigationVm;
 
-            WeakReferenceMessenger.Default.Register<NavigateMessage>(this);
+            _messenger = messenger;
+
+            _messenger.Register<ApplicationShellViewModel, NavigateMessage>(this, (r, m) => r.Receive(m));
 
             InitializeShellContent();
         }

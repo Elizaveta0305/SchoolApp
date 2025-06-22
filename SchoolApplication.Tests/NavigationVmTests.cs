@@ -4,33 +4,31 @@ using CommunityToolkit.Mvvm.Messaging;
 using SchoolApplication.ViewModels;
 using SchoolApplication.Messages;
 using Microsoft.EntityFrameworkCore;
+using SchoolApplication.Data;
 
 namespace SchoolApplication.Tests
 {
+    [Collection("MessengerCollection")]
     public class NavigationVmTests
     {
         private readonly Mock<HomeVm> _mockHomeVm;
         private readonly Mock<LessonsVm> _mockLessonsVm;
         private readonly Mock<GradeVm> _mockGradeVm;
 
-        private readonly Mock<IDbContextFactory<SchoolApplication.Data.ApplicationDbContext>> _mockDbContextFactory;
-        // Добавляем мок для IMessenger, так как LessonsVm его использует.
-        private readonly Mock<IMessenger> _mockMessenger; // <--- НОВОЕ
+        private readonly Mock<IDbContextFactory<ApplicationDbContext>> _mockDbContextFactory;
+        private readonly IMessenger _messenger;
 
-        private readonly WeakReferenceMessenger _messenger;
+        private readonly Mock<IMessenger> _mockLessonsVmMessenger;
 
-        public NavigationVmTests()
+        public NavigationVmTests(MessengerFixture fixture)
         {
-            _mockDbContextFactory = new Mock<IDbContextFactory<SchoolApplication.Data.ApplicationDbContext>>();
-            _mockMessenger = new Mock<IMessenger>(); // <--- НОВОЕ: Инициализируем мок мессенджера
+            _mockDbContextFactory = new Mock<IDbContextFactory<ApplicationDbContext>>();
+            _messenger = fixture.Messenger;
+            _mockHomeVm = new Mock<HomeVm>(_mockDbContextFactory.Object, _messenger);
 
-            _mockHomeVm = new Mock<HomeVm>(_mockDbContextFactory.Object);
-            // Теперь передаем ОБА мок-объекта в конструктор LessonsVm
-            _mockLessonsVm = new Mock<LessonsVm>(_mockDbContextFactory.Object, _mockMessenger.Object); // <--- ИЗМЕНЕНО!
-            _mockGradeVm = new Mock<GradeVm>(_mockDbContextFactory.Object);
+            _mockLessonsVm = new Mock<LessonsVm>(_mockDbContextFactory.Object, _messenger);
 
-            _messenger = WeakReferenceMessenger.Default;
-            _messenger.Reset();
+            _mockGradeVm = new Mock<GradeVm>(_mockDbContextFactory.Object, _messenger);
         }
 
         [Fact]
@@ -40,7 +38,8 @@ namespace SchoolApplication.Tests
             var vm = new NavigationVm(
                 _mockHomeVm.Object,
                 _mockLessonsVm.Object,
-                _mockGradeVm.Object);
+                _mockGradeVm.Object,
+                _messenger);
 
             NavigateMessage? receivedMessage = null;
 
@@ -49,12 +48,10 @@ namespace SchoolApplication.Tests
                 receivedMessage = m;
             });
 
-            // Act
             vm.HomeCommand.Execute(null);
 
-            // Assert
             Assert.NotNull(receivedMessage);
-            Assert.Equal(_mockHomeVm.Object, receivedMessage.Value);
+            Assert.Same(_mockHomeVm.Object, receivedMessage.Value);
             Assert.IsAssignableFrom<HomeVm>(receivedMessage.Value);
 
             _messenger.UnregisterAll(this);
@@ -63,11 +60,11 @@ namespace SchoolApplication.Tests
         [Fact]
         public void LessonsCommand_SendsNavigateMessageWithLessonsVm()
         {
-            // Arrange
             var vm = new NavigationVm(
                 _mockHomeVm.Object,
                 _mockLessonsVm.Object,
-                _mockGradeVm.Object);
+                _mockGradeVm.Object,
+                _messenger);
 
             NavigateMessage? receivedMessage = null;
             _messenger.Register<NavigationVmTests, NavigateMessage>(this, (r, m) =>
@@ -75,10 +72,8 @@ namespace SchoolApplication.Tests
                 receivedMessage = m;
             });
 
-            // Act
             vm.LessonsCommand.Execute(null);
 
-            // Assert
             Assert.NotNull(receivedMessage);
             Assert.Same(_mockLessonsVm.Object, receivedMessage.Value);
             Assert.IsAssignableFrom<LessonsVm>(receivedMessage.Value);
@@ -89,11 +84,11 @@ namespace SchoolApplication.Tests
         [Fact]
         public void GradeCommand_SendsNavigateMessageWithGradeVm()
         {
-            // Arrange
             var vm = new NavigationVm(
                 _mockHomeVm.Object,
                 _mockLessonsVm.Object,
-                _mockGradeVm.Object);
+                _mockGradeVm.Object,
+                _messenger);
 
             NavigateMessage? receivedMessage = null;
             _messenger.Register<NavigationVmTests, NavigateMessage>(this, (r, m) =>
@@ -101,12 +96,10 @@ namespace SchoolApplication.Tests
                 receivedMessage = m;
             });
 
-            // Act
             vm.GradeCommand.Execute(null);
 
-            // Assert
             Assert.NotNull(receivedMessage);
-            Assert.Equal(_mockGradeVm.Object, receivedMessage.Value);
+            Assert.Same(_mockGradeVm.Object, receivedMessage.Value);
             Assert.IsAssignableFrom<GradeVm>(receivedMessage.Value);
 
             _messenger.UnregisterAll(this);

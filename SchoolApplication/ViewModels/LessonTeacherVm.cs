@@ -20,6 +20,8 @@ namespace SchoolApplication.ViewModels
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
         private AppModels.User? _currentTeacherUser;
 
+        private readonly IMessenger _messenger;
+
         [ObservableProperty]
         private ObservableCollection<LessonTeacherDisplayModel> _lessonsCollection = new();
 
@@ -57,11 +59,13 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private LessonTeacherDisplayModel? _selectedLessonToEdit;
 
-        public LessonTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public LessonTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
-            WeakReferenceMessenger.Default.Register<UserAuthenticatedMessage>(this);
+            _messenger = messenger;
+            _messenger.Register<UserAuthenticatedMessage>(this);
             _ = LoadInitialDataAsync();
+            
         }
 
         public async void Receive(UserAuthenticatedMessage message)
@@ -309,7 +313,7 @@ namespace SchoolApplication.ViewModels
                 dbContext.ChangeTracker.Clear();
 
                 await LoadLessonsDataAsync();
-                WeakReferenceMessenger.Default.Send(new LessonsUpdatedMessage(true));
+                _messenger.Send(new LessonsUpdatedMessage(true));
                 ClearActionInputFields();
             }
         }
@@ -368,7 +372,7 @@ namespace SchoolApplication.ViewModels
                     await dbContext.SaveChangesAsync();
                     dbContext.ChangeTracker.Clear();
                     await LoadLessonsDataAsync();
-                    WeakReferenceMessenger.Default.Send(new LessonsUpdatedMessage(true));
+                    _messenger.Send(new LessonsUpdatedMessage(true));
                 }
                 
                 ClearActionInputFields();
