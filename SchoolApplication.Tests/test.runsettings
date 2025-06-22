@@ -8,10 +8,10 @@
                 $(MSBuildProjectDirectory)/**/*Migrations.cs;
                 $(MSBuildProjectDirectory)/**/*.g.cs;
                 $(MSBuildProjectDirectory)/**/*Tests.cs;
-                $(MSBuildProjectDirectory)/**/Views/**/*.xaml.cs;
-                $(MSBuildProjectDirectory)/**/Views/**/*.xaml;
-                $(MSBuildProjectDirectory)/**/Views/UserControls/**/*.xaml.cs;
-                $(MSBuildProjectDirectory)/**/Views/UserControls/**/*.xaml
+                $(MSBuildProjectDirectory)/Views/**/*.xaml.cs;
+                $(MSBuildProjectDirectory)/Views/**/*.xaml;
+                $(MSBuildProjectDirectory)/Views/UserControls/**/*.xaml.cs;
+                $(MSBuildProjectDirectory)/Views/UserControls/**/*.xaml
             </ExcludeByFile>
             <ExcludeByAttribute>
                 System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute;
