@@ -56,6 +56,9 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private string? _commentInput;
 
+        private int _editingPerformanceId;
+
+
         public DiaryTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
@@ -68,7 +71,7 @@ namespace SchoolApplication.ViewModels
             if (message?.Value != null)
             {
                 _currentTeacherUser = message.Value;
-                _ = LoadDiaryDataAsync();
+                _ = LoadInitialDataAsync();
             }
             else
             {
@@ -79,6 +82,44 @@ namespace SchoolApplication.ViewModels
                 LessonsForSelectedStudent.Clear();
                 Subjects.Clear();
                 ClearAllInputFields();
+            }
+        }
+
+        [RelayCommand]
+        private async Task LoadInitialDataAsync()
+        {
+            if (_currentTeacherUser == null)
+            {
+                Debug.WriteLine("LoadInitialDataAsync: No teacher user authenticated.");
+                return;
+            }
+
+            using (var dbContext = _dbContextFactory.CreateDbContext())
+            {
+                var teacherStudyGroups = await dbContext.StudyGroups
+                    .Where(sg => sg.TeacherID == _currentTeacherUser.UserID)
+                    .Include(sg => sg.Group)
+                    .Include(sg => sg.Subject)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                Groups.Clear();
+                var distinctGroups = teacherStudyGroups.Select(sg => sg.Group).DistinctBy(g => g?.GroupID).Where(g => g != null).ToList();
+                foreach (var group in distinctGroups!)
+                {
+                    Groups.Add(group!);
+                }
+
+                Subjects.Clear();
+                var distinctSubjects = teacherStudyGroups.Select(sg => sg.Subject).DistinctBy(s => s?.SubjectID).Where(s => s != null).ToList();
+                foreach (var subject in distinctSubjects!)
+                {
+                    Subjects.Add(subject!);
+                }
+
+                Debug.WriteLine($"Loaded {Groups.Count} groups and {Subjects.Count} subjects for teacher {_currentTeacherUser.FullName}.");
+
+                await LoadDiaryDataAsync();
             }
         }
 
@@ -192,7 +233,6 @@ namespace SchoolApplication.ViewModels
                     {
                         StudentsInSelectedGroup.Add(student);
                     }
-
                     await LoadLessonsForGroupAndSubjectAsync(group, SelectedSubject);
                 }
             }
@@ -250,23 +290,43 @@ namespace SchoolApplication.ViewModels
             {
                 var actualStudyGroup = await dbContext.StudyGroups
                     .FirstOrDefaultAsync(sg => sg.StudyGroupID == SelectedLesson.StudyGroupID &&
-                                                sg.TeacherID == _currentTeacherUser!.UserID &&
-                                                sg.SubjectID == SelectedSubject.SubjectID &&
-                                                sg.GroupID == SelectedGroup.GroupID);
+                                               sg.TeacherID == _currentTeacherUser!.UserID &&
+                                               sg.SubjectID == SelectedSubject.SubjectID &&
+                                               sg.GroupID == SelectedGroup.GroupID);
 
                 if (actualStudyGroup == null)
                 {
                     return;
                 }
 
-                var existingPerformance = await dbContext.AcademicPerformance
-                    .FirstOrDefaultAsync(ap => ap.StudentID == SelectedStudent.UserID &&
-                                                ap.LessonID == SelectedLesson.LessonID);
+                AcademicPerformance? targetPerformance = null;
+
+                if (SelectedActionType == "Обновить" || SelectedActionType == "Удалить")
+                {
+                    if (_editingPerformanceId > 0)
+                    {
+                        targetPerformance = await dbContext.AcademicPerformance
+                            .FirstOrDefaultAsync(ap => ap.PerformanceID == _editingPerformanceId);
+                    }
+                    else
+                    {
+                        targetPerformance = await dbContext.AcademicPerformance
+                             .FirstOrDefaultAsync(ap => ap.StudentID == SelectedStudent.UserID &&
+                                                        ap.LessonID == SelectedLesson.LessonID);
+                    }
+                }
+                else if (SelectedActionType == "Добавить")
+                {
+                    targetPerformance = await dbContext.AcademicPerformance
+                        .FirstOrDefaultAsync(ap => ap.StudentID == SelectedStudent.UserID &&
+                                                   ap.LessonID == SelectedLesson.LessonID);
+                }
+
 
                 switch (SelectedActionType)
                 {
                     case "Добавить":
-                        if (existingPerformance != null)
+                        if (targetPerformance != null)
                         {
                             return;
                         }
@@ -283,41 +343,45 @@ namespace SchoolApplication.ViewModels
                         break;
 
                     case "Обновить":
-                        if (existingPerformance == null)
+                        if (targetPerformance == null)
                         {
                             return;
                         }
 
-                        existingPerformance.Grade = SelectedGrade == "Н/А" ? null : SelectedGrade;
-                        existingPerformance.Attendance = (SelectedGrade != "Н/А");
-                        existingPerformance.Comment = CommentInput;
+                        targetPerformance.Grade = SelectedGrade == "Н/А" ? null : SelectedGrade;
+                        targetPerformance.Attendance = (SelectedGrade != "Н/А");
+                        targetPerformance.Comment = CommentInput;
                         break;
 
                     case "Удалить":
-                        if (existingPerformance == null)
+                        if (targetPerformance == null)
                         {
                             return;
                         }
-                        dbContext.AcademicPerformance.Remove(existingPerformance);
+                        dbContext.AcademicPerformance.Remove(targetPerformance);
                         break;
                 }
 
-                await dbContext.SaveChangesAsync();
-                dbContext.ChangeTracker.Clear();
+                try
+                {
+                    await dbContext.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    Debug.WriteLine($"Ошибка сохранения в БД: {ex.Message}");
+                    if (ex.InnerException != null)
+                    {
+                        Debug.WriteLine($"Внутреннее исключение: {ex.InnerException.Message}");
+                    }
+                    return;
+                }
 
+                dbContext.ChangeTracker.Clear();
                 WeakReferenceMessenger.Default.Send(new GradesUpdatedMessage(true));
 
                 ClearActionInputFields();
-                SelectedStudent = null;
-                SelectedLesson = null;
-                SelectedSubject = null;
-                SelectedGroup = null;
-
-                await LoadDiaryDataAsync();
             }
         }
-
-        private int _editingPerformanceId;
 
         [RelayCommand]
         private async Task EditGrade(AcademicPerformanceDisplayModel? performance)
@@ -345,7 +409,6 @@ namespace SchoolApplication.ViewModels
 
                 if (fullPerformance == null || fullPerformance.Student == null || fullPerformance.Lesson == null || fullPerformance.Lesson.StudyGroup == null || fullPerformance.Lesson.StudyGroup.Subject == null || fullPerformance.Lesson.StudyGroup.Group == null)
                 {
-                    Debug.WriteLine("Error: Full performance data not found for edit or related entities are null.");
                     return;
                 }
 
@@ -358,8 +421,6 @@ namespace SchoolApplication.ViewModels
                     await LoadStudentsAndLessonsForGroupAsync(SelectedGroup);
                 }
 
-                SelectedStudent = StudentsInSelectedGroup.FirstOrDefault(s => s.UserID == fullPerformance.StudentID);
-
                 SelectedSubject = Subjects.FirstOrDefault(s => s.SubjectID == fullPerformance.Lesson.StudyGroup.SubjectID);
 
                 if (SelectedGroup != null && SelectedSubject != null)
@@ -367,6 +428,7 @@ namespace SchoolApplication.ViewModels
                     await LoadLessonsForGroupAndSubjectAsync(SelectedGroup, SelectedSubject);
                 }
 
+                SelectedStudent = StudentsInSelectedGroup.FirstOrDefault(s => s.UserID == fullPerformance.StudentID);
                 SelectedLesson = LessonsForSelectedStudent.FirstOrDefault(l => l.LessonID == fullPerformance.LessonID);
 
                 SelectedGrade = AvailableGrades.FirstOrDefault(g => (g == "Н/А" && fullPerformance.Grade == null) || g == fullPerformance.Grade);
@@ -389,26 +451,40 @@ namespace SchoolApplication.ViewModels
                 if (academicPerformanceToDelete != null)
                 {
                     dbContext.AcademicPerformance.Remove(academicPerformanceToDelete);
-                    await dbContext.SaveChangesAsync();
+                    try
+                    {
+                        await dbContext.SaveChangesAsync();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        if (ex.InnerException != null)
+                        {
+                            Debug.WriteLine($"Внутреннее исключение: {ex.InnerException.Message}");
+                        }
+                        return;
+                    }
                     dbContext.ChangeTracker.Clear();
 
                     WeakReferenceMessenger.Default.Send(new GradesUpdatedMessage(true));
                     await LoadDiaryDataAsync();
                 }
                 ClearActionInputFields();
-                SelectedStudent = null;
-                SelectedLesson = null;
-                SelectedSubject = null;
             }
         }
-
         private void ClearActionInputFields()
         {
             SelectedGrade = null;
             CommentInput = null;
             SelectedActionType = null;
-        }
+            _editingPerformanceId = 0;
+            SelectedStudent = null;
+            SelectedLesson = null;
+            SelectedSubject = null;
+            SelectedGroup = null;
 
+            StudentsInSelectedGroup.Clear();
+            LessonsForSelectedStudent.Clear();
+        }
         private void ClearAllInputFields()
         {
             SelectedGroup = null;

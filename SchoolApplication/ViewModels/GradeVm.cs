@@ -67,18 +67,16 @@ namespace SchoolApplication.ViewModels
                     .AsNoTracking()
                     .Include(u => u.Role)
                     .Include(u => u.Group)
-                    .ThenInclude(g => g.StudyGroups) // <--- Убран '!'
+                    .ThenInclude(g => g.StudyGroups)
                         .ThenInclude(sg => sg.Subject)
-// ...
-                        .Include(u => u.AcademicPerformanceAsStudent) // <--- Убран '!'
+                        .Include(u => u.AcademicPerformanceAsStudent)
                             .ThenInclude(ap => ap.Lesson)
                                 .ThenInclude(l => l.StudyGroup)
                                     .ThenInclude(sg => sg.Subject)
-// ...
-                                    .Include(u => u.AcademicPerformanceAsStudent) // <--- Убран '!'
+                                    .Include(u => u.AcademicPerformanceAsStudent)
                                         .ThenInclude(ap => ap.Lesson)
                                             .ThenInclude(l => l.StudyGroup)
-                                                .ThenInclude(sg => sg.Teacher)// Включаем учителя!
+                                                .ThenInclude(sg => sg.Teacher)
                     .FirstOrDefaultAsync(u => u.UserID == student.UserID);
 
                 if (studentData != null)

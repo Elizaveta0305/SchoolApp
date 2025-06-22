@@ -30,7 +30,7 @@ namespace SchoolApplication.Tests
         private readonly Mock<LessonsVm> _mockLessonsVm;
         private readonly Mock<DiaryTeacherVm> _mockDiaryTeacherVm;
         private readonly Mock<LessonTeacherVm> _mockLessonTeacherVm;
-        private readonly Mock<LessonAdminVm> _mockLessonAdminVm; // Переименовал для ясности (было _mockLessonAdmin)
+        private readonly Mock<LessonAdminVm> _mockLessonAdminVm;
 
         private readonly Mock<NavigationAdminVm> _mockNavigationAdminVm;
         private readonly Mock<NavigationVm> _mockNavigationVm;
@@ -41,8 +41,6 @@ namespace SchoolApplication.Tests
             _messenger = fixture.Messenger;
             _mockDbContextFactory = new Mock<IDbContextFactory<ApplicationDbContext>>();
 
-            // --- ИСПРАВЛЕННЫЕ МОКИ В КОНСТРУКТОРЕ ---
-            // Админские VM, если они пустые и имеют конструктор по умолчанию (без параметров):
             _mockHomeAdminVm = new Mock<HomeAdminVm>();
             _mockClassroomsAdminVm = new Mock<ClassroomsAdminVm>();
             _mockDiaryAdminVm = new Mock<DiaryAdminVm>();
@@ -50,11 +48,8 @@ namespace SchoolApplication.Tests
             _mockSubjectsAdminVm = new Mock<SubjectAdminVm>();
             _mockUsersAdminVm = new Mock<UsersAdminVm>();
 
-            // ИСПРАВЛЕНИЕ LessonAdminVm:
-            // Теперь инициализируем его с необходимыми параметрами:
             _mockLessonAdminVm = new Mock<LessonAdminVm>(_mockDbContextFactory.Object, _messenger);
 
-            // Студент и Преподаватель VM (уже были исправлены или теперь исправлены окончательно):
             _mockHomeStudentVm = new Mock<HomeVm>(_mockDbContextFactory.Object, _messenger);
             _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object, _messenger);
             _mockGradeVm = new Mock<GradeVm>(_mockDbContextFactory.Object, _messenger);
@@ -62,11 +57,9 @@ namespace SchoolApplication.Tests
             _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object, _messenger);
             _mockLessonTeacherVm = new Mock<LessonTeacherVm>(_mockDbContextFactory.Object, _messenger);
 
-
-            // Моки для навигационных ViewModel.
             _mockNavigationAdminVm = new Mock<NavigationAdminVm>(
                 _mockHomeAdminVm.Object,
-                _mockLessonAdminVm.Object, // <-- ИСПОЛЬЗУЕМ ПРАВИЛЬНО ИНИЦИАЛИЗИРОВАННЫЙ МОК
+                _mockLessonAdminVm.Object,
                 _mockDiaryAdminVm.Object,
                 _mockClassroomsAdminVm.Object,
                 _mockSubjectsAdminVm.Object,

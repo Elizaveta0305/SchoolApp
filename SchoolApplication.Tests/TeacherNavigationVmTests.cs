@@ -22,14 +22,10 @@ namespace SchoolApplication.Tests
         public TeacherNavigationVmTests(MessengerFixture fixture)
         {
             _mockDbContextFactory = new Mock<IDbContextFactory<ApplicationDbContext>>();
-            _messenger = fixture.Messenger; // Инициализируем мессенджер из фикстуры
+            _messenger = fixture.Messenger;
 
-            // ИСПРАВЛЕНИЕ: Передаем ОБА требуемых аргумента в конструкторы моков
-            // HomeTeacherVm теперь имеет конструктор public HomeTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
             _mockHomeTeacherVm = new Mock<HomeTeacherVm>(_mockDbContextFactory.Object, _messenger);
-            // LessonTeacherVm, скорее всего, также имеет конструктор public LessonTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
             _mockLessonsTeacherVm = new Mock<LessonTeacherVm>(_mockDbContextFactory.Object, _messenger);
-            // DiaryTeacherVm, скорее всего, также имеет конструктор public DiaryTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
             _mockDiaryTeacherVm = new Mock<DiaryTeacherVm>(_mockDbContextFactory.Object, _messenger);
         }
 

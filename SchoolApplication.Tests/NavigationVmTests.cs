@@ -34,7 +34,6 @@ namespace SchoolApplication.Tests
         [Fact]
         public void HomeCommand_SendsNavigateMessageWithHomeVm()
         {
-            // Arrange
             var vm = new NavigationVm(
                 _mockHomeVm.Object,
                 _mockLessonsVm.Object,

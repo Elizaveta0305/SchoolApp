@@ -4,24 +4,26 @@ using Microsoft.EntityFrameworkCore;
 using SchoolApplication.Data;
 using SchoolApplication.Messages;
 using SchoolApplication.Models;
-using System.Collections.ObjectModel;
-using System.Linq;
+using SchoolApplication.Models.DisplayModels;
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace SchoolApplication.ViewModels
 {
     public partial class HomeTeacherVm : ObservableObject,
-                                         IRecipient<UserAuthenticatedMessage>,
-                                         IRecipient<LessonsUpdatedMessage>,
-                                         IRecipient<GradesUpdatedMessage>
+                      IRecipient<UserAuthenticatedMessage>,
+                      IRecipient<LessonsUpdatedMessage>,
+                      IRecipient<GradesUpdatedMessage>
     {
         [ObservableProperty]
         private string _currentTeacherFullName = "Неизвестный";
 
         [ObservableProperty]
-        private ObservableCollection<LessonDisplayModel> _upcomingLessons = new ObservableCollection<LessonDisplayModel>();
+        private ObservableCollection<LessonTeacherDisplayModel> _upcomingLessons = new ObservableCollection<LessonTeacherDisplayModel>();
 
         [ObservableProperty]
         private int _currentStudentCount;
@@ -35,14 +37,12 @@ namespace SchoolApplication.ViewModels
 
         [ObservableProperty]
         private int _totalLessonsInAcademicYear;
-
         public string ConductedLessonsDisplayText => TotalLessonsInAcademicYear > 0 ? $"{ConductedLessonsCount} из {TotalLessonsInAcademicYear} ({((double)ConductedLessonsCount * 100 / TotalLessonsInAcademicYear).ToString("F0")}%)" : "0 занятий";
 
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
         private readonly IMessenger _messenger;
 
         private User? _currentTeacher;
-
         public HomeTeacherVm(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMessenger messenger)
         {
             _dbContextFactory = dbContextFactory;
@@ -70,7 +70,6 @@ namespace SchoolApplication.ViewModels
                 TotalLessonsInAcademicYear = 0;
             }
         }
-
         public async void Receive(LessonsUpdatedMessage message)
         {
             if (message.Value)
@@ -78,7 +77,6 @@ namespace SchoolApplication.ViewModels
                 await LoadAllTeacherHomeData();
             }
         }
-
         public async void Receive(GradesUpdatedMessage message)
         {
             if (message.Value)
@@ -100,70 +98,67 @@ namespace SchoolApplication.ViewModels
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
                     var teacher = await dbContext.Users
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(u => u.UserID == _currentTeacher.UserID);
-
+                      .AsNoTracking()
+                      .FirstOrDefaultAsync(u => u.UserID == _currentTeacher.UserID);
                     if (teacher != null)
                     {
                         CurrentTeacherFullName = $"{teacher.FirstName} {teacher.MiddleName}";
                         var now = DateTime.Now;
                         var today = DateOnly.FromDateTime(now);
                         var currentTime = now.TimeOfDay;
-
+                        
                         var lessons = await dbContext.Lessons
-                            .Include(l => l.StudyGroup)
-                                .ThenInclude(sg => sg.Subject)
-                            .Include(l => l.StudyGroup)
-                                .ThenInclude(sg => sg.Group)
-                            .Include(l => l.StudyGroup)
-                                .ThenInclude(sg => sg.Teacher)
-                            .Include(l => l.Classroom)
-                            .AsNoTracking()
-                            .Where(l => l.StudyGroup != null && l.StudyGroup.TeacherID == _currentTeacher.UserID)
-                            .Where(l => DateOnly.FromDateTime(l.LessonDate) >= today)
+                          .Include(l => l.StudyGroup)
+                            .ThenInclude(sg => sg.Subject)
+                          .Include(l => l.StudyGroup)
+                            .ThenInclude(sg => sg.Group)
+                          .Include(l => l.StudyGroup)
+                            .ThenInclude(sg => sg.Teacher)
+                          .Include(l => l.Classroom)
+                          .AsNoTracking()
+                          .Where(l => l.StudyGroup != null && l.StudyGroup.TeacherID == _currentTeacher.UserID)
+                            .Where(l => (l.LessonDate.Date > now.Date) ||
+                                        (l.LessonDate.Date == now.Date && l.LessonTime >= currentTime))
                             .OrderBy(l => l.LessonDate)
                             .ThenBy(l => l.LessonTime)
                             .Take(5)
                             .ToListAsync();
 
                         UpcomingLessons.Clear();
-
                         foreach (var lesson in lessons)
                         {
                             if (DateOnly.FromDateTime(lesson.LessonDate) == today && lesson.LessonTime < currentTime)
                             {
                                 continue;
                             }
-
-                            UpcomingLessons.Add(new LessonDisplayModel
+                            UpcomingLessons.Add(new LessonTeacherDisplayModel
                             {
                                 LessonId = lesson.LessonID,
                                 SubjectName = lesson.StudyGroup?.Subject?.SubjectName ?? "N/A",
-                                TeacherFullName = $"{lesson.StudyGroup?.Teacher?.FirstName} {lesson.StudyGroup?.Teacher?.MiddleName}" ?? "N/A",
-                                RoomNumber = lesson.Classroom?.RoomNumber ?? "N/A",
-                                LessonDate = DateOnly.FromDateTime(lesson.LessonDate),
+                                ClassroomNumber = lesson.Classroom?.RoomNumber ?? "N/A",
+                                LessonDate = lesson.LessonDate,
                                 LessonTime = lesson.LessonTime,
                                 GroupName = lesson.StudyGroup?.Group?.GroupName ?? "N/A",
-                                FullLessonDateTime = lesson.LessonDate.Add(lesson.LessonTime)
+                                Topic = lesson.Topic
                             });
                         }
 
                         var teacherGroupIds = await dbContext.StudyGroups
-                            .Where(sg => sg.TeacherID == _currentTeacher.UserID)
-                            .Select(sg => sg.GroupID)
-                            .Distinct()
-                            .ToListAsync();
 
+                          .Where(sg => sg.TeacherID == _currentTeacher.UserID)
+                          .Select(sg => sg.GroupID)
+                          .Distinct()
+                          .ToListAsync();
                         CurrentStudentCount = await dbContext.Users
-                            .Where(u => u.RoleID == 3 && u.GroupID.HasValue && teacherGroupIds.Contains(u.GroupID.Value))
-                            .CountAsync();
+                          .Where(u => u.RoleID == 3 && u.GroupID.HasValue && teacherGroupIds.Contains(u.GroupID.Value))
+                          .CountAsync();
 
                         var gradesForTeacherLessons = await dbContext.AcademicPerformance
-                            .Include(ap => ap.Lesson)
-                            .Where(ap => ap.Lesson != null && ap.Lesson.StudyGroup != null && ap.Lesson.StudyGroup.TeacherID == _currentTeacher.UserID)
-                            .Where(ap => ap.Grade != null && ap.Grade != "")
-                            .Select(ap => ap.Grade)
-                            .ToListAsync();
+                          .Include(ap => ap.Lesson)
+                          .Where(ap => ap.Lesson != null && ap.Lesson.StudyGroup != null && ap.Lesson.StudyGroup.TeacherID == _currentTeacher.UserID)
+                          .Where(ap => ap.Grade != null && ap.Grade != "")
+                          .Select(ap => ap.Grade)
+                          .ToListAsync();
 
                         var numericGrades = new List<double>();
 
@@ -186,7 +181,6 @@ namespace SchoolApplication.ViewModels
                                 }
                             }
                         }
-
                         if (numericGrades.Any())
                         {
                             AverageGradeValue = numericGrades.Average();
@@ -197,7 +191,6 @@ namespace SchoolApplication.ViewModels
                             AverageGradeValue = 0;
                             OnPropertyChanged(nameof(AverageGradeDisplayText));
                         }
-
                         DateTime academicYearStart;
                         DateTime academicYearEnd;
 
@@ -211,18 +204,14 @@ namespace SchoolApplication.ViewModels
                             academicYearStart = new DateTime(now.Year - 1, 9, 1);
                             academicYearEnd = new DateTime(now.Year, 8, 31).AddDays(1).AddTicks(-1);
                         }
-
                         var allLessonsInYear = await dbContext.Lessons
-                            .Where(l => l.StudyGroup != null && l.StudyGroup.TeacherID == _currentTeacher.UserID)
-                            .Where(l => l.LessonDate >= academicYearStart && l.LessonDate <= academicYearEnd)
-                            .ToListAsync();
-
+                          .Where(l => l.StudyGroup != null && l.StudyGroup.TeacherID == _currentTeacher.UserID)
+                          .Where(l => l.LessonDate >= academicYearStart && l.LessonDate <= academicYearEnd)
+                          .ToListAsync();
                         TotalLessonsInAcademicYear = allLessonsInYear.Count;
-
                         ConductedLessonsCount = allLessonsInYear
-                            .Where(l => l.LessonDate.Add(l.LessonTime) < now)
-                            .Count();
-
+                          .Where(l => l.LessonDate.Add(l.LessonTime) < now)
+                          .Count();
                         OnPropertyChanged(nameof(ConductedLessonsDisplayText));
 
                         if (TotalLessonsInAcademicYear == 0 && ConductedLessonsCount > 0)

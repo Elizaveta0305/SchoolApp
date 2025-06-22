@@ -21,10 +21,8 @@ namespace SchoolApplication.Tests
         private readonly Mock<IAuthService> _mockAuthService;
         private readonly IMessenger _messenger;
 
-        // ИСПРАВЛЕНИЕ: _mockLessonAdminVm должен быть инициализирован с нужными параметрами
         private readonly Mock<LessonAdminVm> _mockLessonAdminVm;
 
-        // Эти инстансы будут реальными объектами, но инициализированными с моками и инжектированным мессенджером
         private readonly LoginViewModel _loginViewModelInstance;
         private readonly HomeAdminVm _homeAdminVmInstance;
         private readonly HomeTeacherVm _homeTeacherVmInstance;
@@ -53,10 +51,8 @@ namespace SchoolApplication.Tests
             _mockAuthService.Setup(x => x.AuthenticateUser(It.IsAny<string>(), It.IsAny<string>()))
                             .ReturnsAsync(new User { UserID = 1, Username = "testuser", RoleID = 1 });
 
-            // ИСПРАВЛЕНИЕ ЗДЕСЬ: Инициализируем _mockLessonAdminVm с параметрами конструктора LessonAdminVm
-            _mockLessonAdminVm = new Mock<LessonAdminVm>(_mockDbContextFactory.Object, _messenger); // Передаем требуемые зависимости
+            _mockLessonAdminVm = new Mock<LessonAdminVm>(_mockDbContextFactory.Object, _messenger);
 
-            // Инициализация ViewModels с учетом инжектированного мессенджера
             _loginViewModelInstance = new LoginViewModel(_mockAuthService.Object);
 
             _homeAdminVmInstance = new HomeAdminVm();
@@ -75,7 +71,7 @@ namespace SchoolApplication.Tests
 
             _navigationAdminVmInstance = new NavigationAdminVm(
                 _homeAdminVmInstance,
-                _mockLessonAdminVm.Object, // ИСПОЛЬЗУЕМ КОРРЕКТНО ИНИЦИАЛИЗИРОВАННЫЙ МОК
+                _mockLessonAdminVm.Object,
                 _diaryAdminVmInstance,
                 _classroomsAdminVmInstance,
                 _subjectsAdminVmInstance,
@@ -100,7 +96,7 @@ namespace SchoolApplication.Tests
 
         public void Dispose()
         {
-            // Здесь нет необходимости сбрасывать мессенджер, так как он управляется MessengerFixture.
+           
         }
 
         private MainViewModel CreateViewModel()
