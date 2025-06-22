@@ -38,15 +38,19 @@ jobs:
       working-directory: .
       run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --collect:"XPlat Code Coverage" --settings "SchoolApplication.Tests/test.runsettings" --results-directory "./TestResults" --logger "trx" --verbosity normal
 
-    - name: Show Cobertura XML content
+    - name: Check Cobertura XML for View files
       working-directory: .
       run: |
         $coverageFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
         if ($coverageFile) {
             Write-Host "Found Cobertura XML at: $($coverageFile)"
-            Get-Content $coverageFile -TotalCount 200 # Вывести первые 200 строк
+            Write-Host "--- Searching for 'Views' or 'xaml' in XML ---"
+            Get-Content $coverageFile | Select-String -Pattern "Views|xaml" -Context 0,5 # Вывести строки с Views/xaml и 5 строк после
+            Write-Host "--- End of search ---"
         } else {
             Write-Host "Cobertura XML file not found."
+        Host-Error "Cobertura XML file was expected but not found. Please check previous steps."
+        exit 1 # Выходим с ошибкой, если файл не найден, чтобы избежать дальнейших проблем
         }
 
     - name: Generate Coverage Report
@@ -61,7 +65,7 @@ jobs:
         retention-days: 5
 
     - name: Upload Coverage Report Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions:upload-artifact@v4
       with:
         name: CodeCoverageReport
         path: CoverageReport/
