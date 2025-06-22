@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   build-and-test:
     runs-on: windows-latest
@@ -26,8 +27,46 @@ jobs:
 
     - name: Build solution
       working-directory: SchoolApplication
-      run: dotnet build SchoolApplication.sln --no-restore
+      run: dotnet build SchoolApplication.sln --no-restore --configuration Release
 
-    - name: Run Unit Tests
+    - name: Install Coverlet and ReportGenerator
+      run: |
+        dotnet tool install --global coverlet.console --version 6.0.0
+        dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
 
-      run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --no-build --verbosity normal
+    - name: Run Unit Tests with Coverage
+      working-directory: .
+      run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --collect:"XPlat Code Coverage" --settings "SchoolApplication.Tests/test.runsettings" --results-directory "./TestResults" --logger "trx" --verbosity normal
+
+    - name: Check Cobertura XML for View files
+      working-directory: .
+      run: |
+        $coverageFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
+        if ($coverageFile) {
+            Write-Host "Found Cobertura XML at: $($coverageFile)"
+            Write-Host "--- Searching for 'Views' or 'xaml' in XML ---"
+            Get-Content $coverageFile | Select-String -Pattern "Views|xaml" -Context 0,5
+            Write-Host "--- End of search ---"
+        } else {
+            Write-Host "Cobertura XML file not found."
+            Write-Host "Cobertura XML file was expected but not found. Please check previous steps."
+        }
+
+    - name: Generate Coverage Report
+      working-directory: .
+      run: reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" "-classfilters:-*Tests;+*; -SchoolApplication.Views.**; -SchoolApplication.App; -SchoolApplication.MainWindow"
+      #                                                                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ НОВЫЕ ФИЛЬТРЫ КЛАССОВ
+
+    - name: Upload Test Results Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: TestResults
+        path: TestResults/
+        retention-days: 5
+
+    - name: Upload Coverage Report Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CodeCoverageReport
+        path: CoverageReport/
+        retention-days: 5
