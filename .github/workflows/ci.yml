@@ -26,8 +26,8 @@ jobs:
       run: dotnet restore SchoolApplication.sln
 
     - name: Build solution
-      working-directory: SchoolApplication
-      run: dotnet build SchoolApplication.sln --no-restore
+      working-directory: SchoolApplication 
+      run: dotnet build SchoolApplication.sln --no-restore --configuration Release
 
     - name: Install Coverlet and ReportGenerator
       run: |
@@ -35,17 +35,34 @@ jobs:
         dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
 
     - name: Run Unit Tests with Coverage
-      working-directory: . 
-      run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --collect:"XPlat Code Coverage" --settings "SchoolApplication.Tests/test.runsettings" --results-directory "./TestResults" --logger "trx" --verbosity normal
+      working-directory: .
+      run: |
+        dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj `
+        --collect:"XPlat Code Coverage" `
+        --settings "SchoolApplication.Tests/test.runsettings" ` # Путь к test.runsettings относительно корня
+        --results-directory "./TestResults" ` # Результаты в TestResults в корне репозитория
+        --logger "trx" `
+        --verbosity normal
 
     - name: Generate Coverage Report
       working-directory: .
       run: |
-        reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication.ViewModels" "-filefilters:-*Tests;+*;-*Migrations*"
+        reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" `
+        "-targetdir:./CoverageReport" `
+        "-reporttypes:Html" `
+        "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" ` # Включаем SchoolApplication.dll и SchoolApplication.ViewModels.dll
+        "-filefilters:-*Tests;+*;-*Migrations*"
+
+    - name: Upload Test Results Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: TestResults
+        path: TestResults/
+        retention-days: 5
 
     - name: Upload Coverage Report Artifact
       uses: actions/upload-artifact@v4
       with:
         name: CodeCoverageReport
-        path: ./CoverageReport/
+        path: CoverageReport/
         retention-days: 5
