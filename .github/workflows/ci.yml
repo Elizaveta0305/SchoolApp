@@ -54,7 +54,8 @@ jobs:
 
     - name: Generate Coverage Report
       working-directory: .
-      run: reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" "-filefilters:-*Tests;+*;-*Migrations*;**/*.xaml;**/*.xaml.cs;**obj\**\Views\**\*.g.cs;**Views\**\*.cs"
+      run: reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" "-classfilters:-*Tests;+*; -SchoolApplication.Views.**; -SchoolApplication.App; -SchoolApplication.MainWindow"
+      #                                                                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ НОВЫЕ ФИЛЬТРЫ КЛАССОВ
 
     - name: Upload Test Results Artifact
       uses: actions/upload-artifact@v4
