@@ -59,7 +59,8 @@ namespace SchoolApplication.Views.UserControls.TeacherUC {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SchoolApplication;component/views/usercontrols/teacheruc/hometeacherview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SchoolApplication;V1.0.0.0;component/views/usercontrols/teacheruc/hometeachervie" +
+                    "w.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\..\..\Views\UserControls\TeacherUC\HomeTeacherView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
