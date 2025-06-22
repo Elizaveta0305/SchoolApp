@@ -30,17 +30,19 @@ jobs:
       run: dotnet build SchoolApplication.sln --no-restore --configuration Release
 
     - name: Install Coverlet and ReportGenerator
-      run: dotnet tool install --global coverlet.console --version 6.0.0 && dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
+      run: |
+        dotnet tool install --global coverlet.console --version 6.0.0 # Актуальная версия
+        dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0 # Актуальная версия
 
     - name: Run Unit Tests with Coverage
-      working-directory: .
+      working-directory: . 
       run: dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --collect:"XPlat Code Coverage" --settings "SchoolApplication.Tests/test.runsettings" --results-directory "./TestResults" --logger "trx" --verbosity normal
 
     - name: Generate Coverage Report
       working-directory: .
-      run: reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" "-filefilters:-*Tests;+*;-*Migrations*"
+      run: reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" "-targetdir:./CoverageReport" "-reporttypes:Html" "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" "-filefilters:-*Tests;+*;-*Migrations*;**/*Views*/*.xaml;**/*Views*/*.xaml.cs"
 
-    - name: Upload Test Results Artifact
+    - name: Upload Test Results Artifact (Optional, но полезно для отладки)
       uses: actions/upload-artifact@v4
       with:
         name: TestResults
