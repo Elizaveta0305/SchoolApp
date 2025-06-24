@@ -30,6 +30,7 @@ jobs:
       run: dotnet build SchoolApplication.sln --no-restore
 
     - name: Run Unit Tests with Code Coverage
+      working-directory: SchoolApplication
       run: |
         dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj `
           --no-build `
@@ -39,20 +40,19 @@ jobs:
           /p:CollectCoverage=true `
           /p:CoverletOutputFormat=opencover `
           /p:CoverletOutput=./coverage/coverage.xml
-      working-directory: SchoolApplication
 
     - name: Install ReportGenerator
       run: dotnet tool install -g ReportGenerator
 
     - name: Generate Code Coverage Report
+
+      working-directory: SchoolApplication
       run: reportgenerator `
         "-reports:./coverage/coverage.xml" `
         "-targetdir:./coverage_report" `
         "-reporttypes:Html"
-      working-directory: SchoolApplication
 
     - name: Upload Code Coverage Report
-
       uses: actions/upload-artifact@v4
       with:
         name: Code-Coverage-Report
