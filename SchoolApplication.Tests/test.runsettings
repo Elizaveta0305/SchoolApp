@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.VisualStudio.Coverage.NetFramework.DataCollector.CoverageDataCollector, Microsoft.VisualStudio.Coverage.NetFramework.DataCollector, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Configuration>
+          <CodeCoverage>
+            <ModulePaths>
+              <Exclude>
+                <ModulePath>.*\.Tests\.dll$</ModulePath>
+                <ModulePath>.*\.Resources\.dll$</ModulePath>
+                <ModulePath>.*\.Tools\.dll$</ModulePath>
+                <ModulePath>.*\.Web\.dll$</ModulePath>
+                <ModulePath>.*\.Infrastructure\.dll$</ModulePath>
+                <ModulePath>.*\.Migrations\.dll$</ModulePath>
+              </Exclude>
+            </ModulePaths>
+            <SourceBasedExclusions>
+              <Exclude>
+                <SourceFilePath>.*[\/\\]obj[\/\\]</SourceFilePath>
+                <SourceFilePath>.*[\/\\]Views[\/\\]</SourceFilePath>
+                <SourceFilePath>.*[\/\\]Migrations[\/\\]</SourceFilePath>
+                <SourceFilePath>.*[\/\\]Program\.cs$</SourceFilePath>
+                <SourceFilePath>.*[\/\\]Startup\.cs$</SourceFilePath>
+              </Exclude>
+            </SourceBasedExclusions>
+          </CodeCoverage>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
