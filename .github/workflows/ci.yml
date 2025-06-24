@@ -1,4 +1,4 @@
-name: .NET CI Pipeline - SchoolApplication 
+name: .NET CI Pipeline - SchoolApplication
 
 on:
   push:
@@ -40,19 +40,22 @@ jobs:
         dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
         Write-Host "ReportGenerator installed successfully."
 
-    - name: Run Unit Tests with Coverage 
+    - name: Run Unit Tests with Coverage
       working-directory: .
       shell: pwsh
       run: |
-        dotnet test `
-          "SchoolApplication.Tests/SchoolApplication.Tests.csproj" ` # Путь в кавычках для надежности в PowerShell
+        # Заключаем всю команду dotnet test в скобки ()
+        # Это обеспечивает, что PowerShell парсит ее как единое выражение,
+        # даже при использовании обратных кавычек для переноса строк.
+        (dotnet test `
+          "SchoolApplication.Tests/SchoolApplication.Tests.csproj" `
           --no-build `
           --configuration Release `
           --collect:"XPlat Code Coverage" `
           --settings "SchoolApplication.Tests/test.runsettings" `
           --results-directory "./TestResults" `
           --logger "trx;LogFileName=test_results.trx" `
-          --verbosity normal
+          --verbosity normal)
 
     - name: Check Cobertura XML for View files
       working-directory: .
