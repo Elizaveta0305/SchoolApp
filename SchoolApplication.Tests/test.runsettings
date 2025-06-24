@@ -4,11 +4,18 @@
 		<Configuration>
 			<Format>cobertura</Format>
 			<ExcludeByFile>
-				**/*Designer.cs;       **/*Migrations.cs;
-				**/*.g.cs;             **/*Tests.cs;
-
-				**/App.xaml.cs;               **/App.xaml;                  **/MainWindow.xaml.cs;        **/MainWindow.xaml;           **/Views/**/*.xaml.cs;        **/Views/**/*.xaml;           **/Windows/**/*.xaml.cs;
-				**/Controls/**/*.xaml.cs;
+				**/*Designer.cs;
+				**/*Migrations.cs;
+				**/*.g.cs;
+				**/*Tests.cs;
+				**/App.xaml.cs;
+				**/App.xaml;
+				**/MainWindow.xaml.cs;
+				**/MainWindow.xaml;
+				**/Views/**/*.xaml.cs;
+				**/Views/**/*.xaml;
+				**/Windows/**/*.xaml.cs;
+				**/Controls/**/*.xaml.cs
 			</ExcludeByFile>
 			<ExcludeByAttribute>
 				System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute;
@@ -16,6 +23,10 @@
 				System.CodeDom.Compiler.GeneratedCodeAttribute
 			</ExcludeByAttribute>
 			<IncludeTestAssembly>false</IncludeTestAssembly>
+			<IncludeAssemblies>
+				<Assembly>SchoolApplication</Assembly>
+				<Assembly>SchoolApplication.ViewModels</Assembly>
+			</IncludeAssemblies>
 		</Configuration>
 	</CodeCoverage>
 </RunSettings>
