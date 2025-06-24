@@ -38,16 +38,7 @@ jobs:
     - name: Run Unit Tests with Coverage
       working-directory: .
       shell: pwsh
-      run: |
-        dotnet test `
-          SchoolApplication.Tests/SchoolApplication.Tests.csproj `
-          --no-build `
-          --configuration Release `
-          --collect:"XPlat Code Coverage" ` # Используем VSTest Data Collector
-          --settings "SchoolApplication.Tests/test.runsettings" ` # Указываем файл настроек
-          --results-directory "./TestResults" `
-          --logger "trx;LogFileName=test_results.trx" `
-          --verbosity normal
+      run: "dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --no-build --configuration Release --collect:\"XPlat Code Coverage\" --settings \"SchoolApplication.Tests/test.runsettings\" --results-directory \"./TestResults\" --logger \"trx;LogFileName=test_results.trx\" --verbosity normal"
 
     - name: Check Cobertura XML for View files
       working-directory: .
@@ -71,7 +62,7 @@ jobs:
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
           "-filefilters:-*Tests;+*;-*Migrations*;**/*Views*/**"
       
-    - name: Upload Test Results Artifact (Optional, но полезно для отладки)
+    - name: Upload Test Results Artifact
       uses: actions/upload-artifact@v4
       with:
         name: TestResults
