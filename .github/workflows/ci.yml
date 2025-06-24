@@ -1,4 +1,4 @@
-name: .NET CI Pipeline - SchoolApplication
+name: .NET CI Pipeline - SchoolApplication # Имя вашего пайплайна
 
 on:
   push:
@@ -44,6 +44,10 @@ jobs:
       working-directory: .
       shell: pwsh
       run: |
+        # Вся команда dotnet test заключена в скобки ().
+        # Обратная кавычка (`) используется для переноса строки после каждого аргумента.
+        # ВАЖНО: После последнего аргумента ("--verbosity normal") обратная кавычка не нужна,
+        # так как далее следует закрывающая скобка.
         (dotnet test `
           "SchoolApplication.Tests/SchoolApplication.Tests.csproj" `
           --no-build `
@@ -52,18 +56,17 @@ jobs:
           --settings "SchoolApplication.Tests/test.runsettings" `
           --results-directory "./TestResults" `
           --logger "trx;LogFileName=test_results.trx" `
-          # --- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: ФОРМАТ ВЫВОДА COVERLET ---
-          /p:CoverletOutputFormat=cobertura ` # <--- Изменено с opencover на cobertura
-          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" ` # <--- Указываем полный путь и имя файла для Cobertura
-          --verbosity normal)
+          /p:CoverletOutputFormat=cobertura `
+          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" `
+          --verbosity normal # <--- ОБРАТНАЯ КАВЫЧКА УДАЛЕНА ЗДЕСЬ
+        ) # <--- ЗАКРЫВАЮЩАЯ СКОБКА НА ОТДЕЛЬНОЙ СТРОКЕ ИЛИ СРАЗУ ПОСЛЕ ПОСЛЕДНЕГО АРГУМЕНТА
 
     - name: Generate Coverage Report
       working-directory: .
       shell: pwsh
       run: |
         reportgenerator `
-          # Путь к отчету теперь точно соответствует тому, что должен создать Coverlet
-          "-reports:./TestResults/coverage.cobertura.xml" ` # <--- Уточнен путь к файлу
+          "-reports:./TestResults/coverage.cobertura.xml" `
           "-targetdir:./CoverageReport" `
           "-reporttypes:Html" `
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
