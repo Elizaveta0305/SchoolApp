@@ -31,6 +31,9 @@ jobs:
 
     - name: Install Coverlet and ReportGenerator
       run: |
+        # Мы оставляем очистку кэша и явное указание версий.
+        # Это хорошая практика, чтобы избежать проблем с установкой,
+        # которые были в предыдущих итерациях.
         dotnet nuget locals all --clear
         Write-Host "NuGet caches cleared successfully."
 
@@ -44,44 +47,21 @@ jobs:
       working-directory: .
       shell: pwsh
       run: |
-        (dotnet test `
-          "SchoolApplication.Tests/SchoolApplication.Tests.csproj" `
+        dotnet test `
+          SchoolApplication.Tests/SchoolApplication.Tests.csproj `
           --no-build `
           --configuration Release `
           --collect:"XPlat Code Coverage" `
           --settings "SchoolApplication.Tests/test.runsettings" `
           --results-directory "./TestResults" `
           --logger "trx;LogFileName=test_results.trx" `
-          /p:CoverletOutputFormat=cobertura `
-          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" `
-          --verbosity normal `
-        )
-
-    - name: List TestResults Directory Contents
-      working-directory: .
-      shell: pwsh
-      run: |
-        Write-Host "Listing contents of ./TestResults/"
-        Get-ChildItem -Path "./TestResults" -Recurse -Force | Format-List FullName
-        Write-Host "--- End of TestResults listing ---"
-        if (Test-Path "./TestResults/coverage.cobertura.xml") {
-            Write-Host "coverage.cobertura.xml EXISTS at ./TestResults/coverage.cobertura.xml"
-        } else {
-            Write-Host "coverage.cobertura.xml DOES NOT EXIST at ./TestResults/coverage.cobertura.xml"
-            $foundFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
-            if ($foundFile) {
-                Write-Host "Found coverage.cobertura.xml at: $($foundFile)"
-            } else {
-                Write-Host "coverage.cobertura.xml NOT FOUND ANYWHERE IN ./TestResults/"
-            }
-        }
+          --verbosity normal
 
     - name: Generate Coverage Report
       working-directory: .
       shell: pwsh
       run: |
-        reportgenerator `
-          "-reports:./TestResults/coverage.cobertura.xml" `
+        reportgenerator "-reports:./TestResults/**/coverage.cobertura.xml" `
           "-targetdir:./CoverageReport" `
           "-reporttypes:Html" `
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
@@ -92,11 +72,11 @@ jobs:
       with:
         name: TestResults
         path: TestResults/
-        retention-days: 5
+        retention-days: 1
 
     - name: Upload Coverage Report Artifact
       uses: actions/upload-artifact@v4
       with:
         name: CodeCoverageReport
         path: CoverageReport/
-        retention-days: 5
+        retention-days: 1
