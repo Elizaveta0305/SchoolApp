@@ -44,9 +44,6 @@ jobs:
       working-directory: .
       shell: pwsh
       run: |
-        # Заключаем всю команду dotnet test в скобки ()
-        # Это обеспечивает, что PowerShell парсит ее как единое выражение,
-        # даже при использовании обратных кавычек для переноса строк.
         (dotnet test `
           "SchoolApplication.Tests/SchoolApplication.Tests.csproj" `
           --no-build `
@@ -55,6 +52,9 @@ jobs:
           --settings "SchoolApplication.Tests/test.runsettings" `
           --results-directory "./TestResults" `
           --logger "trx;LogFileName=test_results.trx" `
+          # --- КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: ФОРМАТ ВЫВОДА COVERLET ---
+          /p:CoverletOutputFormat=cobertura ` # <--- Изменено с opencover на cobertura
+          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" ` # <--- Указываем полный путь и имя файла для Cobertura
           --verbosity normal)
 
     - name: Generate Coverage Report
@@ -62,7 +62,8 @@ jobs:
       shell: pwsh
       run: |
         reportgenerator `
-          "-reports:./TestResults/**/coverage.cobertura.xml" `
+          # Путь к отчету теперь точно соответствует тому, что должен создать Coverlet
+          "-reports:./TestResults/coverage.cobertura.xml" ` # <--- Уточнен путь к файлу
           "-targetdir:./CoverageReport" `
           "-reporttypes:Html" `
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
