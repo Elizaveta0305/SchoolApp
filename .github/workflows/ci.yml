@@ -53,7 +53,7 @@ jobs:
           --results-directory "./TestResults" `
           --logger "trx;LogFileName=test_results.trx" `
           /p:CoverletOutputFormat=cobertura `
-          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" ` # Убедимся, что путь корректен
+          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" `
           --verbosity normal `
         )
 
@@ -92,11 +92,11 @@ jobs:
       with:
         name: TestResults
         path: TestResults/
-        retention-days: 1
+        retention-days: 5
 
     - name: Upload Coverage Report Artifact
-      uses: actions:upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: CodeCoverageReport
         path: CoverageReport/
-        retention-days: 1
+        retention-days: 5
