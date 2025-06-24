@@ -29,11 +29,8 @@ jobs:
       working-directory: SchoolApplication
       run: dotnet build SchoolApplication.sln --no-restore --configuration Release
 
-    - name: Install Coverlet and ReportGenerator
-      run: |
-        dotnet nuget locals all --clear
-        dotnet tool install --global coverlet.console --version 6.0.0
-        dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
+    - name: Install ReportGenerator 
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
 
     - name: Run Unit Tests with Coverage
       working-directory: .
@@ -51,7 +48,7 @@ jobs:
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
           "-filefilters:-*Tests;+*;-*Migrations*;**/*Views*/**"
       
-    - name: Upload Test Results Artifact (Optional, но полезно для отладки)
+    - name: Upload Test Results Artifact
       uses: actions/upload-artifact@v4
       with:
         name: TestResults
