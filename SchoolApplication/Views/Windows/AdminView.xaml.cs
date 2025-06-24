@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace SchoolApplication.Views.Windows
     /// <summary>
     /// Логика взаимодействия для AdminView.xaml
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public partial class AdminView : Window
     {
         public AdminView()

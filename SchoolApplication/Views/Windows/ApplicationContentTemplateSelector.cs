@@ -1,9 +1,11 @@
-﻿using System.Windows;
+﻿using SchoolApplication.ViewModels;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 using System.Windows.Controls;
-using SchoolApplication.ViewModels;
 
 namespace SchoolApplication.Views.Windows
 {
+    [ExcludeFromCodeCoverage]
     public class ApplicationContentTemplateSelector : DataTemplateSelector
     {
         public DataTemplate? LoginTemplate { get; set; }

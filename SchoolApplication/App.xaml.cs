@@ -9,6 +9,7 @@ using SchoolApplication.ViewModels;
 using SchoolApplication.Views.UserControls.TeacherUC;
 using SchoolApplication.Views.Windows;
 using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 
 namespace SchoolApplication
@@ -16,6 +17,7 @@ namespace SchoolApplication
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public partial class App : Application
     {
         private readonly IHost _host;

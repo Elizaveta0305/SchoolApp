@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace SchoolApplication.Views.UserControls.AdminUC
     /// <summary>
     /// Логика взаимодействия для NavBarAdminView.xaml
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public partial class NavBarAdminView : UserControl
     {
         public NavBarAdminView()

@@ -16,9 +16,9 @@
         WindowStartupLocation="CenterScreen"
         Background="{x:Null}">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:NavigationAdminVm/>
-    </Window.DataContext>
+    </Window.DataContext>-->
 
     <materialDesign:Card UniformCornerRadius="20" Margin="20">
         <Grid>

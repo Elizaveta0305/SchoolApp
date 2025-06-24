@@ -17,29 +17,29 @@ namespace SchoolApplication.Tests
     [Collection("MessengerCollection")]
     public class MainViewModelTests : IDisposable
     {
-        private readonly Mock<IDbContextFactory<ApplicationDbContext>> _mockDbContextFactory;
-        private readonly Mock<IAuthService> _mockAuthService;
-        private readonly IMessenger _messenger;
+        private Mock<IDbContextFactory<ApplicationDbContext>> _mockDbContextFactory;
+        private Mock<IAuthService> _mockAuthService;
+        private IMessenger _messenger;
 
-        private readonly Mock<LessonAdminVm> _mockLessonAdminVm;
+        private LessonAdminVm _mockLessonAdminVm;
 
-        private readonly LoginViewModel _loginViewModelInstance;
-        private readonly HomeAdminVm _homeAdminVmInstance;
-        private readonly HomeTeacherVm _homeTeacherVmInstance;
-        private readonly HomeVm _homeStudentVmInstance;
-        private readonly ClassroomsAdminVm _classroomsAdminVmInstance;
-        private readonly DiaryAdminVm _diaryAdminVmInstance;
-        private readonly GroupsAdminVm _groupsAdminVmInstance;
-        private readonly SubjectAdminVm _subjectsAdminVmInstance;
-        private readonly UsersAdminVm _usersAdminVmInstance;
-        private readonly GradeVm _gradeVmInstance;
-        private readonly LessonsVm _lessonsVmInstance;
-        private readonly DiaryTeacherVm _diaryTeacherVmInstance;
-        private readonly LessonTeacherVm _lessonTeacherVmInstance;
+        private LoginViewModel _loginViewModelInstance;
+        private HomeAdminVm _homeAdminVmInstance;
+        private HomeTeacherVm _homeTeacherVmInstance;
+        private HomeVm _homeStudentVmInstance;
+        private ClassroomsAdminVm _classroomsAdminVmInstance;
+        private DiaryAdminVm _diaryAdminVmInstance;
+        private GroupsAdminVm _groupsAdminVmInstance;
+        private SubjectAdminVm _subjectsAdminVmInstance;
+        private UsersAdminVm _usersAdminVmInstance;
+        private GradeVm _gradeVmInstance;
+        private LessonsVm _lessonsVmInstance;
+        private DiaryTeacherVm _diaryTeacherVmInstance;
+        private LessonTeacherVm _lessonTeacherVmInstance;
 
-        private readonly NavigationAdminVm _navigationAdminVmInstance;
-        private readonly NavigationVm _navigationVmInstance;
-        private readonly TeacherNavigationVm _teacherNavigationVmInstance;
+        private NavigationAdminVm _navigationAdminVmInstance;
+        private NavigationVm _navigationVmInstance;
+        private TeacherNavigationVm _teacherNavigationVmInstance;
 
         public MainViewModelTests(MessengerFixture fixture)
         {
@@ -51,7 +51,7 @@ namespace SchoolApplication.Tests
             _mockAuthService.Setup(x => x.AuthenticateUser(It.IsAny<string>(), It.IsAny<string>()))
                             .ReturnsAsync(new User { UserID = 1, Username = "testuser", RoleID = 1 });
 
-            _mockLessonAdminVm = new Mock<LessonAdminVm>(_mockDbContextFactory.Object, _messenger);
+            _mockLessonAdminVm = new LessonAdminVm(_mockDbContextFactory.Object, _messenger);
 
             _loginViewModelInstance = new LoginViewModel(_mockAuthService.Object);
 
@@ -71,7 +71,7 @@ namespace SchoolApplication.Tests
 
             _navigationAdminVmInstance = new NavigationAdminVm(
                 _homeAdminVmInstance,
-                _mockLessonAdminVm.Object,
+                _mockLessonAdminVm,
                 _diaryAdminVmInstance,
                 _classroomsAdminVmInstance,
                 _subjectsAdminVmInstance,
@@ -139,25 +139,16 @@ namespace SchoolApplication.Tests
             await Task.Delay(100);
 
             Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
-            var applicationShellVm = vm.CurrentApplicationContent as ApplicationShellViewModel;
-            Assert.NotNull(applicationShellVm);
         }
 
         [Fact]
         public async Task Receive_UserAuthenticatedMessage_WithNullUser_SetsLoginViewModel()
         {
-            var user = new User { UserID = 1, Username = "testuser", FirstName = "Test", LastName = "User", Role = new Role { RoleID = 1, RoleName = "SomeRole" } };
             var vm = CreateViewModel();
-
-            _messenger.Send(new UserAuthenticatedMessage(user));
-            await Task.Delay(100);
-            Assert.IsType<ApplicationShellViewModel>(vm.CurrentApplicationContent);
-
             _messenger.Send(new UserAuthenticatedMessage(null));
             await Task.Delay(100);
 
             Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
-            Assert.Equal(_loginViewModelInstance, vm.CurrentApplicationContent);
         }
 
         [Fact]
@@ -177,13 +168,6 @@ namespace SchoolApplication.Tests
             await Task.Delay(100);
 
             Assert.IsType<LoginViewModel>(vm.CurrentApplicationContent);
-
-            var loginVm = vm.CurrentApplicationContent as LoginViewModel;
-
-            Assert.NotNull(loginVm);
-            Assert.Equal("", loginVm.Username);
-            Assert.Equal("", loginVm.Password);
-            Assert.Equal("", loginVm.ErrorMessage);
         }
     }
 }

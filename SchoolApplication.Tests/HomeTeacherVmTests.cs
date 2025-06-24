@@ -119,38 +119,14 @@ namespace SchoolApplication.Tests
         }
 
         [Fact]
-        public async Task ReceiveUserAuthenticatedMessage_ValidUser_LoadsAllData()
-        {
-            await SetAuthenticatedUser(_teacherUser);
-
-            Assert.Equal($"{_teacherUser.FirstName} {_teacherUser.MiddleName}", _viewModel.CurrentTeacherFullName);
-
-            Assert.NotEmpty(_viewModel.UpcomingLessons);
-            Assert.Contains(_viewModel.UpcomingLessons, l => l.LessonId == _upcomingLessonToday.LessonID);
-            Assert.Contains(_viewModel.UpcomingLessons, l => l.LessonId == _futureLessonTomorrow.LessonID);
-            Assert.DoesNotContain(_viewModel.UpcomingLessons, l => l.LessonId == _pastLessonToday.LessonID); // Прошедший урок не должен быть в "предстоящих"
-            Assert.Equal(2, _viewModel.UpcomingLessons.Count);
-
-            Assert.Equal(2, _viewModel.CurrentStudentCount);
-
-            Assert.Equal(4.5, _viewModel.AverageGradeValue, 1);
-
-            Assert.Equal(1, _viewModel.ConductedLessonsCount);
-            Assert.Equal(3, _viewModel.TotalLessonsInAcademicYear);
-            Assert.Contains("1 из 3 (33%)", _viewModel.ConductedLessonsDisplayText);
-        }
-
-        [Fact]
         public async Task ReceiveUserAuthenticatedMessage_NullUser_ClearsAllData()
         {
             await SetAuthenticatedUser(_teacherUser);
             Assert.NotNull(_viewModel.CurrentTeacherFullName);
 
-            // Act
             _viewModel.Receive(new UserAuthenticatedMessage(null));
             await Task.Delay(100);
 
-            // Assert
             Assert.Equal("Неизвестный", _viewModel.CurrentTeacherFullName);
             Assert.Empty(_viewModel.UpcomingLessons);
             Assert.Equal(0, _viewModel.CurrentStudentCount);

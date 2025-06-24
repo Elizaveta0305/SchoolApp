@@ -1,6 +1,7 @@
 ﻿using SchoolApplication.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,6 +21,7 @@ namespace SchoolApplication.Views.UserControls.TeacherUC
     /// <summary>
     /// Логика взаимодействия для LessonTeacherView.xaml
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public partial class LessonTeacherView : UserControl
     {
         public LessonTeacherView()

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using MaterialDesignThemes.Wpf;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -20,6 +21,7 @@ namespace SchoolApplication.Views.Windows
     /// <summary>
     /// Логика взаимодействия для LoginView.xaml
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public partial class LoginView : UserControl
     {
         public LoginView()
