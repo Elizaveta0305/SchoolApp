@@ -40,17 +40,6 @@ jobs:
       shell: pwsh
       run: "dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --no-build --configuration Release --collect:\"XPlat Code Coverage\" --settings \"SchoolApplication.Tests/test.runsettings\" --results-directory \"./TestResults\" --logger \"trx;LogFileName=test_results.trx\" --verbosity normal"
 
-    - name: Check Cobertura XML for View files
-      working-directory: .
-      shell: pwsh
-      run: |
-        $coverageFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
-        if ($coverageFile) {
-            Get-Content $coverageFile | Select-String -Pattern "Views|xaml" -Context 0,5
-        } else {
-            exit 1
-        }
-
     - name: Generate Coverage Report
       working-directory: .
       shell: pwsh
@@ -62,7 +51,7 @@ jobs:
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
           "-filefilters:-*Tests;+*;-*Migrations*;**/*Views*/**"
       
-    - name: Upload Test Results Artifact
+    - name: Upload Test Results Artifact (Optional, но полезно для отладки)
       uses: actions/upload-artifact@v4
       with:
         name: TestResults
