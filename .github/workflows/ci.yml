@@ -30,6 +30,7 @@ jobs:
       run: dotnet build SchoolApplication.sln --no-restore
 
     - name: Run Unit Tests with Code Coverage
+
       run: |
         dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj `
           --no-build `
@@ -41,9 +42,16 @@ jobs:
           /p:CoverletOutput=./coverage/coverage.xml
 
     - name: Install ReportGenerator
-      run: dotnet tool install -g ReportGenerator
+      run: |
+        # Очищаем кэш NuGet, чтобы избежать проблем с поврежденными пакетами
+        dotnet nuget locals all --clear
+        # Устанавливаем ReportGenerator. Рекомендуется указывать конкретную стабильную версию,
+        # чтобы избежать проблем с последними (возможно, нестабильными) выпусками.
+        # Проверьте NuGet.org для самой последней стабильной версии, например 5.2.1 или 5.3.0
+        dotnet tool install -g ReportGenerator --version 5.2.1 
 
     - name: Generate Code Coverage Report
+
       run: reportgenerator `
         "-reports:./coverage/coverage.xml" `
         "-targetdir:./coverage_report" `
@@ -54,4 +62,4 @@ jobs:
       with:
         name: Code-Coverage-Report
         path: ./coverage_report/
-        retention-days: 1
+        retention-days: 1 
