@@ -1,4 +1,4 @@
-name: .NET CI Pipeline - SchoolApplication # Имя вашего пайплайна
+name: .NET CI Pipeline - SchoolApplication
 
 on:
   push:
@@ -44,10 +44,6 @@ jobs:
       working-directory: .
       shell: pwsh
       run: |
-        # Вся команда dotnet test заключена в скобки ().
-        # Обратная кавычка (`) используется для переноса строки после каждого аргумента.
-        # ВАЖНО: После последнего аргумента ("--verbosity normal") обратная кавычка не нужна,
-        # так как далее следует закрывающая скобка.
         (dotnet test `
           "SchoolApplication.Tests/SchoolApplication.Tests.csproj" `
           --no-build `
@@ -57,9 +53,28 @@ jobs:
           --results-directory "./TestResults" `
           --logger "trx;LogFileName=test_results.trx" `
           /p:CoverletOutputFormat=cobertura `
-          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" `
-          --verbosity normal # <--- ОБРАТНАЯ КАВЫЧКА УДАЛЕНА ЗДЕСЬ
-        ) # <--- ЗАКРЫВАЮЩАЯ СКОБКА НА ОТДЕЛЬНОЙ СТРОКЕ ИЛИ СРАЗУ ПОСЛЕ ПОСЛЕДНЕГО АРГУМЕНТА
+          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" ` # Убедимся, что путь корректен
+          --verbosity normal `
+        )
+
+    - name: List TestResults Directory Contents
+      working-directory: .
+      shell: pwsh
+      run: |
+        Write-Host "Listing contents of ./TestResults/"
+        Get-ChildItem -Path "./TestResults" -Recurse -Force | Format-List FullName
+        Write-Host "--- End of TestResults listing ---"
+        if (Test-Path "./TestResults/coverage.cobertura.xml") {
+            Write-Host "coverage.cobertura.xml EXISTS at ./TestResults/coverage.cobertura.xml"
+        } else {
+            Write-Host "coverage.cobertura.xml DOES NOT EXIST at ./TestResults/coverage.cobertura.xml"
+            $foundFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
+            if ($foundFile) {
+                Write-Host "Found coverage.cobertura.xml at: $($foundFile)"
+            } else {
+                Write-Host "coverage.cobertura.xml NOT FOUND ANYWHERE IN ./TestResults/"
+            }
+        }
 
     - name: Generate Coverage Report
       working-directory: .
@@ -80,7 +95,7 @@ jobs:
         retention-days: 1
 
     - name: Upload Coverage Report Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions:upload-artifact@v4
       with:
         name: CodeCoverageReport
         path: CoverageReport/
