@@ -57,21 +57,6 @@ jobs:
           --logger "trx;LogFileName=test_results.trx" `
           --verbosity normal)
 
-    - name: Check Cobertura XML for View files
-      working-directory: .
-      shell: pwsh
-      run: |
-        $coverageFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
-        if ($coverageFile) {
-            Write-Host "Found Cobertura XML at: $($coverageFile)"
-            Write-Host "--- Searching for 'Views' or 'xaml' in XML ---"
-            Get-Content $coverageFile | Select-String -Pattern "Views|xaml" -Context 0,5
-            Write-Host "--- End of search ---"
-        } else {
-            Write-Host "Cobertura XML file not found. Please check previous steps and paths."
-            exit 1
-        }
-
     - name: Generate Coverage Report
       working-directory: .
       shell: pwsh
