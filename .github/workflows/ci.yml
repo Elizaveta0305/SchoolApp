@@ -29,54 +29,26 @@ jobs:
       working-directory: SchoolApplication
       run: dotnet build SchoolApplication.sln --no-restore --configuration Release
 
-    - name: Install Coverlet and ReportGenerator
-      run: |
-        dotnet nuget locals all --clear
-        dotnet tool install --global coverlet.console --version 6.0.0
-        dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
+    - name: Install ReportGenerator 
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.3.0
 
     - name: Run Unit Tests with Coverage
       working-directory: .
       shell: pwsh
-      run: |
-        dotnet test `
-          SchoolApplication.Tests/SchoolApplication.Tests.csproj `
-          --no-build `
-          --configuration Release `
-          /p:CollectCoverage=true `
-          /p:CoverletOutputFormat=cobertura `
-          /p:CoverletOutput="./TestResults/coverage.cobertura.xml" `
-          /p:CoverletOutputFiltering="+[SchoolApplication]*" `
-          /p:ExcludeByFile="*Designer.cs;*Migrations.cs;*.g.cs;*Tests.cs;App.xaml.cs;App.xaml;MainWindow.xaml.cs;MainWindow.xaml;Views/**/*.xaml.cs;Views/**/*.xaml;Windows/**/*.xaml.cs;Controls/**/*.xaml.cs" `
-          /p:ExcludeByAttribute="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute;System.Diagnostics.DebuggerNonUserCodeAttribute;System.CodeDom.Compiler.GeneratedCodeAttribute" `
-          /p:IncludeTestAssembly=false `
-          --results-directory "./TestResults" `
-          --logger "trx;LogFileName=test_results.trx" `
-          --verbosity normal
-
-    - name: Check Cobertura XML for View files
-      working-directory: .
-      shell: pwsh
-      run: |
-        $coverageFile = Get-ChildItem -Path "./TestResults" -Recurse -Filter "coverage.cobertura.xml" | Select-Object -ExpandProperty FullName
-        if ($coverageFile) {
-            Get-Content $coverageFile | Select-String -Pattern "Views|xaml" -Context 0,5
-        } else {
-            exit 1
-        }
+      run: "dotnet test SchoolApplication.Tests/SchoolApplication.Tests.csproj --no-build --configuration Release --collect:\"XPlat Code Coverage\" --settings \"SchoolApplication.Tests/test.runsettings\" --results-directory \"./TestResults\" --logger \"trx;LogFileName=test_results.trx\" --verbosity normal"
 
     - name: Generate Coverage Report
       working-directory: .
       shell: pwsh
       run: |
         reportgenerator `
-          "-reports:./TestResults/coverage.cobertura.xml" `
+          "-reports:./TestResults/**/coverage.cobertura.xml" `
           "-targetdir:./CoverageReport" `
           "-reporttypes:Html" `
           "-assemblyfilters:+SchoolApplication;+SchoolApplication.ViewModels" `
           "-filefilters:-*Tests;+*;-*Migrations*;**/*Views*/**"
       
-    - name: Upload Test Results Artifact (Optional, но полезно для отладки)
+    - name: Upload Test Results Artifact
       uses: actions/upload-artifact@v4
       with:
         name: TestResults
