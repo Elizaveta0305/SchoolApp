@@ -21,28 +21,28 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private ObservableObject _currentApplicationContent;
 
-        private readonly LoginViewModel _loginViewModel;
+        private LoginViewModel _loginViewModel;
 
-        private readonly HomeAdminVm _homeAdminVm;
-        private readonly HomeTeacherVm _homeTeacherVm;
-        private readonly HomeVm _homeStudentVm;
+        private HomeAdminVm _homeAdminVm;
+        private HomeTeacherVm _homeTeacherVm;
+        private HomeVm _homeStudentVm;
 
-        private readonly ClassroomsAdminVm _classroomsAdminVm;
-        private readonly DiaryAdminVm _diaryAdminVm;
-        private readonly GroupsAdminVm _groupsAdminVm;
-        private readonly SubjectAdminVm _subjectsAdminVm;
-        private readonly UsersAdminVm _usersAdminVm;
+        private ClassroomsAdminVm _classroomsAdminVm;
+        private DiaryAdminVm _diaryAdminVm;
+        private GroupsAdminVm _groupsAdminVm;
+        private SubjectAdminVm _subjectsAdminVm;
+        private UsersAdminVm _usersAdminVm;
 
-        private readonly GradeVm _gradeVm;
-        private readonly LessonsVm _lessonsVm;
+        private GradeVm _gradeVm;
+        private LessonsVm _lessonsVm;
 
-        private readonly DiaryTeacherVm _diaryTeacherVm;
-        private readonly LessonTeacherVm _lessonTeacherVm;
+        private DiaryTeacherVm _diaryTeacherVm;
+        private LessonTeacherVm _lessonTeacherVm;
 
-        private readonly NavigationAdminVm _navigationAdminVm;
-        private readonly NavigationVm _navigationVm;
-        private readonly TeacherNavigationVm _teacherNavigationVm;
-        private readonly IMessenger _messenger;
+        private NavigationAdminVm _navigationAdminVm;
+        private NavigationVm _navigationVm;
+        private TeacherNavigationVm _teacherNavigationVm;
+        private IMessenger _messenger;
 
 
         public MainViewModel(

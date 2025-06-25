@@ -1,19 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\App\\SchoolApp\\SchoolApplication\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\views\\usercontrols\\studentuc\\home.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:views\\usercontrols\\studentuc\\home.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|d:\\app\\schoolapp\\schoolapplication\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2110B9E7-24F9-49EF-91D7-CEBE218D436C}|SchoolApplication.csproj|solutionrelative:services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C4993CB2-A2CD-4DF0-AEC1-540A601696CF}|..\\SchoolApplication.Tests\\SchoolApplication.Tests.csproj|d:\\app\\schoolapp\\schoolapplication.tests\\mainviewmodeltests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -21,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,44 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Home.xaml.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\StudentUC\\Home.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\UserControls\\StudentUC\\Home.xaml.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Views\\UserControls\\StudentUC\\Home.xaml.cs",
-              "RelativeToolTip": "Views\\UserControls\\StudentUC\\Home.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T20:36:14.175Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "Services\\AuthService.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication\\Services\\AuthService.cs",
-              "RelativeToolTip": "Services\\AuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T19:04:24.779Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MainViewModelTests.cs",
-              "DocumentMoniker": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "RelativeDocumentMoniker": "..\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "ToolTip": "D:\\App\\SchoolApp\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "RelativeToolTip": "..\\SchoolApplication.Tests\\MainViewModelTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T19:06:27.119Z"
             }
           ]
         }

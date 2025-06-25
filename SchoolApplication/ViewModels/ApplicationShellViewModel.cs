@@ -11,35 +11,35 @@ namespace SchoolApplication.ViewModels
         [ObservableProperty]
         private ObservableObject? _currentNavigationViewModel;
 
-        private readonly IMessenger _messenger;
+        private IMessenger _messenger;
 
         [ObservableProperty]
         private ObservableObject _currentMainContentViewModel;
 
-        private readonly User _authenticatedUser;
+        private User _authenticatedUser;
 
         // ViewModel'ы для админской части
-        private readonly HomeAdminVm _homeAdminVm;
-        private readonly ClassroomsAdminVm _classroomsAdminVm;
-        private readonly DiaryAdminVm _diaryAdminVm;
-        private readonly GroupsAdminVm _groupsAdminVm;
-        private readonly SubjectAdminVm _subjectsAdminVm;
-        private readonly UsersAdminVm _usersAdminVm;
+        private HomeAdminVm _homeAdminVm;
+        private ClassroomsAdminVm _classroomsAdminVm;
+        private DiaryAdminVm _diaryAdminVm;
+        private GroupsAdminVm _groupsAdminVm;
+        private SubjectAdminVm _subjectsAdminVm;
+        private UsersAdminVm _usersAdminVm;
 
         // ViewModel'ы для студенческой части
-        private readonly HomeVm _homeStudentVm;
-        private readonly GradeVm _gradeVm;
-        private readonly LessonsVm _lessonsVm;
+        private HomeVm _homeStudentVm;
+        private GradeVm _gradeVm;
+        private LessonsVm _lessonsVm;
 
         // ViewModel'ы для учительской части
-        private readonly HomeTeacherVm _homeTeacherVm;
-        private readonly DiaryTeacherVm _diaryTeacherVm;
-        private readonly LessonTeacherVm _lessonTeacherVm;
+        private HomeTeacherVm _homeTeacherVm;
+        private DiaryTeacherVm _diaryTeacherVm;
+        private LessonTeacherVm _lessonTeacherVm;
 
         // ViewModel'ы для навигационных панелей
-        private readonly NavigationAdminVm _navigationAdminVm;
-        private readonly NavigationVm _navigationVm; // Для студента
-        private readonly TeacherNavigationVm _teacherNavigationVm;
+        private NavigationAdminVm _navigationAdminVm;
+        private NavigationVm _navigationVm; // Для студента
+        private TeacherNavigationVm _teacherNavigationVm;
 
         public ApplicationShellViewModel(
             User authenticatedUser,
