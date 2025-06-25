@@ -21,7 +21,7 @@ namespace SchoolApplication.Tests
         private Mock<IAuthService> _mockAuthService;
         private IMessenger _messenger;
 
-        private LessonAdminVm _mockLessonAdminVm;
+        private LessonAdminVm _LessonAdminVm;
 
         private LoginViewModel _loginViewModelInstance;
         private HomeAdminVm _homeAdminVmInstance;
@@ -51,7 +51,7 @@ namespace SchoolApplication.Tests
             _mockAuthService.Setup(x => x.AuthenticateUser(It.IsAny<string>(), It.IsAny<string>()))
                             .ReturnsAsync(new User { UserID = 1, Username = "testuser", RoleID = 1 });
 
-            _mockLessonAdminVm = new LessonAdminVm(_mockDbContextFactory.Object, _messenger);
+            _LessonAdminVm = new LessonAdminVm(_mockDbContextFactory.Object, _messenger);
 
             _loginViewModelInstance = new LoginViewModel(_mockAuthService.Object);
 
@@ -71,7 +71,7 @@ namespace SchoolApplication.Tests
 
             _navigationAdminVmInstance = new NavigationAdminVm(
                 _homeAdminVmInstance,
-                _mockLessonAdminVm,
+                _LessonAdminVm,
                 _diaryAdminVmInstance,
                 _classroomsAdminVmInstance,
                 _subjectsAdminVmInstance,
